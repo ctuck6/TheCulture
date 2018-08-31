@@ -6,22 +6,20 @@ from app import mail
 from flask_login import current_user
 
 def savePicture(form_picture):
-	random_hex = id_generator()
 	fileName, fileExtension = os.path.splitext(form_picture.filename)
-
-	if fileName == "default":
-		pictureFilename = fileName + fileExtension
-	else:
+	
+	if "default" not in fileName:
+		random_hex = id_generator()
 		pictureFilename = random_hex + fileExtension
-
-	if "default" not in current_user.image_file:
 		picturePath = os.path.join(current_app.root_path, 'static/profilePics', pictureFilename)
 		output_size = (125, 125)
 		i = Image.open(form_picture)
 		i.thumbnail(output_size)
 		i.save(picturePath)
-		oldPicture = os.path.join(current_app.root_path, "static/profilePics", current_user.image_file)
-		os.remove(oldPicture)
+		# oldPicture = os.path.join(current_app.root_path, "static/profilePics", current_user.image_file)
+		# os.remove(oldPicture)
+	else:
+		pictureFilename = fileName + fileExtension
 
 	return pictureFilename
 
