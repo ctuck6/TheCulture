@@ -7,7 +7,7 @@ from flask_login import current_user
 
 def savePicture(form_picture):
 	fileName, fileExtension = os.path.splitext(form_picture.filename)
-	
+
 	if "default" not in fileName:
 		random_hex = id_generator()
 		pictureFilename = random_hex + fileExtension
@@ -16,8 +16,9 @@ def savePicture(form_picture):
 		i = Image.open(form_picture)
 		i.thumbnail(output_size)
 		i.save(picturePath)
-		# oldPicture = os.path.join(current_app.root_path, "static/profilePics", current_user.image_file)
-		# os.remove(oldPicture)
+		if "default" not in current_user.image_file:
+			oldPicture = os.path.join(current_app.root_path, "static/profilePics", current_user.image_file)
+			os.remove(oldPicture)
 	else:
 		pictureFilename = fileName + fileExtension
 

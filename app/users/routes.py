@@ -88,7 +88,6 @@ def account():
 @users.route("/edit_account", methods = ["GET", "POST"])
 @login_required
 def edit_account():
-	print current_user.image_file
 	form = UpdateAccountForm()
 	if form.validate_on_submit():
 		if form.profilePicture.data:
