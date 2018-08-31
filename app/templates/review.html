@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<article class="media content-section">
+	  <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}">
+	  <div class="media-body">
+	    <div class="article-metadata">
+	      <p class="text-muted">Posted by 
+	      	<a class="mr-2" href="{{ url_for('users.user_reviews', username = review.author.username) }}">{{ review.author.username }}</a>
+	      	<small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
+	      </p>
+	    </div>
+	    <h2 class="article-title">{{ review.title }}</h2>
+	    <p class="article-content">{{ review.body }}</p>
+	    {% if review.author == current_user %}
+	      <div>
+	    	<a class="btn btn-primary btn-sm m-1" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
+	    	<button class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+	      </div>
+	  	{% endif %}
+	  </div>
+	</article>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete Review?</h5>
+            <button class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">Are you sure you want to delete this post? This change will be final.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+            <form action="{{ url_for('reviews.delete_review', review_id=review.id) }}" method="POST">
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+        	</form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

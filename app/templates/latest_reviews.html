@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>Latest Reviews</h1><br>
+	<ul class="list-group">
+	  {% for review in reviews.items %}
+		<article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <p class="text-muted">Posted by
+                <a class="mr-2" href="{{ url_for('users.user_reviews', username = review.author.username) }}">{{ review.author.username }}</a>
+                <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
+              </p>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('reviews.review', review_id = review.id) }}">{{ review.title }}</a></h2>
+          </div>
+        </article>
+	  {% endfor %}
+	</ul><br>
+  <a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-primary btn-sm"><span class="fa fa-edit"></span> Add Review</button></a>
+{% endblock content %}
