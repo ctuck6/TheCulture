@@ -26,14 +26,14 @@ def savePicture(form_picture):
 
 def sendResetEmail(user):
 	token = user.get_reset_token()
-	msg = Message("Password Reset Request", sender = "no_reply@gmail.com", recipients = [user.email])
-	msg.body = '''To reset your password, visit the following link:
-	{}
+	message = Message("Password Reset Request", sender = "no_reply@gmail.com", recipients = [user.email])
+	message.body = '''To reset your password, visit the following link:
+	
+{}
 
-	If you did not make this request, ignore this email and no changes will be made.
-	'''.format(url_for("users.reset_token", token = token, _external = True))
+If you did not make this request, ignore this email and no changes will be made.'''.format(url_for("users.reset_token", token = token, _external = True))
 
-	mail.send(msg)
+	mail.send(message)
 
 def id_generator(size = 8, chars = string.ascii_letters + string.digits + string.punctuation):
 	return ''.join(random.choice(chars) for i in range(size))

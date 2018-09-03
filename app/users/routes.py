@@ -52,7 +52,7 @@ def reset_request():
 		return redirect(url_for("main.home"))
 	form = RequestResetForm()
 	if form.validate_on_submit():
-		user = user.query.filter_by(email = form.email.data).first()
+		user = User.query.filter_by(email = form.email.data).first()
 		sendResetEmail(user)
 		flash("An email to reset your password has been sent to your email!", "success")
 		return redirect(url_for("users.login"))
@@ -61,8 +61,8 @@ def reset_request():
 @users.route("/reset_password/<token>", methods = ["GET", "POST"])
 def reset_token(token):
 	if current_user.is_authenticated:
-		return redirect(url_for("home"))
-	user = user.verify_reset_token(token)
+		return redirect(url_for("main.home"))
+	user = User.verify_reset_token(token)
 	if not user:
 		flash("Token enter is invalid or has expired!", "danger")
 		return redirect(url_for("users.reset_request"))
