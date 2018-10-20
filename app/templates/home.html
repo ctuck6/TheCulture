@@ -1,22 +1,96 @@
 {% extends "layout.html" %}
-
-{% block content %}
-	<div class="jumbotron text-center">
-		<h1 class="display-4">Welcome to The Culture</h1>
-    	<p class="lead">The central for black owned businesses</p><br>
-	    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-	      <ol class="carousel-indicators">
-	      	{% for i in range(pictures|length) %}
-		      <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" class="{% if loop.first %} active {% endif %}"></li>
-		    {% endfor %}
-		  </ol>
-	      <div class="carousel-inner">
+{% block body %}
+	<div class="text-center">
+	  <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel" data-pause="false" data-interval="4000">
+      <ol class="carousel-indicators">
+        {% for i in range(pictures|length) %}
+          <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" class="{% if loop.first %} active {% endif %}"></li>
+        {% endfor %}
+      </ol>
+	    <div class="carousel-inner" role="listbox">
 	      	{% for picture in pictures %}
 	          <div class="carousel-item {% if loop.first %} active {% endif %}">
-	            <img class="d-block w-100" style="width:750px; height:300px;" src="{{ url_for('static', filename = 'slideshowPics/' + picture) }}">
+	            <img class="w-100" style="background-color: white; opacity: 0.6; width: 100vh; height: 88vh;" src="{{ url_for('static', filename = 'slideshowPics/' + picture) }}">
+	            <div class="container">
+	              <div class="main carousel-caption text-center">
+	                <h1 class="display-2" style="color:white; ">The Culture</h1>
+	                <p style="color:white;">The epicenter for black owned businesses</p>
+                  {% if not current_user.is_authenticated %}
+	                  <p><a class="btn btn-sm btn-dark" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
+                  {% endif %}
+	              </div>
+	            </div>
 	          </div>
 	        {% endfor %}
-	      </div>
 	    </div>
-	</div>
+	  </div>
+	</div><br>
+{% endblock body %}
+{% block content %}
+	<div class="container marketing">
+      <div class="row">
+        {% if current_user.is_authenticated %}
+          <div class="col-lg-4">
+            <img src="{{ url_for('static', filename='homepagePics/my posts.jpg') }}" width="140" height="140"><br><br>
+            <h2>My Reviews</h2>
+            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            <p><a class="btn btn-secondary btn-sm"
+            	href="{% if current_user.is_authenticated %} {{ url_for('users.user_reviews', username = current_user.username) }} {% else %} {{ url_for('users.login') }} {% endif %}"
+            	role="button">Visit Page <span class="fa fa-external-link"></span></a></p>
+          </div>
+        {% endif %}
+        <div class="col-lg-{% if current_user.is_authenticated %}4{% else %}6{% endif %}">
+          <img src="{{ url_for('static', filename = 'homepagePics/recentposts.jpg') }}" width="140" height="140"><br><br>
+          <h2>Latest Reviews</h2>
+          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+          <p><a class="btn btn-secondary btn-sm" href="{{ url_for('reviews.latest_reviews') }}" role="button">Visit Page <span class="fa fa-external-link"></span></a></p>
+        </div>
+        <div class="col-lg-{% if current_user.is_authenticated %}4{% else %}6{% endif %}">
+          <img src="{{ url_for('static', filename = 'homepagePics/topreviews.jpg') }}" width="140" height="140"><br><br>
+          <h2>Top Reviews</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-secondary btn-sm" href="#" role="button">Visit Page <span class="fa fa-external-link"></span></a></p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider" style="background-color:grey">
+
+      <div>
+        <h1 class="display-3" style="color: white; text-align: center">In The News <img src="{{ url_for('static', filename = 'homepagePics/icons8-news-480.png') }}" width="100" height="width*.7"></h1>
+      </div><br>
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-fluid mx-auto" style="width: 500px; height: 200px;" src="{{ url_for('static', filename = 'slideshowPics/Bg-15.0.jpg') }}">
+        </div>
+      </div>
+
+      <hr class="featurette-divider" style="background-color:grey">
+
+      <div class="row featurette">
+        <div class="col-md-5">
+          <img class="featurette-image img-fluid mx-auto" style="width: 500px; height: 200px;" src="{{ url_for('static', filename = 'slideshowPics/bspic.jpg') }}">
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider" style="background-color:grey">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-fluid mx-auto" style="width: 500px; height: 200px;" src="{{ url_for('static', filename = 'slideshowPics/entrepreneur-small-business.jpg') }}">
+        </div>
+      </div>
+    </div>
 {% endblock content %}

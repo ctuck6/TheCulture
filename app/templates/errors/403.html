@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div class="content section">
-    <h1>Oops! You do not have permission to view this page! (403)</h1>
-    <p>Please check your account and try again.</p>
-  </div>
+  <center><div class="content section">
+    <h1>Oops! You are either not logged in, or do not have access to the requested feature! (403)</h1>
+    <p>Please check your account and try again.</p><br>
+    <img class="rounded-circle" src="{{ url_for('static', filename = 'homepagePics/fist.jpg') }}" width="140" height="140">
+  </div></center>
 {% endblock content %}

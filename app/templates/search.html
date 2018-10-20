@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="content-section">
+    <form action="" class="form-group col-xs-3" method="POST">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">{{ form.search.label(class="form-control-label") }}</legend>
+        <div class="form-group">
+          {% if form.search.errors %}
+            {{ form.search(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.search.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.search(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-primary btn-sm") }}
+      </div>
+    </form>
+  </div>
+{% endblock content %}

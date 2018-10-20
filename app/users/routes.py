@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
-from app import db, bcrypt
-from app.database import User, Review
+from app import database, bcrypt
+from app.models import User, Review
 from app.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from app.users.utils import savePicture, sendResetEmail, id_generator
+from app.users.utils import savePicture, sendResetEmail
 
 
 users = Blueprint("users", __name__)
@@ -22,9 +22,9 @@ def register():
 			flash("Email already exists. Please try again", "danger")
 		else:
 			hashed_password = bcrypt.generate_password_hash(form.password.data)
-			user = User(username = form.username.data.lower(), email = form.email.data.lower(), password = hashed_password)
-			db.session.add(user)
-			db.session.commit()
+			user = User(firstname = form.firstname.data, lastname = form.lastname.data, username = form.username.data.lower(), email = form.email.data.lower(), password = hashed_password)
+			database.session.add(user)
+			database.session.commit()
 			flash("Your account has been created! Please sign in!", "success")
 			return redirect(url_for("users.login"))
 	return render_template("register.html", form = form)
@@ -35,15 +35,18 @@ def login():
 		return redirect(url_for("main.home"))
 	form = LoginForm()
 	if form.validate_on_submit():
-		userEmail = User.query.filter_by(email = form.email.data.lower()).first()
-		if not userEmail:
+		user = User.query.filter_by(email = form.email.data.lower()).first()
+		if not user:
 			flash("Username does not exist. Please try again", "danger")
-		elif not bcrypt.check_password_hash(userEmail.password, form.password.data):
+		elif not bcrypt.check_password_hash(user.password, form.password.data):
 			flash("Incorrect password. Please try again", "danger")
 		else:
-		 	login_user(userEmail, remember = form.remember.data)
+		 	login_user(user, remember = form.remember.data)
 		 	next_page = request.args.get('next')
-			return redirect(next_page) if next_page else redirect(url_for("main.home"))
+			if next_page:
+				return redirect(next_page)
+			else:
+				redirect(url_for("main.home"))
 	return render_template("login.html", form = form)
 
 @users.route("/reset_password", methods = ["GET", "POST"])
@@ -70,7 +73,7 @@ def reset_token(token):
 	if form.validate_on_submit():
 			hashed_password = bcrypt.generate_password_hash(form.password.data)
 			user.password = hashed_password
-			db.session.commit()
+			database.session.commit()
 			flash("Your password has been updated! Please sign in!", "success")
 			return redirect(url_for("users.login"))
 	return render_template("reset_token.html", form = form)
@@ -80,32 +83,30 @@ def logout():
 	logout_user()
 	return redirect(url_for("main.home"))
 
-@users.route("/account")
+@users.route("/account", methods = ["GET", "POST"])
 @login_required
 def account():
-	return render_template("account.html")
-
-@users.route("/edit_account", methods = ["GET", "POST"])
-@login_required
-def edit_account():
 	form = UpdateAccountForm()
 	if form.validate_on_submit():
 		if form.profilePicture.data:
-			newPicture = savePicture(form.profilePicture.data)
+			oldPicture = User.query.get(int(current_user.id)).image_file
+			newPicture = savePicture(form.profilePicture.data, oldPicture)
 			current_user.image_file = newPicture
-		current_user.username = form.username.data.lower()
-		current_user.email = form.email.data.lower()
-		db.session.commit()
+		if form.username.data != current_user.username:
+			current_user.username = form.username.data.lower()
+		if form.email.data != current_user.email:
+			current_user.email = form.email.data.lower()
+		database.session.commit()
 		flash("Your account changes have been saved!", "success")
 		return redirect(url_for("users.account"))
 	elif request.method == "GET":
 		form.username.data = current_user.username
 		form.email.data = current_user.email
-	return render_template("edit_account.html", form = form)
+	return render_template("account.html", form = form)
 
 @users.route("/user/<string:username>")
 def user_reviews(username):
 	page = request.args.get("page", 1, type = int)
 	user = User.query.filter_by(username = username).first_or_404()
 	reviews = Review.query.filter_by(author = user).order_by(Review.date_posted.desc()).paginate(page = page, per_page = 5)
-	return render_template("user_reviews.html", reviews = reviews, user = user)
+	return render_template("user_reviews.html", paginate = "user", reviews = reviews, user = user)
