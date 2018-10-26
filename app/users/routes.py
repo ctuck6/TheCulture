@@ -46,7 +46,7 @@ def login():
 			if next_page:
 				return redirect(next_page)
 			else:
-				redirect(url_for("main.home"))
+				return redirect(url_for("main.home"))
 	return render_template("login.html", form = form)
 
 @users.route("/reset_password", methods = ["GET", "POST"])
