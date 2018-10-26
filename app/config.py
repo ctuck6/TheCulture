@@ -2,7 +2,8 @@ import os
 
 class Config():
 	DEBUG = True # should be false
-	SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
+	# SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
+	SQLALCHEMY_DATABASE_URI = "postgresql://localhost/theculture"
 	WHOOSH_BASE = "whoose"
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	SECRET_KEY = os.environ.get("SECRET_KEY")
