@@ -119,3 +119,7 @@ a.article-title:hover {
 .card-title, .card-text {
   color: black;
 }
+
+@media (max-width: 640px) {
+   /* PUT CSS HERE TO ALTER WEBSITE TO SINGLE COLUMN */
+}
