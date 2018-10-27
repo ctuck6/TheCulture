@@ -3,7 +3,7 @@ from flask_whooshalchemyplus import index_all
 
 app = create_app()
 app.app_context().push()
+index_all(app)
 
 if __name__ == "__main__":
-	index_all(app)
 	app.run(debug = True)
