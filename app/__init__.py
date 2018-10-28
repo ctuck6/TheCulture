@@ -6,11 +6,12 @@ from flask_mail import Mail
 from app.config import Config
 from sqlalchemy_searchable import make_searchable
 import flask_whooshalchemyplus
+from flask_wtf.csrf import CSRFProtect
 
 mail = Mail()
 database = SQLAlchemy()
 make_searchable(database.metadata)
-
+csrf = CSRFProtect()
 bcrypt = Bcrypt()
 loginManager = LoginManager()
 loginManager.login_view = "users.login"
@@ -27,6 +28,7 @@ def create_app(config_class = Config):
 		loginManager.init_app(app)
 		mail.init_app(app)
 		flask_whooshalchemyplus.init_app(app)
+		csrf.init_app(app)
 
 	from app.users.routes import users
 	from app.reviews.routes import reviews
