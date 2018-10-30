@@ -3,6 +3,7 @@
 {% block content %}
 <form action="" class="form-group col-xs-3" method="POST" enctype="multipart/form-data">
 {{ form.hidden_tag() }}
+{{ form.csrf_token }}
 	<div class="content-section">
 	  <div class="media">
 	    <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
