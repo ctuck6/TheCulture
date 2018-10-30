@@ -38,7 +38,6 @@
   {% endif %}
   <form action="" class="form-group col-xs-3" method="POST">
     {{ form.hidden_tag() }}
-    {{ form.csrf_token }}
     <div class="form-group">
       {{ form.body.label(class="form-control-label") }}
       {% if form.body.errors %}

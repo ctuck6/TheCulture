@@ -11,7 +11,7 @@ from flask_wtf.csrf import CSRFProtect
 mail = Mail()
 database = SQLAlchemy()
 make_searchable(database.metadata)
-csrf = CSRFProtect()
+# csrf = CSRFProtect()
 bcrypt = Bcrypt()
 loginManager = LoginManager()
 loginManager.login_view = "users.login"
@@ -21,6 +21,7 @@ loginManager.login_message_category = "danger"
 def create_app(config_class = Config):
 	app = Flask(__name__)
 	app.config.from_object(Config)
+	csrf = CSRFProtect(app)
 
 	with app.app_context():
 		database.init_app(app)
