@@ -1,7 +1,7 @@
 from app import create_app
 from flask_whooshalchemyplus import index_all
 
-app = create_app()
+app = create_app("default")
 app.app_context().push()
 
 if __name__ == "__main__":

@@ -1,9 +1,20 @@
-def test_review_model(session):
-    tempUser = User("John", "Doe", "johnnyfootball", "john.doe@gmail.com", "Password1", "default_1.jpg")
-    session.add(tempUser)
-    session.commit()
-    review = Review("Test Review", "This is a test!", tempUser)
-    session.add(review)
-    session.commit()
+import unittest
+from flask import current_app, url_for
+from app import create_app, database
+from flask_login import current_user
+from flask_api import status
 
-    assert review.id > 0
+
+class BasicsTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.app = create_app("testing")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        database.create_all()
+        self.client = self.app.test_client(use_cookies=True)
+
+    def tearDown(self):
+        database.session.remove()
+        database.drop_all()
+        self.app_context.pop()

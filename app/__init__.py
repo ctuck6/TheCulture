@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-from app.config import Config
+from app.config import config
 from sqlalchemy_searchable import make_searchable
 import flask_whooshalchemyplus
 from flask_wtf.csrf import CSRFProtect
@@ -18,9 +18,9 @@ loginManager.login_message = "Welcome!"
 loginManager.login_message_category = "danger"
 
 
-def create_app(config_class=Config):
+def create_app(config_class):
 	app = Flask(__name__)
-	app.config.from_object(Config)
+	app.config.from_object(config[config_class])
 	csrf = CSRFProtect(app)
 
 	with app.app_context():
