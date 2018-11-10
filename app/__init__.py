@@ -22,7 +22,7 @@ loginManager.login_message_category = "danger"
 def create_app(config_class):
 	app = Flask(__name__)
 	# app.config.from_object(config[config_class])
-	app.config.from_object(os.environ["APP_SETTINGS"])
+	app.config.from_object(os.environ.get("APP_SETTINGS"))
 
 	with app.app_context():
 		database.init_app(app)
