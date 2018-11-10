@@ -34,10 +34,10 @@ class User(database.Model, UserMixin):
         seed()
         for i in range(count):
             user = User(firstname=forgery_py.name.first_name(),
-                    lastname=forgery_py.name.last_name(),
-                    username=forgery_py.internet.user_name(True),
-                    email=forgery_py.internet.email_address(),
-                    password=forgery_py.lorem_ipsum.word())
+                        lastname=forgery_py.name.last_name(),
+                        username=forgery_py.internet.user_name(True),
+                        email=forgery_py.internet.email_address(),
+                        password=forgery_py.lorem_ipsum.word())
             database.session.add(user)
             try:
                 database.session.commit()
@@ -84,8 +84,8 @@ class Review(database.Model):
         for i in range(count):
             user = User.query.offset(randint(0, user_count - 1)).first()
             review = Review(title=forgery_py.lorem_ipsum.words(randint(1, 5)),
-                    body=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
-                    author=user)
+                            body=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
+                            author=user)
             database.session.add(review)
             database.session.commit()
 

@@ -2,10 +2,9 @@ import unittest
 from flask import current_app, url_for
 from app import create_app, database
 from flask_login import current_user
-from flask_api import status
 
 
-class BasicsTestCase(unittest.TestCase):
+class ModelsTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app("testing")

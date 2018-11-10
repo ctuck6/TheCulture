@@ -5,7 +5,7 @@ from flask_login import current_user
 from flask_api import status
 
 
-class BasicsTestCase(unittest.TestCase):
+class MainTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app("testing")

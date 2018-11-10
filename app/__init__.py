@@ -5,13 +5,16 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from app.config import config
 from sqlalchemy_searchable import make_searchable
-import flask_whooshalchemyplus
+import flask_whooshalchemyplus, os
 from flask_wtf.csrf import CSRFProtect
+from flask_heroku import Heroku
 
 mail = Mail()
 database = SQLAlchemy()
 make_searchable(database.metadata)
 bcrypt = Bcrypt()
+heroku = Heroku()
+csrf = CSRFProtect()
 loginManager = LoginManager()
 loginManager.login_view = "users.login"
 loginManager.login_message = "Welcome!"
@@ -21,7 +24,6 @@ loginManager.login_message_category = "danger"
 def create_app(config_class):
 	app = Flask(__name__)
 	app.config.from_object(config[config_class])
-	csrf = CSRFProtect(app)
 
 	with app.app_context():
 		database.init_app(app)
@@ -30,6 +32,7 @@ def create_app(config_class):
 		mail.init_app(app)
 		flask_whooshalchemyplus.init_app(app)
 		csrf.init_app(app)
+		heroku.init_app(app)
 
 	from app.users.routes import users
 	from app.reviews.routes import reviews
