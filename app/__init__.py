@@ -7,13 +7,11 @@ from app.config import config
 from sqlalchemy_searchable import make_searchable
 import flask_whooshalchemyplus, os
 from flask_wtf.csrf import CSRFProtect
-from flask_heroku import Heroku
 
 mail = Mail()
 database = SQLAlchemy()
 make_searchable(database.metadata)
 bcrypt = Bcrypt()
-heroku = Heroku()
 csrf = CSRFProtect()
 loginManager = LoginManager()
 loginManager.login_view = "users.login"
@@ -33,7 +31,6 @@ def create_app(config_class):
 		mail.init_app(app)
 		flask_whooshalchemyplus.init_app(app)
 		csrf.init_app(app)
-		heroku.init_app(app)
 
 	from app.users.routes import users
 	from app.reviews.routes import reviews
