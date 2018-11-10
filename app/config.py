@@ -5,8 +5,8 @@ class Config():
 	SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI_LOCAL")
 	WHOOSH_BASE = "whoose"
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
-	SECRET_KEY = os.environ.get("SECRET_KEY")
-	WTF_CSRF_SECRET_KEY = os.environ.get("WTF_CSRF_SECRET_KEY")
+	SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
+	WTF_CSRF_SECRET_KEY = os.environ.get("WTF_CSRF_SECRET_KEY") or "you-will-never-guess"
 	MAIL_SERVER = os.environ.get("MAIL_SERVER")
 	MAIL_PORT = 587
 	MAIL_USE_TLS = True
