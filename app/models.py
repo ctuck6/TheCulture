@@ -73,6 +73,7 @@ class Review(database.Model):
     body = database.Column(database.Text, nullable=False)
     userId = database.Column(database.Integer, database.ForeignKey("user.id"), nullable=False)
     comments = database.relationship("Comment", backref="review", lazy=True)
+    views = database.Column(database.Integer, nullable=True, default=0)
 
 
     @staticmethod
@@ -87,7 +88,10 @@ class Review(database.Model):
                             body=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
                             author=user)
             database.session.add(review)
-            database.session.commit()
+            try:
+                database.session.commit()
+            except IntegrityError:
+                database.session.rollback()
 
 
     def __repr__(self):

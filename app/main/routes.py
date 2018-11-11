@@ -10,16 +10,25 @@ main = Blueprint("main", __name__)
 tables = [User, Review]
 
 
-@main.route('/')
-@main.route("/home")
+@main.route('/', methods=["GET", "POST"])
+@main.route("/home", methods=["GET", "POST"])
 def home():
 	pictures = os.listdir("app/static/slideshowPics")
-	return render_template("home.html", pictures=pictures)
+	top_reviews = Review.query.order_by(Review.views.desc()).limit(2).all()
+	latest_reviews = Review.query.order_by(Review.date_posted.desc()).limit(5).all()
+	return render_template("home.html", latest_reviews=latest_reviews, top_reviews=top_reviews, pictures=pictures)
 
 @main.route("/about")
 def about():
 	return render_template("about.html")
 
+@main.route("/privacy")
+def privacy():
+	return render_template("privacy.html")
+
+@main.route("/terms_of_use")
+def terms_of_use():
+	return render_template("terms_of_use.html")
 
 @main.route("/search_results/<keyword>", methods=["GET"])
 def search_results(keyword):

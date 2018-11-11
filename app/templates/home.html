@@ -1,96 +1,131 @@
 {% extends "layout.html" %}
 {% block body %}
-	<div class="text-center">
-	  <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel" data-pause="false" data-interval="4000">
-      <ol class="carousel-indicators">
-        {% for i in range(pictures|length) %}
-          <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" class="{% if loop.first %} active {% endif %}"></li>
-        {% endfor %}
-      </ol>
-	    <div class="carousel-inner" role="listbox">
-	      	{% for picture in pictures %}
-	          <div class="carousel-item {% if loop.first %} active {% endif %}">
-	            <img class="w-100" style="background-color: white; opacity: 0.6; width: 100vh; height: 88vh;" src="{{ url_for('static', filename = 'slideshowPics/' + picture) }}">
-	            <div class="container">
-	              <div class="main carousel-caption text-center">
-	                <h1 class="display-2" style="color:white; ">The Culture</h1>
-	                <p style="color:white;">The epicenter for black owned businesses</p>
-                  {% if not current_user.is_authenticated %}
-	                  <p><a class="btn btn-sm btn-dark" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
-                  {% endif %}
-	              </div>
-	            </div>
-	          </div>
-	        {% endfor %}
-	    </div>
-	  </div>
-	</div><br>
-{% endblock body %}
-{% block content %}
-	<div class="container marketing">
-      <center><div class="row">
-        {% if current_user.is_authenticated %}
-          <div class="col-lg-4">
-            <img src="{{ url_for('static', filename='homepagePics/my posts.jpg') }}" width="140" height="140"><br><br>
-            <h2>My Reviews</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            <p><a class="btn btn-secondary btn-sm"
-            	href="{% if current_user.is_authenticated %} {{ url_for('users.user_reviews', username = current_user.username) }} {% else %} {{ url_for('users.login') }} {% endif %}"
-            	role="button">Visit Page <span class="fa fa-external-link"></span></a></p>
-          </div>
-        {% endif %}
-        <div class="col-lg-{% if current_user.is_authenticated %}4{% else %}6{% endif %}">
-          <img src="{{ url_for('static', filename = 'homepagePics/recentposts.jpg') }}" width="140" height="140"><br><br>
-          <h2>Latest Reviews</h2>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p><a class="btn btn-secondary btn-sm" href="{{ url_for('reviews.latest_reviews') }}" role="button">Visit Page <span class="fa fa-external-link"></span></a></p>
-        </div>
-        <div class="col-lg-{% if current_user.is_authenticated %}4{% else %}6{% endif %}">
-          <img src="{{ url_for('static', filename = 'homepagePics/topreviews.jpg') }}" width="140" height="140"><br><br>
-          <h2>Top Reviews</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-secondary btn-sm" href="#" role="button">Visit Page <span class="fa fa-external-link"></span></a></p>
-        </div>
-      </div></center>
 
-      <hr class="featurette-divider" style="background-color:grey">
+<!-- w3-content defines a container for fixed size centered content, and is
+wrapped around the whole page content, except for the footer in this example -->
+<div class="w3-content" style="max-width:1600px">
 
-      <div>
-        <h1 class="display-3" style="color: white; text-align: center">In The News <img src="{{ url_for('static', filename = 'homepagePics/icons8-news-480.png') }}" width="100" height="width*.7"></h1>
-      </div><br>
+  <!-- Header -->
+  <header class="w3-container w3-center w3-padding-48 w3-white">
+    <h1 class="w3-xxxlarge"><b>THE CULTURE</b></h1>
+    <h6>The <span class="w3-tag">Central</span> For Black Owned Businesses</h6>
+  </header>
 
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-fluid mx-auto" style="width: 500px; height: 200px;" src="{{ url_for('static', filename = 'slideshowPics/Bg-15.0.jpg') }}">
-        </div>
-      </div>
-
-      <hr class="featurette-divider" style="background-color:grey">
-
-      <div class="row featurette">
-        <div class="col-md-5">
-          <img class="featurette-image img-fluid mx-auto" style="width: 500px; height: 200px;" src="{{ url_for('static', filename = 'slideshowPics/bspic.jpg') }}">
-        </div>
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-      </div>
-
-      <hr class="featurette-divider" style="background-color:grey">
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-fluid mx-auto" style="width: 500px; height: 200px;" src="{{ url_for('static', filename = 'slideshowPics/entrepreneur-small-business.jpg') }}">
-        </div>
-      </div>
+  <!-- Image header -->
+  <header class="w3-display-container w3-wide">
+    <img class="w3-image" src="{{ url_for('static', filename = 'slideshowPics/test2.jpg') }}" width="1600" height="1060">
+    <div class="w3-display-left w3-padding-large">
+      <h1 class="w3-text-white">THE</h1>
+      <h1 class="w3-jumbo w3-text-white w3-hide-small"><b>CULTURE</b></h1>
+      {% if not current_user.is_authenticated %}
+        <p><a class="btn btn-sm btn-light" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
+      {% endif %}
     </div>
-{% endblock content %}
+  </header>
+
+  <!-- Grid -->
+  <div class="w3-row w3-padding w3-border">
+
+    <!-- Blog entries -->
+    <div class="w3-col l8 s12">
+      {% if top_reviews|length > 0 %}
+        {% for review in top_reviews %}
+          <!-- Blog entry -->
+          <div class="w3-container w3-white w3-margin w3-padding-large">
+            <div class="w3-center">
+              <h3>{{ review.title }}</h3>
+              <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.user_reviews', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%Y-%m-%d') }}</h5>
+            </div>
+            <div class="w3-justify">
+              <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
+              <p>{{ review.body }}</p>
+              <p class="w3-left"><button class="w3-button w3-white w3-border" onclick="likeFunction(this)"><b><i class="fa fa-thumbs-up"></i> Like</b></button></p>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No reviews yet</p>
+      {% endif %}
+    <!-- END BLOG ENTRIES -->
+    </div>
+
+    <!-- About/Information menu -->
+    <div class="w3-col l4">
+      <!-- BOTW Card -->
+      <div class="w3-white w3-margin">
+        <div class="w3-container w3-padding w3-black">
+          <h4>Business of the Week</h4>
+        </div>
+        <img src="{{ url_for('static', filename = 'slideshowPics/william-stitt-611609-unsplash.jpg') }}" style="width:100%" class="w3-grayscale">
+        <div class="w3-container w3-black">
+          <br><h4>My Name</h4>
+          <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+        </div>
+      </div><hr>
+
+      <!-- POTW Card -->
+      <div class="w3-white w3-margin">
+        <div class="w3-container w3-padding w3-black">
+          <h4>Product of the Week</h4>
+        </div>
+        <img src="{{ url_for('static', filename = 'homepagePics/vegan-21.jpg') }}" style="width:100%" class="w3-grayscale">
+        <div class="w3-container w3-black">
+          <br><h4>My Name</h4>
+          <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+        </div>
+      </div><hr>
+
+      <!-- Recent Posts -->
+      <div class="w3-white w3-margin">
+        <div class="w3-container w3-padding w3-black">
+          <h4>Recent Posts</h4>
+        </div>
+        {% if latest_reviews|length > 0 %}
+          {% for review in latest_reviews %}
+            <ul class="w3-ul w3-hoverable w3-white">
+              <a href="{{ url_for('reviews.review', review_id = review.id) }}">
+                <li class="w3-padding-16">
+                  <img src="{{ url_for('static', filename = 'homepagePics/product1.jpg') }}" class="w3-left w3-margin-right" style="width:50px">
+                  <p><a class="w3-large">{{ review.title }}</a></p>
+                  <p>Posted by <b>{{ review.author.username }}</b></p>
+                </li>
+              </a>
+            </ul>
+          {% endfor %}
+        {% else %}
+          <p>No reviews yet</p>
+        {% endif %}
+      </div><hr>
+
+      <!-- Social Media -->
+      <div class="w3-white w3-margin">
+        <div class="w3-container w3-padding w3-black">
+          <h4>Social Media</h4>
+        </div>
+        <div class="w3-container w3-xlarge w3-padding">
+          <i class="fa fa-facebook-official w3-hover-opacity"></i>
+          <i class="fa fa-instagram w3-hover-opacity"></i>
+          <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+          <i class="fa fa-twitter w3-hover-opacity"></i>
+          <i class="fa fa-linkedin w3-hover-opacity"></i>
+        </div>
+      </div><hr>
+
+      <!-- Subscribe -->
+      <div class="w3-white w3-margin">
+        <div class="w3-container w3-padding w3-black">
+          <h4>Subscribe</h4>
+        </div><br>
+        <div class="w3-container w3-white">
+          <p>Enter your e-mail below and get notified on the latest cultural products!</p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
+          <p><button type="button" onclick="document.getElementById('subscribe').style.display='block'" class="w3-button w3-block w3-red">Subscribe</button></p>
+        </div>
+      </div>
+    <!-- END About/Intro Menu -->
+    </div>
+  <!-- END GRID -->
+  </div>
+<!-- END w3-content -->
+</div>
+{% endblock body %}

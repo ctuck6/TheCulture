@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <h1>Reviews</h1><br>
+  <h1>Reviews</h1><hr><br>
 	  {% if reviews.items %}
 		<ul class="list-group">
 		  {% for review in reviews.items %}
@@ -22,5 +22,5 @@
 	  {% else %}
 	  	<p class="text-muted">No reviews have been posted yet</p>
 	  {% endif %}
-	<a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-primary btn-sm"><span class="fa fa-edit"></span> Add Review</button></a><br>
+	<br><a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a><br>
 {% endblock content %}

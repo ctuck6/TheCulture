@@ -17,8 +17,7 @@ def show_reviews():
 @reviews.route("/review/<int:review_id>", methods=["GET", "POST"])
 def review(review_id):
 	review = Review.query.get_or_404(review_id)
-	count = Comment.query.count()
-	comments = Comment.query.filter_by(review=review).order_by(Comment.date_posted.desc())
+	comments = Comment.query.filter_by(review=review).order_by(Comment.date_posted.desc()).all()
 	form = CommentForm()
 	if form.validate_on_submit():
 		if current_user.is_authenticated:
@@ -30,7 +29,7 @@ def review(review_id):
 		else:
 			flash("You must be logged in to post a comment!", "danger")
 			abort(403)
-	return render_template("review.html", review=review, form=form, count=count, comments=comments)
+	return render_template("review.html", review=review, form=form, comments=comments)
 
 
 @reviews.route("/review/new", methods=["GET", "POST"])
@@ -75,9 +74,3 @@ def delete_review(review_id):
 	database.session.commit()
 	flash("Your post has been deleted!", "success")
 	return redirect(url_for("reviews.show_reviews"))
-
-
-@reviews.route("/latest_reviews", methods=["GET", "POST"])
-def latest_reviews():
-	reviews = Review.query.order_by(Review.date_posted.desc()).paginate(page=1, per_page=10)
-	return render_template("latest_reviews.html", reviews=reviews)

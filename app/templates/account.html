@@ -3,54 +3,52 @@
 {% block content %}
 <form action="" class="form-group col-xs-3" method="POST" enctype="multipart/form-data">
 {{ form.hidden_tag() }}
-	<div class="content-section">
-	  <div class="media">
-	    <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
-	    <div class="media-body">
-	      <h2 class="account-heading">{{ current_user.firstname }} {{ current_user.lastname }}</h2>
-	    </div>
-	  </div>
-	  <h5>Username</h5>
-	  <p id="usernameField" class="text-secondary" data-editable>{{ current_user.username }}</p>
-	  <div class="form-group collapse multi-collapse">
-        {% if form.username.errors %}
-          {{ form.username(class="form-control form-control-lg is-invalid") }}
-          <div class="invalid-feedback">
-            {% for error in form.username.errors %}
-              <span>{{ error }}</span>
-            {% endfor %}
-          </div>
-        {% else %}
-          {{ form.username(class="form-control form-control-lg") }}
-        {% endif %}
+  <div class="media">
+    <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
+    <div class="media-body">
+      <h2 class="account-heading">{{ current_user.firstname }} {{ current_user.lastname }}</h2>
+    </div>
+  </div>
+  <h5>Username</h5>
+  <p id="usernameField" class="text-secondary" data-editable>{{ current_user.username }}</p>
+  <div class="form-group collapse multi-collapse">
+    {% if form.username.errors %}
+      {{ form.username(class="form-control form-control-lg is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.username.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
       </div>
-	  <h5>Email</h5>
-	  <p id="emailField" class="text-secondary" data-editable>{{ current_user.email }}</p>
-	  <div class="form-group collapse multi-collapse">
-        {% if form.email.errors %}
-          {{ form.email(class="form-control form-control-lg is-invalid") }}
-          <div class="invalid-feedback">
-            {% for error in form.email.errors %}
-              <span>{{ error }}</span>
-            {% endfor %}
-          </div>
-        {% else %}
-          {{ form.email(class="form-control form-control-lg") }}
-        {% endif %}
+    {% else %}
+      {{ form.username(class="form-control form-control-lg") }}
+    {% endif %}
+  </div>
+  <h5>Email</h5>
+  <p id="emailField" class="text-secondary" data-editable>{{ current_user.email }}</p>
+  <div class="form-group collapse multi-collapse">
+    {% if form.email.errors %}
+      {{ form.email(class="form-control form-control-lg is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.email.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
       </div>
-      <div id="editPictureField" class="form-group collapse multi-collapse">
-	    {{ form.profilePicture.label() }}
-	    {{ form.profilePicture(class="form-control-file") }}
-	    {% if form.profilePicture.errors %}
-	      {% for error in form.profilePicture.errors %}
-	        <span class="text-danger">{{ error }}</span>
-	      {% endfor %}
-	    {% endif %}
-	  </div>
-	  <a class="text-muted"><button id="editButton" class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="usernameField emailField editPictureField">edit</button></a>
-	  <div id="saveButton" class="form-group collapse multi-collapse">
-	    {{ form.submit(class="btn btn-primary btn-sm") }}
-	  </div>
-	</div>
+    {% else %}
+      {{ form.email(class="form-control form-control-lg") }}
+    {% endif %}
+  </div>
+  <div id="editPictureField" class="form-group collapse multi-collapse">
+    {{ form.profilePicture.label() }}
+    {{ form.profilePicture(class="form-control-file") }}
+    {% if form.profilePicture.errors %}
+      {% for error in form.profilePicture.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  <a class="text-muted"><button id="editButton" class="btn btn-dark btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="usernameField emailField editPictureField">edit</button></a>
+  <div id="saveButton" class="form-group collapse multi-collapse">
+    {{ form.submit(class="btn btn-primary btn-sm") }}
+  </div>
 </form>
 {% endblock content %}

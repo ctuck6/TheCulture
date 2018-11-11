@@ -1,19 +1,9 @@
+html {
+  margin-top: 10rem;
+}
+
 body {
-  height: 100vh;
-  min-height: 100vh;
-  color: white;
-  margin-top: 5rem;
-  background-image: linear-gradient(to top, #404040 0%, black 100%);
-  background-repeat: no-repeat;
-  background-size: auto;
-}
-
-h1, h3, h4, h6 {
-  color: white;
-}
-
-.wrapper {
-  min-height: 100%;
+  font-family: "Open Sans";
 }
 
 .navbar {
@@ -23,12 +13,13 @@ h1, h3, h4, h6 {
   display: block;
   transition: top 0.3s;
   z-index: 1;
+  background-color: black;
 }
 
 .navbar a {
   float: left;
   display: block;
-  color: #FFFFFF;
+  color: white;
   text-align: center;
   padding: 15px;
   font-size: 17px;
@@ -42,20 +33,6 @@ div .dropdown-menu {
   background-color: black;
 }
 
-.footer {
-  height: 50px;
-}
-
-.content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
-  color: black;
-  bottom: 0;
-}
-
 .article-title {
   color: #444444;
 }
@@ -63,6 +40,14 @@ div .dropdown-menu {
 a.article-title:hover {
   color: #428bca;
   text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Oswald";
+}
+
+a, u {
+    text-decoration: none;
 }
 
 .article-content {
@@ -103,23 +88,7 @@ a.article-title:hover {
   font-size: 2.5rem;
 }
 
-.carousel-inner .carousel-item {
-  transition: 2s;
-}
-
-#container {
+.container {
   min-height: 100%;
   position: relative;
-}
-
-#deleteModalLabel, .modal-body {
-  color: black;
-}
-
-.card-title, .card-text {
-  color: black;
-}
-
-@media (max-width: 640px) {
-   /* PUT CSS HERE TO ALTER WEBSITE TO SINGLE COLUMN */
 }

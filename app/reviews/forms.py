@@ -10,5 +10,5 @@ class ReviewForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-	body = TextAreaField("New Comment", validators=[DataRequired()])
-	submit = SubmitField("Post Comment")
+	body = TextAreaField("Post a comment", validators=[DataRequired()])
+	submit = SubmitField("Post")

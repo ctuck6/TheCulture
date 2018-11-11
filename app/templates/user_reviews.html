@@ -1,29 +1,32 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div class="content-section">
+  <div>
     <div class="media">
       <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + user.image_file) }}">
       <div class="media-body">
         <h2 class="account-heading">Reviews by {{ user.username }}</h2>
         <p class="text-secondary">{{ user.email }}</p>
       </div>
-    </div>
-  </div>
-  <ul class="list-group">
-  	{% for review in reviews.items %}
-  	  <article class="media content-section">
-        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}">
-        <div class="media-body">
-          <div class="article-metadata">
-            <p class="text-muted">Posted by
-              <a class="mr-2" href="{{ url_for('users.user_reviews', username = review.author.username) }}">{{ review.author.username }}</a>
-              <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
-            </p>
+    </div><hr><br>
+    <ul class="list-group">
+    	{% for review in reviews.items %}
+    	  <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <p class="text-muted">Posted by
+                <a class="mr-2" href="{{ url_for('users.user_reviews', username = review.author.username) }}">{{ review.author.username }}</a>
+                <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
+              </p>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('reviews.review', review_id = review.id) }}">{{ review.title }}</a></h2>
           </div>
-          <h2><a class="article-title" href="{{ url_for('reviews.review', review_id = review.id) }}">{{ review.title }}</a></h2>
-        </div>
-      </article>
-	{% endfor %}
-  </ul>
+        </article>
+  	{% endfor %}
+    </ul>
+    {% if current_user.is_authenticated %}
+      <br><a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a><br>
+    {% endif %}
+  </div>
 {% endblock content %}

@@ -15,13 +15,12 @@ bcrypt = Bcrypt()
 csrf = CSRFProtect()
 loginManager = LoginManager()
 loginManager.login_view = "users.login"
-loginManager.login_message = "Welcome!"
+loginManager.login_message = "You must be signed in to view that page!"
 loginManager.login_message_category = "danger"
 
 
 def create_app(config_class):
 	app = Flask(__name__)
-	# app.config.from_object(config[config_class])
 	app.config.from_object(config[os.environ["APP_SETTINGS"]])
 
 	with app.app_context():

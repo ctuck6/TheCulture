@@ -1,60 +1,65 @@
 {% extends "layout.html" %}
 
 {% block content %}
-	<article class="media content-section">
-	  <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}">
-	  <div class="media-body">
-	    <div class="article-metadata">
-	      <p class="text-muted">Posted by 
-	      	<a class="mr-2" href="{{ url_for('users.user_reviews', username = review.author.username) }}">{{ review.author.username }}</a>
-	      	<small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
-	      </p>
-	    </div>
-	    <h2 class="article-title">{{ review.title }}</h2>
-	    <p class="article-content">{{ review.body }}</p>
+	<!-- Blog entry -->
+  <div class="w3-container w3-white w3-margin w3-padding-large">
+    <div class="w3-center">
+      <h3>{{ review.title }}</h3>
+      <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.user_reviews', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%Y-%m-%d') }}</h5>
+    </div>
+
+    <div class="w3-justify">
+      <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
+      <p><strong>More Hats!</strong> I am crazy about hats these days. Some text about this blog entry. Fashion fashion and mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor
+        magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sedtellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+      <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+      <p class="w3-left"><button class="w3-button w3-white w3-border" onclick="likeFunction(this)"><b><i class="fa fa-thumbs-up"></i> Like</b></button></p>
       {% if review.author == current_user %}
         <div>
-          <a class="btn btn-primary btn-sm m-1" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
-          <button class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+          <a class="w3-left w3-button w3-white w3-border" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
+          <button class="w3-left w3-button w3-red w3-border" data-toggle="modal" data-target="#deleteModal">Delete</button><br>
         </div>
       {% endif %}
-    </div>
-	</article>
-  <h5>Comments</h5>
-  {% if count > 0 %}
-    {% for comment in comments %}
-      <div class="card">
-        <div class="card-body">
-          <p class="card-title text-muted">Posted by
-            <a class="mr-2" href="{{ url_for('users.user_reviews', username = comment.commenter) }}">{{ comment.commenter }}</a>
-            <small class="text-muted">{{ comment.date_posted.strftime('%Y-%m-%d') }}</small>
-          </p>
-          <p class="card-text">{{ comment.body }}</p>
+      <p class="w3-right"><b>Comments: </b>{{ comments|length }}</p>
+      {% if comments|length > 0 %}
+        {% for comment in comments %}
+        <div class="w3-row">
+          <hr>
+          <div class="w3-col l2 m3">
+            <img src="/w3images/avatar_smoke.jpg" style="width:90px;">
+          </div>
+          <div class="w3-col l10 m9">
+            <h4 class="mr-2" href="{{ url_for('users.user_reviews', username = comment.commenter) }}">{{ comment.commenter }} <span class="w3-opacity w3-medium">{{ comment.date_posted.strftime('%Y-%m-%d') }}</span></h4>
+            <p>{{ comment.body }}</p>
+          </div>
         </div>
-      </div>
-    {% endfor %}<br>
-  {% else %}
-    <p class="text-muted">No comments yet for this post</p>
-  {% endif %}
-  <form action="" class="form-group col-xs-3" method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-      {{ form.body.label(class="form-control-label") }}
-      {% if form.body.errors %}
-        {{ form.body(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-          {% for error in form.body.errors %}
-            <span>{{ error }}</span>
-          {% endfor %}
-        </div>
+        {% endfor %}
       {% else %}
-        {{ form.body(class="form-control form-control-lg") }}
+        <div class="w3-row">
+          <p class="text-muted">No comments yet for this post</p>
+        </div>
       {% endif %}
+      <form action="" class="form-group col-xs-3" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          {{ form.body.label(class="form-control-label") }}
+          {% if form.body.errors %}
+            {{ form.body(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.body.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.body(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.submit(class="btn btn-dark btn-sm") }}
+        </div>
+      </form>
     </div>
-    <div class="form-group">
-      {{ form.submit(class="btn btn-primary btn-sm") }}
-    </div>
-  </form>
+  </div>
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
