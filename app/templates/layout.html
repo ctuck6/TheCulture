@@ -61,9 +61,9 @@
           {% for page_num in reviews.iter_pages(left_edge = 1, right_edge = 1, left_current = 1, right_current = 2) %}
           {% if page_num %}
             {% if reviews.page == page_num %}
-              <a class="btn btn-light mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
+              <a class="btn btn-dark mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
             {% else %}
-              <a class="btn btn-outline-light mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
+              <a class="btn btn-outline-dark mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
             {% endif %}
           {% else %}
             ...
@@ -75,9 +75,9 @@
           {% for page_num in reviews.iter_pages(left_edge = 1, right_edge = 1, left_current = 1, right_current = 2) %}
           {% if page_num %}
             {% if reviews.page == page_num %}
-              <a class="btn btn-light mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
+              <a class="btn btn-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
             {% else %}
-              <a class="btn btn-outline-light mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
+              <a class="btn btn-outline-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
             {% endif %}
           {% else %}
             ...
@@ -93,10 +93,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script>
+<script type="text/javascript">
 function likeFunction(x) {
-    x.style.fontWeight = "bold";
-    x.innerHTML = "✓ Liked";
+    if (x.innerHTML == "👍🏿 Like") {
+        x.style.fontWeight = "bold";
+        x.innerHTML = "✓ Liked";
+    } else {
+        x.style.fontWeight = "normal";
+        x.innerHTML = "👍🏿 Like";
+    }
 }
 
 window.onscroll = function() {

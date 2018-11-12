@@ -10,17 +10,15 @@
 
     <div class="w3-justify">
       <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
-      <p><strong>More Hats!</strong> I am crazy about hats these days. Some text about this blog entry. Fashion fashion and mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor
-        magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sedtellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-      <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-      <p class="w3-left"><button class="w3-button w3-white w3-border" onclick="likeFunction(this)"><b><i class="fa fa-thumbs-up"></i> Like</b></button></p>
+      <p>{{ review.body }}</p>
+      <p class="w3-left"><button class="btn btn-outline-dark btn-sm" onclick="likeFunction(this)">👍🏿 Like</button></p>
       {% if review.author == current_user %}
         <div>
-          <a class="w3-left w3-button w3-white w3-border" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
-          <button class="w3-left w3-button w3-red w3-border" data-toggle="modal" data-target="#deleteModal">Delete</button><br>
+          <a class="w3-right btn btn-outline-dark btn-sm" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
+          <button class="w3-right btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</button><br>
         </div>
       {% endif %}
-      <p class="w3-right"><b>Comments: </b>{{ comments|length }}</p>
+      <br><p>Comments</p>
       {% if comments|length > 0 %}
         {% for comment in comments %}
         <div class="w3-row">
@@ -71,9 +69,9 @@
         </div>
         <div class="modal-body">Are you sure you want to delete this post? This change will be final.</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('reviews.delete_review', review_id = review.id) }}" method="POST">
-            <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+          <form method="POST">
+            <button class="btn btn-dark btn-sm" data-dismiss="modal">Close</button>
+            <a class="btn btn-danger btn-sm" href="{{ url_for('reviews.delete_review', review_id = review.id) }}">Delete</a>
       	  </form>
         </div>
       </div>

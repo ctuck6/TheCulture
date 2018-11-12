@@ -16,7 +16,7 @@ wrapped around the whole page content, except for the footer in this example -->
     <img class="w3-image" src="{{ url_for('static', filename = 'slideshowPics/test2.jpg') }}" width="1600" height="1060">
     <div class="w3-display-left w3-padding-large">
       <h1 class="w3-text-white">THE</h1>
-      <h1 class="w3-jumbo w3-text-white w3-hide-small"><b>CULTURE</b></h1>
+      <h1 class="w3-jumbo w3-text-white"><b>CULTURE</b></h1>
       {% if not current_user.is_authenticated %}
         <p><a class="btn btn-sm btn-light" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
       {% endif %}
@@ -39,7 +39,7 @@ wrapped around the whole page content, except for the footer in this example -->
             <div class="w3-justify">
               <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
               <p>{{ review.body }}</p>
-              <p class="w3-left"><button class="w3-button w3-white w3-border" onclick="likeFunction(this)"><b><i class="fa fa-thumbs-up"></i> Like</b></button></p>
+              <p class="w3-left"><button class="btn btn-outline-dark btn-sm" onclick="likeFunction(this)">👍🏿 Like</button></p>
             </div>
           </div>
         {% endfor %}
@@ -119,7 +119,7 @@ wrapped around the whole page content, except for the footer in this example -->
         <div class="w3-container w3-white">
           <p>Enter your e-mail below and get notified on the latest cultural products!</p>
           <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
-          <p><button type="button" onclick="document.getElementById('subscribe').style.display='block'" class="w3-button w3-block w3-red">Subscribe</button></p>
+          <p><button type="button" onclick="document.getElementById('subscribe').style.display='block'" class="w3-block btn btn-danger">Subscribe</button></p>
         </div>
       </div>
     <!-- END About/Intro Menu -->
