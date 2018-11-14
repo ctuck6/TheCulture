@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block body %}
 	<h1>Results</h1><hr><br>
 	<ul class="list-group">
 		{% if results|length > 0 %}
@@ -22,7 +22,7 @@
 		    </article>
 		  {% endfor %}
 		{% else %}
-		  <div class="alert alert-light" role="alert" style="padding: 35px 0; text-align: center;">No results found</div>
+		  <h3>No results found</h3>
 		{% endif %}
 	</ul>
-{% endblock content %}
+{% endblock body %}

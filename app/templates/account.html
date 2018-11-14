@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block body %}
 <form action="" class="form-group col-xs-3" method="POST" enctype="multipart/form-data">
 {{ form.hidden_tag() }}
   <div class="media">
@@ -51,4 +51,4 @@
     {{ form.submit(class="btn btn-primary btn-sm") }}
   </div>
 </form>
-{% endblock content %}
+{% endblock body %}

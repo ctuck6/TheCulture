@@ -45,7 +45,7 @@ def new_review():
 		database.session.commit()
 		flash("Your review has been posted!", "success")
 		return redirect(url_for("reviews.show_reviews"))
-	return render_template("create_review.html", legend="New Review", form=form)
+	return render_template("new_review.html", legend="New Review", form=form)
 
 
 @reviews.route("/review/<int:review_id>/update",  methods=["GET", "POST"])
@@ -64,10 +64,10 @@ def update_review(review_id):
 	elif request.method == "GET":
 		form.title.data = review.title
 		form.body.data = review.body
-	return render_template("create_review.html", legend="Update Review", form=form)
+	return render_template("new_review.html", legend="Update Review", form=form)
 
 
-@reviews.route("/review/<int:review_id>/delete",  methods=["POST"])
+@reviews.route("/review/<int:review_id>/delete",  methods=["GET", "POST"])
 @login_required
 def delete_review(review_id):
 	review = Review.query.get_or_404(review_id)

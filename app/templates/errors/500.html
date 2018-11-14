@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block body %}
   <center><div class="content section">
     <h1>Oops! Something went wrong! (500)</h1>
-    <p>We are experiencing some trouble on our end. We apologize for the inconvenience!</p><br>
+    <h4>We are experiencing some trouble on our end. We apologize for the inconvenience!</h4><br>
     <img class="rounded-circle" src="{{ url_for('static', filename = 'homepagePics/fist.jpg') }}" width="140" height="140">
   </div></center>
-{% endblock content %}
+{% endblock body %}

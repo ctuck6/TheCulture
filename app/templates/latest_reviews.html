@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block body %}
   <h1>Latest Reviews</h1><br>
 	<ul class="list-group">
 	  {% for review in reviews.items %}
@@ -19,4 +19,4 @@
 	  {% endfor %}
 	</ul><br>
   <a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-primary btn-sm"><span class="fa fa-edit"></span> Add Review</button></a>
-{% endblock content %}
+{% endblock body %}

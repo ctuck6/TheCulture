@@ -1,5 +1,4 @@
 <html>
-<title>The Culture</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
@@ -10,81 +9,66 @@
 <link rel="icon" href="{{ url_for('static', filename = 'homepagePics/fist.jpg') }}">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
+<title>The Culture</title>
+
 <body class="w3-light-grey">
-<header-top class="site-header">
-    <nav id="navbar" class="navbar navbar-expand-md">
-      <div class="container">
-        <a class="navbar-brand mr-6" href="{{ url_for('main.home') }}"><img style="width: 25px;height: 25px;" src="{{ url_for('static', filename = 'homepagePics/fist.jpg') }}"> The Culture</a>
-        <div class="collapse navbar-collapse" id="navbarToggle">
-          <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
-            <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
-            <a class="nav-item nav-link" href="{{ url_for('reviews.show_reviews') }}">Reviews</a>
-          </div>
-          <a class="nav-item nav-link" href="{{ url_for('main.search_keyword') }}">Search</a>
-          <div class="navbar-nav">
-            {% if current_user.is_authenticated %}
-              <li class="dropdown show">
-                <a class="nav-item nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img style="width: 25px; height: 25px;" class="rounded-circle" src="{{ url_for('static', filename = 'profilePics/' + current_user.image_file) }}"> {{ current_user.username }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a href="{{ url_for('users.account') }}">My Account</a><br>
-                  <a href="{{ url_for('users.logout') }}">Logout</a><br>
-                </div>
-              </li>
-            {% else %}
-              <a class="nav-item nav-link" href="{{ url_for('users.login') }}"></span> Login</a>
-              <a class="nav-item nav-link" href="{{ url_for('users.register') }}"></span> Sign Up</a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </nav>
-</header-top>
+<nav id="navbar" class="navbar">
+  <a class="navbar-brand mr-6 left" href="{{ url_for('main.home') }}"><img style="width: 25px;height: 25px;" src="{{ url_for('static', filename = 'homepagePics/fist.jpg') }}"> The Culture</a>
+  <a class="nav-item nav-link left" href="{{ url_for('main.home') }}">Home</a>
+  <a class="nav-item nav-link left" href="{{ url_for('main.about') }}">About</a>
+  <a class="nav-item nav-link left" href="{{ url_for('reviews.show_reviews') }}">Reviews</a>
+  {% if current_user.is_authenticated %}
+    <a class="nav-item nav-link right" href="{{ url_for('users.logout') }}">Logout</a>
+    <a class="nav-item nav-link right" href="{{ url_for('users.account') }}"><img style="width: 25px; height: 25px;" class="rounded-circle mr-2" src="{{ url_for('static', filename = 'profilePics/' + current_user.image_file) }}">My Account</a>
+  {% else %}
+    <a class="nav-item nav-link right" href="{{ url_for('users.register') }}"></span> Sign Up</a>
+    <a class="nav-item nav-link right" href="{{ url_for('users.login') }}"></span> Login</a>
+  {% endif %}
+  <a class="nav-item nav-link right" href="{{ url_for('main.search_keyword') }}">Search</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</nav>
 <div class="container">
 	{% with messages = get_flashed_messages(with_categories = true) %}
-      {% if messages %}
+    {% if messages %}
       {% for category, message in messages %}
         <div class="alert alert-{{ category }}" role="alert">
           {{ message }}
         </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-    {% block body %}{% endblock body %}
-    {% block content %}{% endblock content %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block body %}{% endblock body %}
 </div>
 {% if paginate is defined %}
-      {% if paginate == "all" %}
-        <center>
-          {% for page_num in reviews.iter_pages(left_edge = 1, right_edge = 1, left_current = 1, right_current = 2) %}
-          {% if page_num %}
-            {% if reviews.page == page_num %}
-              <a class="btn btn-dark mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
-            {% else %}
-              <a class="btn btn-outline-dark mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
-            {% endif %}
+  <center>
+    {% if paginate == "all" %}
+      {% for page_num in reviews.iter_pages(left_edge = 1, right_edge = 1, left_current = 1, right_current = 2) %}
+        {% if page_num %}
+          {% if reviews.page == page_num %}
+            <a class="btn btn-dark mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
           {% else %}
-            ...
+            <a class="btn btn-outline-dark mb-4" href="{{ url_for('reviews.show_reviews', page = page_num) }}">{{ page_num }}</a>
           {% endif %}
-          {% endfor %}
-        </center>
-      {% elif paginate == "user" %}
-        <center>
-          {% for page_num in reviews.iter_pages(left_edge = 1, right_edge = 1, left_current = 1, right_current = 2) %}
-          {% if page_num %}
-            {% if reviews.page == page_num %}
-              <a class="btn btn-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-              <a class="btn btn-outline-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
+        {% else %}
+          ...
+        {% endif %}
+      {% endfor %}
+    {% elif paginate == "user" %}
+      {% for page_num in reviews.iter_pages(left_edge = 1, right_edge = 1, left_current = 1, right_current = 2) %}
+        {% if page_num %}
+          {% if reviews.page == page_num %}
+            <a class="btn btn-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
           {% else %}
-            ...
+            <a class="btn btn-outline-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
           {% endif %}
-          {% endfor %}
-        </center>
-      {% endif %}
+        {% else %}
+          ...
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </center>
 {% endif %}
 <!-- Footer -->
 <footer class="w3-black" style="padding:25px">
@@ -104,11 +88,21 @@ function likeFunction(x) {
     }
 }
 
+function myFunction() {
+    var x = document.getElementById("navbar");
+    if (x.className === "navbar") {
+        x.className += " responsive";
+    } else {
+        x.className = "navbar";
+    }
+}
+
 window.onscroll = function() {
     if (window.pageYOffset == 0) {
         document.getElementById("navbar").style.top = "0";
     } else {
-        document.getElementById("navbar").style.top = "-75px";
+        document.getElementById("navbar").style.top = "-450px";
+        document.getElementById("dropdownMenuLink").setAttribute("aria-expanded", "false");
     }
 };
 

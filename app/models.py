@@ -4,7 +4,6 @@ from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from users.utils import savePicture
-import flask_whooshalchemyplus
 import os, random
 
 

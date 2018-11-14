@@ -4,13 +4,11 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from app.config import config
-from sqlalchemy_searchable import make_searchable
-import flask_whooshalchemyplus, os
 from flask_wtf.csrf import CSRFProtect
+import os
 
 mail = Mail()
 database = SQLAlchemy()
-make_searchable(database.metadata)
 bcrypt = Bcrypt()
 csrf = CSRFProtect()
 loginManager = LoginManager()
@@ -21,14 +19,13 @@ loginManager.login_message_category = "danger"
 
 def create_app(config_class):
 	app = Flask(__name__)
-	app.config.from_object(config[os.environ["APP_SETTINGS"]])
+	app.config.from_object(config[os.environ.get("APP_SETTINGS")])
 
 	with app.app_context():
 		database.init_app(app)
 		bcrypt.init_app(app)
 		loginManager.init_app(app)
 		mail.init_app(app)
-		flask_whooshalchemyplus.init_app(app)
 		csrf.init_app(app)
 
 	from app.users.routes import users

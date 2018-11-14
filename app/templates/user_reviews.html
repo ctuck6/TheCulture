@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block body %}
   <div>
     <div class="media">
       <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + user.image_file) }}">
@@ -29,4 +29,4 @@
       <br><a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a><br>
     {% endif %}
   </div>
-{% endblock content %}
+{% endblock body %}

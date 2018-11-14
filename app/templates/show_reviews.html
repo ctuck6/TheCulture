@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block body %}
   <h1>Reviews</h1><hr><br>
 	  {% if reviews.items %}
 		<ul class="list-group">
@@ -23,4 +23,4 @@
 	  	<p class="text-muted">No reviews have been posted yet</p>
 	  {% endif %}
 	<br><a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a><br>
-{% endblock content %}
+{% endblock body %}

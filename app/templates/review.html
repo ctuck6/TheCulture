@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block body %}
 	<!-- Blog entry -->
   <div class="w3-container w3-white w3-margin w3-padding-large">
     <div class="w3-center">
@@ -13,12 +13,13 @@
       <p>{{ review.body }}</p>
       <p class="w3-left"><button class="btn btn-outline-dark btn-sm" onclick="likeFunction(this)">👍🏿 Like</button></p>
       {% if review.author == current_user %}
-        <div>
-          <a class="w3-right btn btn-outline-dark btn-sm" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
-          <button class="w3-right btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</button><br>
+        <div class="w3-right">
+          <a class="btn btn-outline-dark btn-sm" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
+          <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</button>
         </div>
       {% endif %}
-      <br><p>Comments</p>
+      <br><br>
+      <p>Comments</p>
       {% if comments|length > 0 %}
         {% for comment in comments %}
         <div class="w3-row">
@@ -77,4 +78,4 @@
       </div>
     </div>
   </div>
-{% endblock content %}
+{% endblock body %}

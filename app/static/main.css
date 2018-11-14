@@ -13,24 +13,60 @@ body {
   display: block;
   transition: top 0.3s;
   z-index: 1;
+  overflow: hidden;
   background-color: black;
 }
 
 .navbar a {
-  float: left;
   display: block;
   color: white;
   text-align: center;
   padding: 15px;
   font-size: 17px;
+  font-family: "Oswald";
+  text-decoration: none;
 }
 
 .navbar a:hover {
   color: grey;
 }
 
-div .dropdown-menu {
-  background-color: black;
+.navbar .icon {
+  display: none;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+@media screen and (max-width: 640px) {
+  .navbar a:not(:first-child) {
+    display: none;
+  }
+  .navbar a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .navbar.responsive {
+    position: fixed;
+  }
+  .navbar.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }
 
 .article-title {
@@ -79,7 +115,7 @@ a, u {
 
 .account-img {
   height: 125px;
-  width: 125px;
+  width: height;
   margin-right: 20px;
   margin-bottom: 16px;
 }

@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-
 <!-- w3-content defines a container for fixed size centered content, and is
 wrapped around the whole page content, except for the footer in this example -->
 <div class="w3-content" style="max-width:1600px">
@@ -44,7 +43,43 @@ wrapped around the whole page content, except for the footer in this example -->
           </div>
         {% endfor %}
       {% else %}
-        <p>No reviews yet</p>
+        <!-- <div class="w3-container w3-white w3-margin w3-padding-large">
+          <div class="w3-row w3-container">
+            <h2>Temp 1</h2>
+            <div class="w3-half">
+              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            </div>
+            <div class="w3-half">
+              <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" width="95%">
+            </div>
+          </div>
+          <hr>
+          <div class="w3-row w3-container">
+            <h2>Temp 2</h2>
+            <div class="w3-half">
+              <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" width="95%">
+            </div>
+            <div class="w3-half">
+              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            </div>
+          </div>
+          <hr>
+          <div class="w3-row w3-container">
+            <h2>Temp 3</h2>
+            <div class="w3-half">
+              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            </div>
+            <div class="w3-half">
+              <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" width="95%">
+            </div>
+          </div>
+          <hr>
+          <div class="w3-row w3-container">
+            <h2>Temp 4</h2>
+            <img src="{{ url_for('static', filename = 'homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
+          </div>
+        </div> -->
+        <h2>No reviews yet</h2>
       {% endif %}
     <!-- END BLOG ENTRIES -->
     </div>
@@ -73,28 +108,6 @@ wrapped around the whole page content, except for the footer in this example -->
           <br><h4>My Name</h4>
           <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
         </div>
-      </div><hr>
-
-      <!-- Recent Posts -->
-      <div class="w3-white w3-margin">
-        <div class="w3-container w3-padding w3-black">
-          <h4>Recent Posts</h4>
-        </div>
-        {% if latest_reviews|length > 0 %}
-          {% for review in latest_reviews %}
-            <ul class="w3-ul w3-hoverable w3-white">
-              <a href="{{ url_for('reviews.review', review_id = review.id) }}">
-                <li class="w3-padding-16">
-                  <img src="{{ url_for('static', filename = 'homepagePics/product1.jpg') }}" class="w3-left w3-margin-right" style="width:50px">
-                  <p><a class="w3-large">{{ review.title }}</a></p>
-                  <p>Posted by <b>{{ review.author.username }}</b></p>
-                </li>
-              </a>
-            </ul>
-          {% endfor %}
-        {% else %}
-          <p>No reviews yet</p>
-        {% endif %}
       </div><hr>
 
       <!-- Social Media -->

@@ -3,8 +3,8 @@ import os
 class Config():
 	DEBUG = True # should be false
 	SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI_LOCAL")
-	WHOOSH_BASE = "whoose"
-	SQLALCHEMY_TRACK_MODIFICATIONS = False
+	WHOOSH_BASE = "whoosh"
+	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
 	WTF_CSRF_SECRET_KEY = os.environ.get("WTF_CSRF_SECRET_KEY") or "you-will-never-guess"
 	MAIL_SERVER = os.environ.get("MAIL_SERVER")

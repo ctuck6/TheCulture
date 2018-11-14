@@ -1,10 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect
-# from app import database
 from app.models import User, Review
-# from sqlalchemy_searchable import search
 import os
 from app.users.forms import SearchForm
-# import flask_whooshalchemyplus
 
 main = Blueprint("main", __name__)
 tables = [User, Review]
@@ -39,10 +36,11 @@ def search_results(keyword):
 			results.append(result)
 	return render_template("search_results.html", results=results)
 
-
 @main.route("/search", methods=["GET", "POST"])
 def search_keyword():
 	form = SearchForm()
 	if form.validate_on_submit():
 		return redirect(url_for("main.search_results", keyword=form.search.data))
 	return render_template("search.html", form=form)
+
+
