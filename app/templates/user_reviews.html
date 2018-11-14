@@ -8,7 +8,8 @@
         <h2 class="account-heading">Reviews by {{ user.username }}</h2>
         <p class="text-secondary">{{ user.email }}</p>
       </div>
-    </div><hr><br>
+    </div>
+    <br><br>
     <ul class="list-group">
     	{% for review in reviews.items %}
     	  <article class="media content-section">
@@ -26,7 +27,8 @@
   	{% endfor %}
     </ul>
     {% if current_user.is_authenticated %}
-      <br><a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a><br>
+      <br><br>
+      <a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a><br>
     {% endif %}
   </div>
 {% endblock body %}

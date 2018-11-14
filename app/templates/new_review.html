@@ -32,10 +32,11 @@
             {{ form.body(class="form-control form-control-lg") }}
           {% endif %}
         </div>
+        <br>
+        <div class="form-group">
+          {{ form.submit(class="btn btn-dark btn-sm") }}
+        </div>
       </fieldset>
-      <div class="form-group">
-        {{ form.submit(class="btn btn-dark btn-sm") }}
-      </div>
     </form>
   </div>
 {% endblock body %}

@@ -3,7 +3,7 @@
 {% block body %}
 <form action="" class="form-group col-xs-3" method="POST" enctype="multipart/form-data">
 {{ form.hidden_tag() }}
-  <div class="media">
+  <div class="media mb-4">
     <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
     <div class="media-body">
       <h2 class="account-heading">{{ current_user.firstname }} {{ current_user.lastname }}</h2>
@@ -46,9 +46,11 @@
       {% endfor %}
     {% endif %}
   </div>
+  <br>
   <a class="text-muted"><button id="editButton" class="btn btn-dark btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="usernameField emailField editPictureField">edit</button></a>
   <div id="saveButton" class="form-group collapse multi-collapse">
-    {{ form.submit(class="btn btn-primary btn-sm") }}
+    {{ form.submit(class="btn btn-dark btn-sm") }}
   </div>
+  <br>
 </form>
 {% endblock body %}

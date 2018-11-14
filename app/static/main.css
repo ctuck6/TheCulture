@@ -43,32 +43,6 @@ body {
   float: right;
 }
 
-@media screen and (max-width: 640px) {
-  .navbar a:not(:first-child) {
-    display: none;
-  }
-  .navbar a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .navbar.responsive {
-    position: fixed;
-  }
-  .navbar.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .navbar.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-}
-
 .article-title {
   color: #444444;
 }
@@ -80,10 +54,6 @@ a.article-title:hover {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Oswald";
-}
-
-a, u {
-    text-decoration: none;
 }
 
 .article-content {
@@ -127,4 +97,51 @@ a, u {
 .container {
   min-height: 100%;
   position: relative;
+}
+
+@media screen and (max-width: 640px) {
+  .navbar a:not(:first-child) {
+    display: none;
+  }
+
+  .navbar a.icon {
+    float: right;
+    display: block;
+  }
+
+  .overlay {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    transition: 0.5s;
+  }
+
+  .overlay .icon {
+    display: none;
+  }
+
+  .overlay .navbar-brand {
+    display: none;
+  }
+
+  .overlay a {
+    font-size: 36px;
+    text-align: center;
+    color: grey;
+    display: block;
+    transition: 0.3s;
+    float: none;
+  }
+
+  .overlay .closebtn {
+    font-size: 40px;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: white;
+  }
 }

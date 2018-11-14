@@ -84,13 +84,14 @@
           {{ form.confirmPassword(class="form-control form-control-lg") }}
         {% endif %}
       </div>
+      <br>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-dark btn-sm") }}
+      </div>
+      <small class="text-muted">
+        Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
+      </small>
     </fieldset>
-    <div class="form-group">
-      {{ form.submit(class="btn btn-dark btn-sm") }}
-    </div>
-    <small class="text-muted">
-      Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
-    </small>
   </form><br>
 </div>
 {% endblock body %}
