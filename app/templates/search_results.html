@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<h1>Results</h1><hr><br>
+	<h1>Results</h1><hr>
+	<br>
 	<ul class="list-group">
 		{% if results|length > 0 %}
 		  {% for result in results %}
@@ -10,13 +11,13 @@
 		      	{% if result|attr("author") %}
 		          <div class="article-metadata">
 		            <p class="text-muted">Posted by
-		              <a class="mr-2" href="{{ url_for('users.user_reviews', username = result.author.username) }}">{{ result.author.username }}</a>
+		              <a class="mr-2" href="{{ url_for('users.user_reviews', username=result.author.username) }}">{{ result.author.username }}</a>
 		              <small class="text-muted">{{ result.date_posted.strftime('%Y-%m-%d') }}</small>
 		            </p>
 		          </div>
-		          <h2><a class="article-title" href="{{ url_for('reviews.review', review_id = result.id) }}">{{ result.title }}</a></h2>
+		          <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=result.id) }}">{{ result.title }}</a></h2>
 		        {% else %}
-		          <a class="mr-2" href="{{ url_for('users.user_reviews', username = result.username) }}">{{ result.username }}</a>
+		          <a class="mr-2" href="{{ url_for('users.user_reviews', username=result.username) }}">{{ result.username }}</a>
 		        {% endif %}
 		      </div>
 		    </article>

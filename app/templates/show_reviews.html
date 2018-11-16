@@ -1,26 +1,27 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h1>Reviews</h1><hr><br>
-	  {% if reviews.items %}
-		<ul class="list-group">
+  <h1>Reviews</h1><hr>
+  <br>
+	  {% if reviews.items|length > 0 %}
 		  {% for review in reviews.items %}
-			<article class="media content-section mb-4">
-	          <img class="rounded-circle article-img" src="{{ url_for('static', filename = 'profilePics/' + review.author.image_file) }}">
-	          <div class="media-body">
-	            <div class="article-metadata">
-	              <p class="text-muted">Posted by
-	                <a class="mr-2" href="{{ url_for('users.user_reviews', username = review.author.username) }}">{{ review.author.username }}</a>
-	                <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
-	              </p>
-	            </div>
-	            <h2><a class="article-title" href="{{ url_for('reviews.review', review_id = review.id) }}">{{ review.title }}</a></h2>
-	          </div>
-	        </article>
+				<article class="media content-section mb-4">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <p class="text-muted">Posted by
+                <a class="mr-2" href="{{ url_for('users.user_reviews', username=review.author.username) }}">{{ review.author.username }}</a>
+                <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
+              </p>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=review.id) }}">{{ review.title }}</a></h2>
+          </div>
+        </article>
 		  {% endfor %}
-		</ul>
 	  {% else %}
 	  	<p class="text-muted">No reviews have been posted yet</p>
 	  {% endif %}
-	<br><a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a><br>
+	<br>
+  <a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a>
+  <br>
 {% endblock body %}

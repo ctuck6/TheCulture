@@ -56,6 +56,15 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Oswald";
 }
 
+.article-metadata a {
+  font-weight: bold;
+}
+
+.article-metadata a:hover {
+  color: #9685CE;
+  text-decoration: none;
+}
+
 .article-content {
   white-space: pre-line;
 }
@@ -70,11 +79,6 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 1px;
   margin-bottom: 4px;
   border-bottom: 1px solid #e3e3e3
-}
-
-.article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
 }
 
 .article-svg {
@@ -120,6 +124,10 @@ h1, h2, h3, h4, h5, h6 {
     transition: 0.5s;
   }
 
+  .overlay-content {
+    margin-top: 5rem;
+  }
+
   .overlay .icon {
     display: none;
   }
@@ -128,10 +136,14 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
   }
 
+  .overlay div {
+    top: 3rem;
+  }
+
   .overlay a {
     font-size: 36px;
     text-align: center;
-    color: grey;
+    color: white;
     display: block;
     transition: 0.3s;
     float: none;

@@ -4,10 +4,10 @@
 <form action="" class="form-group col-xs-3" method="POST" enctype="multipart/form-data">
 {{ form.hidden_tag() }}
   <div class="media mb-4">
-    <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
-    <div class="media-body">
-      <h2 class="account-heading">{{ current_user.firstname }} {{ current_user.lastname }}</h2>
-    </div>
+    <h2 class="account-heading">
+      <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
+      {{ current_user.firstname }} {{ current_user.lastname }}
+    </h2>
   </div>
   <h5>Username</h5>
   <p id="usernameField" class="text-secondary" data-editable>{{ current_user.username }}</p>
