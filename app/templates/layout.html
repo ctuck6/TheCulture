@@ -11,80 +11,87 @@
 
 <title>The Culture</title>
 <body class="w3-light-grey">
-<nav id="navbar" class="navbar">
-  <div id="content_overlay" class="">
-    <a class="navbar-brand mr-6 left" href="{{ url_for('main.home') }}"><img style="width: 25px;height: width;" src="{{ url_for('static', filename='homepagePics/fist.jpg') }}"> The Culture</a>
-    <a class="nav-item nav-link left" href="{{ url_for('main.home') }}">Home</a>
-    <a class="nav-item nav-link left" href="{{ url_for('main.about') }}">About</a>
-    <a class="nav-item nav-link left" href="{{ url_for('reviews.show_reviews') }}">Reviews</a>
-    {% if current_user.is_authenticated %}
-      <a class="nav-item nav-link right" href="{{ url_for('users.logout') }}">Logout</a>
-      <a class="nav-item nav-link right" href="{{ url_for('users.account') }}"><img style="width: 25px; height: 25px;" class="rounded-circle mr-2" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">My Account</a>
-    {% else %}
-      <a class="nav-item nav-link right" href="{{ url_for('users.register') }}"></span> Sign Up</a>
-      <a class="nav-item nav-link right" href="{{ url_for('users.login') }}"></span> Login</a>
-    {% endif %}
-    <a class="nav-item nav-link right" href="{{ url_for('main.search_keyword') }}">Search</a>
-    <a href="javascript:void(0);" class="icon" onclick="myFunction(this)"><i class="fa fa-bars mr-2"></i>Menu</a>
+  <nav id="navbar" class="navbar">
+    <div id="content_overlay" class="">
+      <a class="navbar-brand left" href="{{ url_for('main.home') }}"><img style="width: 25px;height: width;" src="{{ url_for('static', filename='homepagePics/fist.jpg') }}"></a>
+      <a class="nav-item nav-link left" href="{{ url_for('main.home') }}">Home</a>
+      <a class="nav-item nav-link left" href="{{ url_for('main.about') }}">About</a>
+      <a class="nav-item nav-link left" href="{{ url_for('reviews.show_reviews') }}">Reviews</a>
+      {% if current_user.is_authenticated %}
+        <a class="nav-item nav-link right" href="{{ url_for('users.logout') }}">Logout</a>
+        <a class="nav-item nav-link right" href="{{ url_for('users.account', username=current_user.username) }}"><img style="width: 25px; height: width;" class="rounded-circle mr-2" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">My Account</a>
+      {% else %}
+        <a class="nav-item nav-link right" href="{{ url_for('users.register') }}">Sign Up</a>
+        <a class="nav-item nav-link right" href="{{ url_for('users.login') }}">Login</a>
+      {% endif %}
+      <a class="nav-item nav-link right" href="{{ url_for('main.search_keyword') }}">Search</a>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction(this)"><i class="fa fa-bars mr-2"></i>Menu</a>
+    </div>
+    <a id="closebtn" href="javascript:void(0);" class="closebtn" style="display: none" onclick="closeNav()">&times;</a>
+  </nav>
+  <div class="container">
+  	{% with messages=get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock body %}
   </div>
-  <a id="closebtn" href="javascript:void(0);" class="closebtn" style="display: none;" onclick="closeNav()">&times;</a>
-</nav>
-<div class="container">
-	{% with messages=get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}" role="alert">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-  {% block body %}{% endblock body %}
-</div>
-{% if paginate is defined %}
-  <center>
-    {% if paginate == "all" %}
-      {% for page_num in reviews.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if page_num %}
-          {% if reviews.page == page_num %}
-            <a class="btn btn-dark mb-4" href="{{ url_for('reviews.show_reviews', page=page_num) }}">{{ page_num }}</a>
+  {% if paginate is defined and reviews.total > 1 %}
+    <center>
+      {% if paginate == "all" %}
+        {% for page_num in reviews.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if page_num %}
+            {% if reviews.page == page_num %}
+              <a class="btn btn-dark mb-4" href="{{ url_for('reviews.show_reviews', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+              <a class="btn btn-outline-dark mb-4" href="{{ url_for('reviews.show_reviews', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
           {% else %}
-            <a class="btn btn-outline-dark mb-4" href="{{ url_for('reviews.show_reviews', page=page_num) }}">{{ page_num }}</a>
+            ...
           {% endif %}
-        {% else %}
-          ...
-        {% endif %}
-      {% endfor %}
-    {% elif paginate == "user" %}
-      {% for page_num in reviews.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if page_num %}
-          {% if reviews.page == page_num %}
-            <a class="btn btn-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
+        {% endfor %}
+      {% elif paginate == "user" %}
+        {% for page_num in reviews.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if page_num %}
+            {% if reviews.page == page_num %}
+              <a class="btn btn-dark mb-4" href="{{ url_for('users.account', username=user.username, page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+              <a class="btn btn-outline-dark mb-4" href="{{ url_for('users.account', username=user.username, page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
           {% else %}
-            <a class="btn btn-outline-dark mb-4" href="{{ url_for('users.user_reviews', username=user.username, page=page_num) }}">{{ page_num }}</a>
+            ...
           {% endif %}
-        {% else %}
-          ...
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  </center>
-{% endif %}
-<!-- Footer -->
-<footer class="w3-black" style="padding:25px">
-  <span>© 2018 The Culture, Inc. · <a style="color: white" href="{{ url_for('main.privacy') }}">Privacy</a> · <a style="color: white" href="{{ url_for('main.terms_of_use') }}">Terms</a></span>
-</footer>
+        {% endfor %}
+      {% endif %}
+    </center>
+  {% endif %}
+  <!-- Footer -->
+  <footer class="w3-black">
+    <span>© 2018 The Culture, Inc. ·
+      <a href="{{ url_for('main.privacy') }}">Privacy</a> ·
+      <a href="{{ url_for('main.terms_of_use') }}">Terms</a>
+      {% if current_user.is_administrator() %}
+        <a class="right" href="{{ url_for('users.admin_settings') }}">Admin Settings</a>
+      {% endif %}
+    </span>
+  </footer>
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
-function likeFunction(x) {
-    if (x.innerHTML == "👍🏿 Like") {
-        x.style.fontWeight = "bold";
-        x.innerHTML = "✓ Liked";
+function likeFunction(button) {
+    if (button.innerHTML == "👍🏿 Like") {
+        button.style.fontWeight = "bold";
+        button.innerHTML = "✓ Liked";
     } else {
-        x.style.fontWeight = "normal";
-        x.innerHTML = "👍🏿 Like";
+        button.style.fontWeight = "normal";
+        button.innerHTML = "👍🏿 Like";
     }
 }
 
@@ -114,7 +121,7 @@ function closeNav() {
     document.getElementById("closebtn").style.display = "none";
 }
 
-window.onscroll=function() {
+window.onscroll = function() {
     if (window.pageYOffset == 0) {
         document.getElementById("navbar").style.top = "0";
     } else {
@@ -122,18 +129,18 @@ window.onscroll=function() {
     }
 };
 
-$(document).ready(function(){
-    $("#editButton").click(function(){
+$(document).ready(function() {
+    $("#editButton").click(function() {
         $("#usernameField").hide();
         $("#emailField").hide();
         $("#editButton").hide();
     });
-    $("#saveButton").click(function(){
+    $("#saveButton").click(function() {
         $("usernameField").show();
         $("emailField").show();
         $("editButton").show();
     });
-    $("#cancelButton").click(function(){
+    $("#cancelButton").click(function() {
         $("usernameField").show();
         $("emailField").show();
         $("editButton").show();

@@ -7,12 +7,12 @@ wrapped around the whole page content, except for the footer in this example -->
   <!-- Header -->
   <header class="w3-container w3-center w3-padding-48 w3-white">
     <h1 class="w3-xxxlarge"><b>THE CULTURE</b></h1>
-    <h6>The Center For Black Owned Businesses</h6>
+    <h6>The Center For Black Owned Businesses & Products</h6>
   </header>
 
   <!-- Image header -->
-  <header class="w3-display-container w3-wide">
-    <img class="w3-image" src="{{ url_for('static', filename='slideshowPics/test2.jpg') }}" width="1600" height="1060">
+  <header class="w3-display-container">
+    <img class="w3-image" src="{{ url_for('static', filename='slideshowPics/test2.jpg') }}">
     <div class="w3-display-left w3-padding-large">
       <h1 class="w3-text-white">THE</h1>
       <h1 class="w3-jumbo w3-text-white"><b>CULTURE</b></h1>
@@ -33,7 +33,7 @@ wrapped around the whole page content, except for the footer in this example -->
           <div class="w3-container w3-white w3-margin w3-padding-large">
             <div class="w3-center article-metadata">
               <h3>{{ review.title }}</h3>
-              <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.user_reviews', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%Y-%m-%d') }}</h5>
+              <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.account', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%m-%d-%Y') }}</h5>
             </div>
             <div class="w3-justify">
               <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
@@ -43,42 +43,6 @@ wrapped around the whole page content, except for the footer in this example -->
           </div>
         {% endfor %}
       {% else %}
-        <!-- <div class="w3-container w3-white w3-margin w3-padding-large">
-          <div class="w3-row w3-container">
-            <h2>Temp 1</h2>
-            <div class="w3-half">
-              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            </div>
-            <div class="w3-half">
-              <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" width="95%">
-            </div>
-          </div>
-          <hr>
-          <div class="w3-row w3-container">
-            <h2>Temp 2</h2>
-            <div class="w3-half">
-              <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" width="95%">
-            </div>
-            <div class="w3-half">
-              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            </div>
-          </div>
-          <hr>
-          <div class="w3-row w3-container">
-            <h2>Temp 3</h2>
-            <div class="w3-half">
-              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            </div>
-            <div class="w3-half">
-              <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" width="95%">
-            </div>
-          </div>
-          <hr>
-          <div class="w3-row w3-container">
-            <h2>Temp 4</h2>
-            <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
-          </div>
-        </div> -->
         <h2>No reviews yet</h2>
       {% endif %}
     <!-- END BLOG ENTRIES -->
@@ -120,12 +84,11 @@ wrapped around the whole page content, except for the footer in this example -->
         <div class="w3-container w3-xlarge w3-padding">
           <i class="fa fa-facebook-official w3-hover-opacity"></i>
           <i class="fa fa-instagram w3-hover-opacity"></i>
-          <i class="fa fa-pinterest-p w3-hover-opacity"></i>
           <i class="fa fa-twitter w3-hover-opacity"></i>
-          <i class="fa fa-linkedin w3-hover-opacity"></i>
+          <i>@theculture</i>
         </div>
-      </div><hr>
-
+      </div>
+      <hr>
       <!-- Subscribe -->
       <div class="w3-white w3-margin">
         <div class="w3-container w3-padding w3-black">

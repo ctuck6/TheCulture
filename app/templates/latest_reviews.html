@@ -10,8 +10,8 @@
           <div class="media-body">
             <div class="article-metadata">
               <p class="text-muted">Posted by
-                <a class="mr-2" href="{{ url_for('users.user_reviews', username=review.author.username) }}">{{ review.author.username }}</a>
-                <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
+                <a class="mr-2" href="{{ url_for('users.account', username=review.author.username) }}">{{ review.author.username }}</a>
+                <small class="text-muted">{{ review.date_posted.strftime('%m-%d-%Y') }}</small>
               </p>
             </div>
             <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=review.id) }}">{{ review.title }}</a></h2>

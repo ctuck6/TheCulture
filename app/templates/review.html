@@ -5,7 +5,7 @@
   <div class="w3-container w3-white w3-margin w3-padding-large">
     <div class="article-metadata w3-center">
       <h3>{{ review.title }}</h3>
-      <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.user_reviews', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%Y-%m-%d') }}</h5>
+      <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.account', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%m-%d-%Y') }}</h5>
     </div>
 
     <div class="w3-justify">
@@ -28,7 +28,7 @@
             <img src="/w3images/avatar_smoke.jpg" style="width:90px;">
           </div>
           <div class="w3-col l10 m9">
-            <h4 class="mr-2" href="{{ url_for('users.user_reviews', username=comment.commenter) }}">{{ comment.commenter }} <span class="w3-opacity w3-medium">{{ comment.date_posted.strftime('%Y-%m-%d') }}</span></h4>
+            <h4 class="mr-2" href="{{ url_for('users.account', username=comment.commenter) }}">{{ comment.commenter }} <span class="w3-opacity w3-medium">{{ comment.date_posted.strftime('%m-%d-%Y') }}</span></h4>
             <p>{{ comment.body }}</p>
           </div>
         </div>
@@ -38,7 +38,7 @@
           <p class="text-muted">No comments yet for this post</p>
         </div>
       {% endif %}
-      <form action="" class="form-group col-xs-3" method="POST">
+      <form class="form-group" method="POST">
         {{ form.hidden_tag() }}
         <div class="form-group">
           {{ form.body.label(class="form-control-label") }}

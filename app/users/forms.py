@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
 from app.models import User
@@ -76,3 +76,8 @@ class ResetPasswordForm(FlaskForm):
 class SearchForm(FlaskForm):
 	search = StringField("Search By Keyword", validators=[DataRequired()])
 	submit = SubmitField("Search")
+
+class AdminForm(FlaskForm):
+	role = RadioField("Select Role", choices=[("User", "Default User"), ("Administrator", "Administrator")], validators=[DataRequired()])
+	save = SubmitField("Save")
+

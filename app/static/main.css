@@ -69,6 +69,18 @@ h1, h2, h3, h4, h5, h6 {
   white-space: pre-line;
 }
 
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+article:hover {
+  background-color: #D3D3D3;
+}
+
 .article-img {
   height: 65px;
   width: 65px;
@@ -78,7 +90,6 @@ h1, h2, h3, h4, h5, h6 {
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
 }
 
 .article-svg {
@@ -89,7 +100,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .account-img {
   height: 125px;
-  width: height;
+  width: 125px;
   margin-right: 20px;
   margin-bottom: 16px;
 }
@@ -156,4 +167,12 @@ h1, h2, h3, h4, h5, h6 {
     right: 30px;
     color: white;
   }
+}
+
+footer {
+  padding: 25px;
+}
+
+footer a:hover {
+  color: grey;
 }

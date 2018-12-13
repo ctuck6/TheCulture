@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 from app import database, bcrypt
-from app.models import User, Review
-from app.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
+from app.models import User, Review, Role
+from app.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm, AdminForm, SearchForm
 from app.users.utils import savePicture, sendResetEmail
+from app.decorators import admin_required
 
 users = Blueprint("users", __name__)
 
@@ -22,7 +23,11 @@ def register():
 			flash("Email already exists. Please try again", "danger")
 		else:
 			hashed_password = bcrypt.generate_password_hash(form.password.data)
-			user = User(firstname=form.firstname.data, lastname=form.lastname.data, username=form.username.data.lower(), email=form.email.data.lower(), password=hashed_password)
+			user = User(firstname=form.firstname.data,
+						lastname=form.lastname.data,
+						username=form.username.data.lower(),
+						email=form.email.data.lower(),
+						password=hashed_password)
 			database.session.add(user)
 			database.session.commit()
 			flash("Your account has been created! Please sign in!", "success")
@@ -51,6 +56,12 @@ def login():
 	return render_template("login.html", form=form)
 
 
+@users.route("/logout")
+def logout():
+	logout_user()
+	return redirect(url_for("main.home"))
+
+
 @users.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
 	if current_user.is_authenticated:
@@ -74,23 +85,35 @@ def reset_token(token):
 		return redirect(url_for("users.reset_request"))
 	form = ResetPasswordForm()
 	if form.validate_on_submit():
-			hashed_password = bcrypt.generate_password_hash(form.password.data)
-			user.password = hashed_password
-			database.session.commit()
-			flash("Your password has been updated! Please sign in!", "success")
-			return redirect(url_for("users.login"))
+		hashed_password = bcrypt.generate_password_hash(form.password.data)
+		user.password = hashed_password
+		database.session.commit()
+		flash("Your password has been updated! Please sign in!", "success")
+		return redirect(url_for("users.login"))
 	return render_template("reset_token.html", form=form)
 
 
-@users.route("/logout")
-def logout():
-	logout_user()
-	return redirect(url_for("main.home"))
-
-
-@users.route("/account", methods=["GET", "POST"])
+@users.route("/admin_settings", methods=["GET", "POST"])
+@users.route("/admin_settings/<string:username>", methods=["GET", "POST"])
 @login_required
-def account():
+@admin_required
+def admin_settings(username=None):
+	searchForm = SearchForm()
+	roleForm = AdminForm()
+	user = User.query.filter_by(username=username).first()
+	if searchForm.validate_on_submit():
+		user = User.query.filter_by(username=searchForm.search.data).first()
+		if user:
+			return redirect(url_for("users.admin_settings", username=user.username))
+	if roleForm.validate_on_submit():
+		user.role = Role.query.filter_by(name=roleForm.role.data).first()
+		database.session.commit()
+	return render_template("admin_settings.html", searchForm=searchForm, roleForm=roleForm, user=user)
+
+
+@users.route("/account/<string:username>", methods=["GET", "POST"])
+@login_required
+def account(username):
 	form = UpdateAccountForm()
 	if form.validate_on_submit():
 		if form.profilePicture.data:
@@ -103,16 +126,11 @@ def account():
 			current_user.email = form.email.data.lower()
 		database.session.commit()
 		flash("Your account changes have been saved!", "success")
-		return redirect(url_for("users.account"))
+		return redirect(url_for("users.account", username=current_user.username))
 	elif request.method == "GET":
 		form.username.data = current_user.username
 		form.email.data = current_user.email
-	return render_template("account.html", form=form)
-
-
-@users.route("/user/<string:username>")
-def user_reviews(username):
 	page = request.args.get("page", 1, type=int)
 	user = User.query.filter_by(username=username).first_or_404()
 	reviews = Review.query.filter_by(author=user).order_by(Review.date_posted.desc()).paginate(page=page, per_page=5)
-	return render_template("user_reviews.html", paginate="user", reviews=reviews, user=user)
+	return render_template("account.html", paginate="user", user=user, reviews=reviews, form=form)

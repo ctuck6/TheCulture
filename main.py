@@ -1,17 +1,15 @@
 from app import create_app
 import flask_whooshalchemy as whooshalchemy
 from app.models import Review, User
-from flask import request, abort
+from flask import request, abort, current_app
 
 app = create_app("development")
 app.app_context().push()
 
-IS_MAINTENANCE_MODE = False
-
 
 @app.before_request
 def check_for_maintenance():
-    if IS_MAINTENANCE_MODE and not "static" in request.path:
+    if current_app.config["MAINTENANCE_MODE"] and not "static" in request.path:
         abort(503)
 
 if __name__ == "__main__":

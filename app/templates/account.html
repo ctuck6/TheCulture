@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<form action="" class="form-group col-xs-3" method="POST" enctype="multipart/form-data">
+<form class="form-group" method="POST">
 {{ form.hidden_tag() }}
   <div class="media mb-4">
     <h2 class="account-heading">
@@ -51,6 +51,33 @@
   <div id="saveButton" class="form-group collapse multi-collapse">
     {{ form.submit(class="btn btn-dark btn-sm") }}
   </div>
-  <br>
+  <br><br>
 </form>
+<div class="form-group">
+  <div class="media">
+    <div class="media-body">
+      <h1 class="account-heading">Reviews by {{ user.username }}</h1>
+    </div>
+  </div>
+  <br><br>
+  {% if reviews.items|length > 0 %}
+    {% for review in reviews.items %}
+      <article class="media content-section mb-4">
+        <div class="media-body">
+          <div class="article-metadata">
+            <small class="text-muted">Posted {{ review.date_posted.strftime('%m-%d-%Y') }}</small>
+          </div>
+          <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=review.id) }}">{{ review.title }}</a></h2>
+        </div>
+      </article>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">No reviews have been posted yet</p>
+  {% endif %}
+  {% if current_user.is_authenticated %}
+    <br><br>
+    <a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a>
+    <br><br>
+  {% endif %}
+</div>
 {% endblock body %}
