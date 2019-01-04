@@ -3,7 +3,7 @@ import flask_whooshalchemy as whooshalchemy
 from app.models import Review, User
 from flask import request, abort, current_app
 
-app = create_app("development")
+app = create_app("production")
 app.app_context().push()
 
 
