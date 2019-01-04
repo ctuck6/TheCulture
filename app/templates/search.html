@@ -4,25 +4,54 @@
   <div class="content-section">
     <form class="form-group" method="POST">
       {{ form.hidden_tag() }}
-      <fieldset class="form-group">
-        <legend class="border-bottom mb-4">{{ form.search.label(class="form-control-label") }}</legend>
-        <div class="form-group">
-          {% if form.search.errors %}
-            {{ form.search(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.search.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.search(class="form-control form-control-lg") }}
-          {% endif %}
-        </div>
-        <br>
-        <div class="form-group">
-          {{ form.submit(class="btn btn-dark btn-sm") }}
-        </div>
-      </fieldset>
+      <legend class="border-bottom mb-4">{{ form.search.label(class="form-control-label") }}</legend>
+      <div class="form-group">
+        {% if form.search.errors %}
+          {{ form.search(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.search.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.search(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <br>
+      <div class="form-group">{{ form.submit(class="btn btn-dark btn-sm") }}</div>
     </form>
   </div>
+  <br>
+  <ul class="list-group">
+    {% if results|length > 0 %}
+      {% for result in results %}
+        {% if result|attr("author") %}
+          <article class="media content-section mb-4">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + result.author.image_file) }}">
+            <div class="media-body">
+              <div class="article-metadata">
+                <p class="text-muted">Posted by
+                  <a class="mr-2" href="{{ url_for('users.account', username=result.author.username) }}">{{ result.author.username }}</a>
+                  <small class="text-muted">{{ result.date_posted.strftime('%m-%d-%Y') }}</small>
+                </p>
+              </div>
+              <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=result.id) }}">{{ result.title }}</a></h2>
+            </div>
+          </article>
+        {% else %}
+          <article class="media content-section mb-4">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + result.image_file) }}">
+            <div class="media-body">
+              <div class="article-metadata">
+                <h2><a class="article-title" href="{{ url_for('users.account', username=result.username) }}">{{ result.firstname }} {{ result.lastname }}</a></h2>
+              </div>
+            </div>
+          </article>
+        {% endif %}
+        <br>
+      {% endfor %}
+    {% elif keyword and results|length == 0 %}
+      <h3>No results found</h3>
+    {% endif %}
+  </ul>
 {% endblock body %}

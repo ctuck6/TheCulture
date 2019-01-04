@@ -1,110 +1,109 @@
 {% extends "layout.html" %}
+
 {% block body %}
-<!-- w3-content defines a container for fixed size centered content, and is
-wrapped around the whole page content, except for the footer in this example -->
-<div class="w3-content" style="max-width:1600px">
+  <!-- w3-content defines a container for fixed size centered content, and is
+  wrapped around the whole page content, except for the footer in this example -->
+  <div class="w3-content">
 
-  <!-- Header -->
-  <header class="w3-container w3-center w3-padding-48 w3-white">
-    <h1 class="w3-xxxlarge"><b>THE CULTURE</b></h1>
-    <h6>The Center For Black Owned Businesses & Products</h6>
-  </header>
+    <!-- Header -->
+    <header class="w3-container w3-center w3-padding-48 w3-white">
+      <h1 class="w3-xxxlarge"><b>THE CULTURE</b></h1>
+      <h6>The Center For Black Owned Businesses & Products</h6>
+    </header>
 
-  <!-- Image header -->
-  <header class="w3-display-container">
-    <img class="w3-image" src="{{ url_for('static', filename='slideshowPics/test2.jpg') }}">
-    <div class="w3-display-left w3-padding-large">
-      <h1 class="w3-text-white">THE</h1>
-      <h1 class="w3-jumbo w3-text-white"><b>CULTURE</b></h1>
-      {% if not current_user.is_authenticated %}
-        <p><a class="btn btn-sm btn-light" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
-      {% endif %}
-    </div>
-  </header>
+    <!-- Image header -->
+    <header class="w3-display-container">
+      <img class="w3-image" src="{{ url_for('static', filename='slideshowPics/test2.jpg') }}">
+      <div class="w3-display-left w3-padding-large">
+        <h1 class="w3-text-white">THE</h1>
+        <h1 class="w3-jumbo w3-text-white"><b>CULTURE</b></h1>
+        {% if not current_user.is_authenticated %}
+          <p><a class="btn btn-sm btn-light" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
+        {% endif %}
+      </div>
+    </header>
 
-  <!-- Grid -->
-  <div class="w3-row w3-padding w3-border">
+    <!-- Grid -->
+    <div class="w3-row w3-padding w3-border">
 
-    <!-- Blog entries -->
-    <div class="w3-col l8 s12">
-      {% if top_reviews|length > 0 %}
-        {% for review in top_reviews %}
-          <!-- Blog entry -->
-          <div class="w3-container w3-white w3-margin w3-padding-large">
-            <div class="w3-center article-metadata">
-              <h3>{{ review.title }}</h3>
-              <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.account', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%m-%d-%Y') }}</h5>
-            </div>
-            <div class="w3-justify">
+      <!-- Blog entries -->
+      <div class="w3-col l8 s12">
+        {% if top_reviews|length > 0 %}
+          {% for review in top_reviews %}
+            <!-- Blog entry -->
+            <div class="w3-container w3-white w3-margin w3-padding-large">
+              <div class="w3-center">
+                <h3>{{ review.title }}</h3>
+                <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.account', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%m-%d-%Y') }}</h5>
+              </div>
               <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
               <p>{{ review.body }}</p>
-              <p class="w3-left"><button class="btn btn-outline-dark btn-sm" onclick="likeFunction(this)">👍🏿 Like</button></p>
+              <button class="btn btn-outline-dark btn-sm" onclick="likeFunction(this)"><i class="fa fa-thumbs-up"></i> Like</button>
             </div>
+          {% endfor %}
+        {% else %}
+          <h2>No reviews yet</h2>
+        {% endif %}
+      <!-- END BLOG ENTRIES -->
+      </div>
+
+      <!-- About/Information menu -->
+      <div class="w3-col l4">
+        <!-- BOTW Card -->
+        <div class="w3-white w3-margin">
+          <div class="w3-container w3-padding w3-black">
+            <h4>Business of the Week</h4>
           </div>
-        {% endfor %}
-      {% else %}
-        <h2>No reviews yet</h2>
-      {% endif %}
-    <!-- END BLOG ENTRIES -->
-    </div>
+          <img src="{{ url_for('static', filename='slideshowPics/william-stitt-611609-unsplash.jpg') }}" style="width:100%" class="w3-grayscale">
+          <div class="w3-container w3-black">
+            <br>
+            <h4>My Name</h4>
+            <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+          </div>
+        </div><hr>
 
-    <!-- About/Information menu -->
-    <div class="w3-col l4">
-      <!-- BOTW Card -->
-      <div class="w3-white w3-margin">
-        <div class="w3-container w3-padding w3-black">
-          <h4>Business of the Week</h4>
+        <!-- POTW Card -->
+        <div class="w3-white w3-margin">
+          <div class="w3-container w3-padding w3-black">
+            <h4>Product of the Week</h4>
+          </div>
+          <img src="{{ url_for('static', filename='homepagePics/vegan-21.jpg') }}" style="width:100%" class="w3-grayscale">
+          <div class="w3-container w3-black">
+            <br>
+            <h4>My Name</h4>
+            <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+          </div>
+        </div><hr>
+
+        <!-- Social Media -->
+        <div class="w3-white w3-margin">
+          <div class="w3-container w3-padding w3-black">
+            <h4>Social Media</h4>
+          </div>
+          <div class="w3-container w3-xlarge w3-padding">
+            <i class="fa fa-facebook-official w3-hover-opacity"></i>
+            <i class="fa fa-instagram w3-hover-opacity"></i>
+            <i class="fa fa-twitter w3-hover-opacity"></i>
+            <i>@theculture</i>
+          </div>
         </div>
-        <img src="{{ url_for('static', filename='slideshowPics/william-stitt-611609-unsplash.jpg') }}" style="width:100%" class="w3-grayscale">
-        <div class="w3-container w3-black">
+        <hr>
+        <!-- Subscribe -->
+        <div class="w3-white w3-margin">
+          <div class="w3-container w3-padding w3-black">
+            <h4>Subscribe</h4>
+          </div>
           <br>
-          <h4>My Name</h4>
-          <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+          <div class="w3-container w3-white">
+            <p>Enter your e-mail below and get notified on the latest cultural products!</p>
+            <p><input class="form-control" type="text" placeholder="Enter e-mail"></p>
+            <p><button type="button" class="w3-block btn btn-danger">Subscribe</button></p>
+          </div>
         </div>
-      </div><hr>
-
-      <!-- POTW Card -->
-      <div class="w3-white w3-margin">
-        <div class="w3-container w3-padding w3-black">
-          <h4>Product of the Week</h4>
-        </div>
-        <img src="{{ url_for('static', filename='homepagePics/vegan-21.jpg') }}" style="width:100%" class="w3-grayscale">
-        <div class="w3-container w3-black">
-          <br>
-          <h4>My Name</h4>
-          <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
-        </div>
-      </div><hr>
-
-      <!-- Social Media -->
-      <div class="w3-white w3-margin">
-        <div class="w3-container w3-padding w3-black">
-          <h4>Social Media</h4>
-        </div>
-        <div class="w3-container w3-xlarge w3-padding">
-          <i class="fa fa-facebook-official w3-hover-opacity"></i>
-          <i class="fa fa-instagram w3-hover-opacity"></i>
-          <i class="fa fa-twitter w3-hover-opacity"></i>
-          <i>@theculture</i>
-        </div>
+      <!-- END About/Intro Menu -->
       </div>
-      <hr>
-      <!-- Subscribe -->
-      <div class="w3-white w3-margin">
-        <div class="w3-container w3-padding w3-black">
-          <h4>Subscribe</h4>
-        </div>
-        <br>
-        <div class="w3-container w3-white">
-          <p>Enter your e-mail below and get notified on the latest cultural products!</p>
-          <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
-          <p><button type="button" onclick="document.getElementById('subscribe').style.display='block'" class="w3-block btn btn-danger">Subscribe</button></p>
-        </div>
-      </div>
-    <!-- END About/Intro Menu -->
+    <!-- END GRID -->
     </div>
-  <!-- END GRID -->
+  <!-- END w3-content -->
   </div>
-<!-- END w3-content -->
-</div>
 {% endblock body %}

@@ -13,11 +13,9 @@ tables = [User, Review]
 
 
 @main.route('/', methods=["GET", "POST"])
-@main.route("/home", methods=["GET", "POST"])
 def home():
-	pictures = os.listdir("app/static/slideshowPics")
 	top_reviews = Review.query.order_by(Review.views.desc()).limit(2).all()
-	return render_template("home.html", top_reviews=top_reviews, pictures=pictures)
+	return render_template("home.html", top_reviews=top_reviews)
 
 
 @main.route("/about")
@@ -35,20 +33,16 @@ def terms_of_use():
 	return render_template("terms_of_use.html")
 
 
-@main.route("/search_results", methods=["GET", "POST"])
-def search_results():
-	keyword = request.form.get("keyword", None)
-	results = list()
-	for table in tables:
-		search = table.query.whoosh_search(keyword).all()
-		for result in search:
-			results.append(result)
-	return render_template("search_results.html", results=results)
-
-
 @main.route("/search", methods=["GET", "POST"])
-def search_keyword():
+@main.route("/search/<string:keyword>", methods=["GET", "POST"])
+def search_keyword(keyword=None):
 	form = SearchForm()
+	results = list()
 	if form.validate_on_submit():
-		return redirect(url_for("main.search_results", keyword=form.search.data))
-	return render_template("search.html", form=form)
+		return redirect(url_for("main.search_keyword", keyword=form.search.data))
+	if keyword:
+		for table in tables:
+			search = table.query.whoosh_search(keyword).all()
+			for result in search:
+				results.append(result)
+	return render_template("search.html", form=form, keyword=keyword, results=results)

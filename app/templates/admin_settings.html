@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h1>Admin Settings</h1>
-  <hr>
-  <br>
+  <div class="content-section">
   <form class="form-group" method="POST">
     {{ searchForm.hidden_tag() }}
+    <legend class="border-bottom mb-4">Search By Username</legend>
     <div class="form-group">
       {% if searchForm.search.errors %}
         {{ searchForm.search(class="form-control form-control-lg is-invalid") }}
@@ -23,6 +22,8 @@
       </div>
     </div>
   </form>
+  </div>
+  <br>
   <form class="form-group" method="POST">
     {{ roleForm.hidden_tag() }}
     {% if user %}
@@ -36,7 +37,7 @@
             {{ roleForm.role(class="form-control-sm") }}
             <br>
             <div>
-              <a class="btn btn-danger btn-sm right" href="{{ url_for('users.admin_settings') }}" style="color: white; font-weight: normal;">Cancel</a>
+              <a href="{{ url_for('users.admin_settings') }}"><button class="btn btn-danger btn-sm right">Cancel</button></a>
               {{ roleForm.save(class="btn btn-dark btn-sm right mr-2") }}
             </div>
           </div>

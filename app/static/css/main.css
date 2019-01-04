@@ -35,12 +35,41 @@ body {
   display: none;
 }
 
+a img {
+  width: 25px;
+  height: width;
+}
+
 .left {
   float: left;
 }
 
 .right {
   float: right;
+}
+
+li {
+  list-style: none;
+}
+
+blockquote {
+  display: inline-block;
+  font-size: 1em;
+  font-style: italic;
+  width: 95%;
+  font-family: Open Sans;
+  color: black;
+  padding: 1em;
+  border-left: 4px solid black;
+  background: #F5F5F5;
+}
+
+blockquote a {
+  color: black;
+  font-size: 1.1em;
+  font-style: normal;
+  font-weight: bold;
+  padding-right: 1em;
 }
 
 .article-title {
@@ -70,7 +99,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .content-section {
-  background: #ffffff;
+  background: white;
   padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
@@ -85,6 +114,7 @@ article:hover {
   height: 65px;
   width: 65px;
   margin-right: 16px;
+  border: 1px #ddd solid;
 }
 
 .article-metadata {
@@ -103,6 +133,13 @@ article:hover {
   width: 125px;
   margin-right: 20px;
   margin-bottom: 16px;
+  border: 1px #ddd solid;
+}
+
+.comment-img {
+    height: 65;
+    width: height;
+    border: 1px #ddd solid;
 }
 
 .account-heading {
@@ -112,6 +149,12 @@ article:hover {
 .container {
   min-height: 100%;
   position: relative;
+}
+
+a.comment-icon {
+  padding-left: 0.5em;
+  font-size: 1.5em;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 640px) {
@@ -167,12 +210,21 @@ article:hover {
     right: 30px;
     color: white;
   }
+
+  .comment-img {
+    height: 5%;
+    width: height;
+    border: 1px #ddd solid;
+  }
 }
 
 footer {
+  font-family: "Oswald";
+  text-align: center;
   padding: 25px;
 }
 
 footer a:hover {
   color: grey;
+  text-decoration: none;
 }

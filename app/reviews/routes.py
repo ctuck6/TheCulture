@@ -17,14 +17,14 @@ def show_reviews():
 @reviews.route("/review/<int:review_id>", methods=["GET", "POST"])
 def review(review_id):
 	review = Review.query.get_or_404(review_id)
-	# if review:
-	# 	review.views += 1
-	# 	database.session.commit()
-	comments = Comment.query.filter_by(review=review).order_by(Comment.date_posted.desc()).all()
+	if review:
+		review.views += 1
+		database.session.commit()
+	comments = Comment.query.filter_by(review=review).order_by(Comment.date_posted).all()
 	form = CommentForm()
 	if form.validate_on_submit():
 		if current_user.is_authenticated:
-			comment = Comment(body=form.body.data, review=review, commenter=current_user.username)
+			comment = Comment(body=form.body.data, review=review, commenter=current_user)
 			database.session.add(comment)
 			database.session.commit()
 			flash("Your comment has been posted!", "success")

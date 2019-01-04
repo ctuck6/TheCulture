@@ -1,83 +1,84 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<form class="form-group" method="POST">
-{{ form.hidden_tag() }}
-  <div class="media mb-4">
-    <h2 class="account-heading">
-      <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
-      {{ current_user.firstname }} {{ current_user.lastname }}
-    </h2>
-  </div>
-  <h5>Username</h5>
-  <p id="usernameField" class="text-secondary" data-editable>{{ current_user.username }}</p>
-  <div class="form-group collapse multi-collapse">
-    {% if form.username.errors %}
-      {{ form.username(class="form-control form-control-lg is-invalid") }}
-      <div class="invalid-feedback">
-        {% for error in form.username.errors %}
-          <span>{{ error }}</span>
-        {% endfor %}
-      </div>
-    {% else %}
-      {{ form.username(class="form-control form-control-lg") }}
-    {% endif %}
-  </div>
-  <h5>Email</h5>
-  <p id="emailField" class="text-secondary" data-editable>{{ current_user.email }}</p>
-  <div class="form-group collapse multi-collapse">
-    {% if form.email.errors %}
-      {{ form.email(class="form-control form-control-lg is-invalid") }}
-      <div class="invalid-feedback">
-        {% for error in form.email.errors %}
-          <span>{{ error }}</span>
-        {% endfor %}
-      </div>
-    {% else %}
-      {{ form.email(class="form-control form-control-lg") }}
-    {% endif %}
-  </div>
-  <div id="editPictureField" class="form-group collapse multi-collapse">
-    {{ form.profilePicture.label() }}
-    {{ form.profilePicture(class="form-control-file") }}
-    {% if form.profilePicture.errors %}
-      {% for error in form.profilePicture.errors %}
-        <span class="text-danger">{{ error }}</span>
-      {% endfor %}
-    {% endif %}
-  </div>
-  <br>
-  <a class="text-muted"><button id="editButton" class="btn btn-dark btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="usernameField emailField editPictureField">edit</button></a>
-  <div id="saveButton" class="form-group collapse multi-collapse">
-    {{ form.submit(class="btn btn-dark btn-sm") }}
-  </div>
-  <br><br>
-</form>
-<div class="form-group">
-  <div class="media">
-    <div class="media-body">
-      <h1 class="account-heading">Reviews by {{ user.username }}</h1>
+  <form class="form-group" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="media mb-4">
+      <h2 class="account-heading">
+        <img class="rounded-circle account-img" src="{{ url_for('static', filename='profilePics/' + current_user.image_file) }}">
+        {{ current_user.firstname }} {{ current_user.lastname }}
+      </h2>
     </div>
-  </div>
-  <br><br>
-  {% if reviews.items|length > 0 %}
-    {% for review in reviews.items %}
-      <article class="media content-section mb-4">
-        <div class="media-body">
-          <div class="article-metadata">
-            <small class="text-muted">Posted {{ review.date_posted.strftime('%m-%d-%Y') }}</small>
-          </div>
-          <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=review.id) }}">{{ review.title }}</a></h2>
+    <h5>Username</h5>
+    <p id="usernameField" class="text-secondary" data-editable>{{ current_user.username }}</p>
+    <div class="form-group collapse multi-collapse">
+      {% if form.username.errors %}
+        {{ form.username(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.username.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
         </div>
-      </article>
-    {% endfor %}
-  {% else %}
-    <p class="text-muted">No reviews have been posted yet</p>
-  {% endif %}
-  {% if current_user.is_authenticated %}
+      {% else %}
+        {{ form.username(class="form-control") }}
+      {% endif %}
+    </div>
+    <h5>Email</h5>
+    <p id="emailField" class="text-secondary" data-editable>{{ current_user.email }}</p>
+    <div class="form-group collapse multi-collapse">
+      {% if form.email.errors %}
+        {{ form.email(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.email.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.email(class="form-control") }}
+      {% endif %}
+    </div>
+    <div id="editPictureField" class="form-group collapse multi-collapse">
+      {{ form.profilePicture.label }}
+      {{ form.profilePicture(class="form-control-file") }}
+      {% if form.profilePicture.errors %}
+        {% for error in form.profilePicture.errors %}
+          <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <br>
+    <button id="editButton" class="btn btn-dark btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="usernameField emailField editPictureField">edit</button>
+    <div id="saveButton" class="form-group collapse multi-collapse">
+      {{ form.submit(class="btn btn-dark btn-sm") }}
+      <button id="cancelButton" class="btn btn-danger btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="true" aria-controls="usernameField emailField editPictureField">Cancel</button>
+    </div>
     <br><br>
-    <a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a>
+  </form>
+  <div class="form-group">
+    <div class="media">
+      <div class="media-body">
+        <h1 class="account-heading">{{ user.firstname }}'s reviews</h1>
+      </div>
+    </div>
     <br><br>
-  {% endif %}
-</div>
+    {% if reviews.items|length > 0 %}
+      {% for review in reviews.items %}
+        <article class="media content-section mb-4">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="text-muted">Posted {{ review.date_posted.strftime('%m-%d-%Y') }}</small>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=review.id) }}">{{ review.title }}</a></h2>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p class="text-muted">No reviews have been posted yet</p>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+      <br><br>
+      <a href="{{ url_for('reviews.new_review') }}"><button class="btn btn-dark btn-sm">Add Review</button></a>
+      <br><br>
+    {% endif %}
+  </div>
 {% endblock body %}

@@ -73,6 +73,7 @@ class User(database.Model, UserMixin):
     password = database.Column(database.String(80), nullable=False)
     role_id = database.Column(database.Integer, database.ForeignKey("role.id"))
     reviews = database.relationship("Review", backref="author", lazy=True)
+    comments = database.relationship("Comment", backref="commenter", lazy=True)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -179,7 +180,7 @@ class Comment(database.Model):
     date_posted = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)
     body = database.Column(database.Text, nullable=False)
     reviewId = database.Column(database.Integer, database.ForeignKey("review.id"), nullable=False)
-    commenter = database.Column(database.String(20), unique=False, nullable=False)
+    userId = database.Column(database.Integer, database.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
         return "Comment('{}', '{}', {}')".format(self.id, self.reviewId, self.date_posted)

@@ -30,10 +30,12 @@ def create_app(config_class):
 
 	from app.users.routes import users
 	from app.reviews.routes import reviews
+	from app.comments.routes import comments
 	from app.main.routes import main
 	from app.errors.handlers import errors
 	app.register_blueprint(users)
 	app.register_blueprint(reviews)
+	app.register_blueprint(comments)
 	app.register_blueprint(main)
 	app.register_blueprint(errors)
 
