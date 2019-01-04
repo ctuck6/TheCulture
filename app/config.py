@@ -34,7 +34,7 @@ class TestConfig(Config):
 
 class ProductionConfig(Config):
 	TESTING = False
-	MAINTENANCE_MODE = True
+	MAINTENANCE_MODE = False
 	DEBUG = False
 	SQLALCHEMY_DATABASE_URI = os.environ.get("HEROKU_POSTGRESQL_COBALT_URL")
 
