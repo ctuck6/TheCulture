@@ -5,7 +5,7 @@ from flask import request, abort, current_app
 from app.config import ProductionConfig
 import os
 
-app = create_app(os.environ.get("APP_SETTINGS"))
+app = create_app()
 app.app_context().push()
 
 

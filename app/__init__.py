@@ -17,7 +17,7 @@ loginManager.login_message = "You must be signed in to view that page!"
 loginManager.login_message_category = "danger"
 
 
-def create_app(config_class):
+def create_app():
 	app = Flask(__name__)
 	app.config.from_object(config[os.environ.get("APP_SETTINGS")])
 
