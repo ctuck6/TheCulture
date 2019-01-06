@@ -6,11 +6,6 @@ from app.users.forms import SearchForm
 main = Blueprint("main", __name__)
 tables = [User, Review]
 
-# from app.decorators import admin_required, permission_required
-# from app.models import Permission
-# @admin_required
-# @permission_required(Permission.MODERATE_COMMENTS)
-
 
 @main.route('/', methods=["GET", "POST"])
 def home():
@@ -35,11 +30,11 @@ def terms_of_use():
 
 @main.route("/search", methods=["GET", "POST"])
 @main.route("/search/<string:keyword>", methods=["GET", "POST"])
-def search_keyword(keyword=None):
+def search(keyword=None):
 	form = SearchForm()
 	results = list()
 	if form.validate_on_submit():
-		return redirect(url_for("main.search_keyword", keyword=form.search.data))
+		return redirect(url_for("main.search", keyword=form.search.data))
 	if keyword:
 		for table in tables:
 			search = table.query.whoosh_search(keyword).all()

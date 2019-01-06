@@ -18,7 +18,7 @@
         <h1 class="w3-text-white">THE</h1>
         <h1 class="w3-jumbo w3-text-white"><b>CULTURE</b></h1>
         {% if not current_user.is_authenticated %}
-          <p><a class="btn btn-sm btn-light" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
+          <p><a class="btn btn-lg btn-light" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
         {% endif %}
       </div>
     </header>
@@ -97,7 +97,7 @@
           <div class="w3-container w3-white">
             <p>Enter your e-mail below and get notified on the latest cultural products!</p>
             <p><input class="form-control" type="text" placeholder="Enter e-mail"></p>
-            <p><button type="button" class="w3-block btn btn-danger">Subscribe</button></p>
+            <p><button type="button" class="btn-block btn btn-danger">Subscribe</button></p>
           </div>
         </div>
       <!-- END About/Intro Menu -->

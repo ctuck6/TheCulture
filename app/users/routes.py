@@ -59,7 +59,7 @@ def login():
 	if form.validate_on_submit():
 		user = User.query.filter_by(email=form.email.data.lower()).first()
 		if not user:
-			flash("Username does not exist. Please try again", "danger")
+			flash("Email does not exist. Please try again", "danger")
 		elif not bcrypt.check_password_hash(user.password, form.password.data):
 			flash("Incorrect password. Please try again", "danger")
 		else:

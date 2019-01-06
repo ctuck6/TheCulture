@@ -4,7 +4,7 @@ from flask_migrate import Migrate, MigrateCommand
 import unittest, coverage, os, sys
 from app.models import *
 
-app = create_app("production")
+app = create_app(os.environ.get("APP_SETTINGS"))
 app.app_context().push()
 
 COV = None
