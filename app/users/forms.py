@@ -73,10 +73,6 @@ class ResetPasswordForm(FlaskForm):
 	submit = SubmitField("Reset Password")
 
 
-class SearchForm(FlaskForm):
-	search = StringField("Search By Keyword", validators=[DataRequired()])
-	submit = SubmitField("Search")
-
 class AdminForm(FlaskForm):
 	role = RadioField("Select Role", choices=[("User", "Default User"), ("Administrator", "Administrator")], validators=[DataRequired()])
 	save = SubmitField("Save")

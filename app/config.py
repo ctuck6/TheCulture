@@ -14,7 +14,6 @@ class Config():
 	MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
 	MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 	SESSION_COOKIE_SECURE = False
-	MAX_SEARCH_RESULTS = 50
 	WHOOSH_ANALYZER = StemmingAnalyzer()
 	TESTING = False
 	THECULTURE_ADMIN = os.environ.get("THECULTURE_ADMIN")

@@ -1,10 +1,15 @@
 from flask import Blueprint, render_template, url_for, redirect, request
 from app.models import User, Review
 import os
-from app.users.forms import SearchForm
+from app.main.forms import SearchForm
 
 main = Blueprint("main", __name__)
 tables = [User, Review]
+
+
+@main.route("/about")
+def about():
+	return render_template("about.html")
 
 
 @main.route('/', methods=["GET", "POST"])
@@ -13,19 +18,9 @@ def home():
 	return render_template("home.html", top_reviews=top_reviews)
 
 
-@main.route("/about")
-def about():
-	return render_template("about.html")
-
-
 @main.route("/privacy")
 def privacy():
 	return render_template("privacy.html")
-
-
-@main.route("/terms_of_use")
-def terms_of_use():
-	return render_template("terms_of_use.html")
 
 
 @main.route("/search", methods=["GET", "POST"])
@@ -41,3 +36,8 @@ def search(keyword=None):
 			for result in search:
 				results.append(result)
 	return render_template("search.html", form=form, keyword=keyword, results=results)
+
+
+@main.route("/terms_of_use")
+def terms_of_use():
+	return render_template("terms_of_use.html")

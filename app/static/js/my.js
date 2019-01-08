@@ -1,10 +1,8 @@
 function likeFunction(button) {
-    if (button.innerHTML == '<i class="fa fa-thumbs-up"></i> Like') {
-        button.style.fontWeight = "bold";
-        button.innerHTML = '<i class="fa fa-check"></i> Liked';
+    if (button.className == "review-icon fa fa-heart w3-hover-opacity") {
+        button.className = "review-icon fa fa-heart-o w3-hover-opacity";
     } else {
-        button.style.fontWeight = "normal";
-        button.innerHTML = '<i class="fa fa-thumbs-up"></i> Like';
+        button.className = "review-icon fa fa-heart w3-hover-opacity";
     }
 }
 

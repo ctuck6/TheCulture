@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <!-- Blog entry -->
   <div class="w3-container w3-white w3-margin w3-padding-large">
     <div class="w3-center">
       <h3>{{ review.title }}</h3>
@@ -13,19 +12,20 @@
     <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" style="width: 100%" class="w3-padding-16 mb-4">
     <p>{{ review.body }}</p>
     <br>
-    <p class="w3-left"><button class="btn btn-outline-dark btn-sm" onclick="likeFunction(this)">👍🏿 Like</button></p>
-    {% if review.author == current_user %}
-      <div class="w3-right">
-        <a class="btn btn-dark btn-sm" href="{{ url_for('reviews.update_review', review_id=review.id) }}">Update</a>
-        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</button>
-      </div>
-    {% endif %}
-    <br><br><br>
+    <div>
+      <i class="review-icon fa fa-heart w3-hover-opacity" onclick="likeFunction(this)"></i>
+      {% if review.author == current_user %}
+        <a class="review-icon fa fa-edit w3-hover-opacity" href="{{ url_for('reviews.update_review', review_id=review.id) }}"></a>
+        <i class="review-icon fa fa-trash w3-hover-opacity" data-toggle="modal" data-target="#deleteModal"></i>
+      {% endif %}
+    </div>
+    <br><br>
     <h3>Comments</h3>
     <br>
     {% if comments|length > 0 %}
       {% for comment in comments %}
         <blockquote>
+          <img class="rounded-circle comment-img" src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}">
           <a href="{{ url_for('users.account', username=comment.commenter.username) }}">{{ comment.commenter.username }}</a>
            {{ comment.body }}
         </blockquote>
@@ -39,25 +39,27 @@
       </div>
     {% endif %}
     <br><br>
-    <form class="form-group" method="POST">
-      {{ form.hidden_tag() }}
-      <div class="form-group">
-        {{ form.body.label(class="form-control-label") }}
-        {% if form.body.errors %}
-          {{ form.body(class="form-control form-control-lg is-invalid") }}
-          <div class="invalid-feedback">
-            {% for error in form.body.errors %}
-              <span>{{ error }}</span>
-            {% endfor %}
-          </div>
-        {% else %}
-          {{ form.body(class="form-control form-control-lg") }}
-        {% endif %}
-      </div>
-      <div class="form-group">
-        {{ form.submit(class="btn btn-dark btn-sm") }}
-      </div>
-    </form>
+    {% if current_user.is_authenticated %}
+      <form class="form-group" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          {{ form.body.label(class="form-control-label") }}
+          {% if form.body.errors %}
+            {{ form.body(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.body.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.body(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.submit(class="btn btn-dark btn-sm") }}
+        </div>
+      </form>
+    {% endif %}
   </div>
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

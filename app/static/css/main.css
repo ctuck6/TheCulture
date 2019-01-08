@@ -6,6 +6,11 @@ body {
   font-family: "Open Sans";
 }
 
+a:hover {
+  text-decoration: none;
+  color: #428bca;
+}
+
 .navbar {
   position: fixed;
   top: 0;
@@ -24,7 +29,6 @@ body {
   padding: 15px;
   font-size: 17px;
   font-family: "Oswald";
-  text-decoration: none;
 }
 
 .navbar a:hover {
@@ -76,11 +80,6 @@ blockquote a {
   color: #444444;
 }
 
-a.article-title:hover {
-  color: #428bca;
-  text-decoration: none;
-}
-
 h1, h2, h3, h4, h5, h6 {
   font-family: "Oswald";
 }
@@ -91,7 +90,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .article-metadata a:hover {
   color: #9685CE;
-  text-decoration: none;
 }
 
 .article-content {
@@ -137,9 +135,10 @@ article:hover {
 }
 
 .comment-img {
-    height: 65;
+    height: 2em;
     width: height;
     border: 1px #ddd solid;
+    margin-right: 1em;
 }
 
 .account-heading {
@@ -154,7 +153,16 @@ article:hover {
 a.comment-icon {
   padding-left: 0.5em;
   font-size: 1.5em;
-  text-decoration: none;
+}
+
+.review-icon {
+  font-size: 2em;
+  margin-right: 3px;
+  color: black;
+}
+
+.review-icon:hover {
+  color: black;
 }
 
 @media screen and (max-width: 640px) {
@@ -226,5 +234,4 @@ footer {
 
 footer a:hover {
   color: grey;
-  text-decoration: none;
 }
