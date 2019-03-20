@@ -1,6 +1,6 @@
 from app import create_app
 import flask_whooshalchemy as whooshalchemy
-from app.models import Review, User
+from app.models import Company, Product, Article, User
 from flask import request, abort, current_app
 from app.config import ProductionConfig
 import os
@@ -15,6 +15,8 @@ def check_for_maintenance():
         abort(503)
 
 if __name__ == "__main__":
-    whooshalchemy.whoosh_index(app, Review)
-    whooshalchemy.whoosh_index(app, User)
-    app.run(debug=True)
+	whooshalchemy.whoosh_index(app, Company)
+	whooshalchemy.whoosh_index(app, Product)
+	whooshalchemy.whoosh_index(app, Article)
+	whooshalchemy.whoosh_index(app, User)
+	app.run(debug=True)

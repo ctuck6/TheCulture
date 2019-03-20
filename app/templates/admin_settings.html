@@ -2,32 +2,32 @@
 
 {% block body %}
   <div class="content-section">
-  <form class="form-group" method="POST">
-    {{ searchForm.hidden_tag() }}
-    <legend class="border-bottom mb-4">Search By Username</legend>
-    <div class="form-group">
-      {% if searchForm.search.errors %}
-        {{ searchForm.search(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-          {% for error in searchForm.search.errors %}
-            <span>{{ error }}</span>
-          {% endfor %}
-        </div>
-      {% else %}
-        {{ searchForm.search(class="form-control form-control-lg") }}
-      {% endif %}
-      <br>
+    <form class="form-group" method="POST">
+      {{ searchForm.hidden_tag() }}
+      <h1 class="card-title mb-4">Search By Username</h1>
       <div class="form-group">
-        {{ searchForm.submit(class="btn btn-dark btn-sm") }}
+        {% if searchForm.search.errors %}
+          {{ searchForm.search(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in searchForm.search.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ searchForm.search(class="form-control") }}
+        {% endif %}
+        <br>
+        <div class="form-group">
+          {{ searchForm.submit(class="btn btn-dark btn-sm") }}
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
   </div>
   <br>
   <form class="form-group" method="POST">
     {{ roleForm.hidden_tag() }}
     {% if user %}
-      <div class="media content-section mb-2">
+      <div class="media content-section hoverable mb-2">
         <div class="media-body">
           <div class="article-metadata">
             <p>
@@ -37,8 +37,8 @@
             {{ roleForm.role(class="form-control-sm") }}
             <br>
             <div>
-              <a href="{{ url_for('users.admin_settings') }}"><button type="button" class="btn btn-danger btn-sm right">Cancel</button></a>
               {{ roleForm.save(class="btn btn-dark btn-sm right mr-2") }}
+              <a href="{{ url_for('users.admin_settings') }}"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
             </div>
           </div>
         </div>

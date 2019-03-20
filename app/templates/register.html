@@ -2,97 +2,14 @@
 
 {% block body %}
   <div class="content-section">
-    <form class="form-group" method="POST">
-      {{ form.hidden_tag() }}
-      <fieldset class="form-group">
-        <legend class="border-bottom mb-4">Join Today</legend>
-        <div class="form-group">
-          {{ form.firstname.label(class="form-control-label") }}
-          {% if form.firstname.errors %}
-            {{ form.firstname(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.firstname.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.firstname(class="form-control form-control-lg") }}
-          {% endif %}
-        </div>
-        <div class="form-group">
-          {{ form.lastname.label(class="form-control-label") }}
-          {% if form.lastname.errors %}
-            {{ form.lastname(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.lastname.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.lastname(class="form-control form-control-lg") }}
-          {% endif %}
-        </div>
-        <div class="form-group">
-          {{ form.username.label(class="form-control-label") }}
-          {% if form.username.errors %}
-            {{ form.username(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.username.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.username(class="form-control form-control-lg") }}
-          {% endif %}
-        </div>
-        <div class="form-group">
-          {{ form.email.label(class="form-control-label") }}
-          {% if form.email.errors %}
-            {{ form.email(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.email.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.email(class="form-control form-control-lg") }}
-          {% endif %}
-        </div>
-        <div class="form-group">
-          {{ form.password.label(class="form-control-label") }}
-          {% if form.password.errors %}
-            {{ form.password(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.password.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.password(class="form-control form-control-lg") }}
-          {% endif %}
-        </div>
-        <div class="form-group">
-          {{ form.confirmPassword.label(class="form-control-label") }}
-          {% if form.confirmPassword.errors %}
-            {{ form.confirmPassword(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.confirmPassword.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.confirmPassword(class="form-control form-control-lg") }}
-          {% endif %}
-        </div>
-        <br>
-        <div class="form-group">
-          {{ form.submit(class="btn btn-dark btn-sm") }}
-        </div>
-        <small class="text-muted">
-          Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
-        </small>
-      </fieldset>
-    </form>
-    <br>
+    <fieldset class="mx-auto" style="max-width: 400px;">
+      <h1 class="card-title text-center">Register</h1>
+      <p class="text-center">Get started with your free account</p>
+      <a href="{{ url_for('users.user_register') }}" class="btn btn-lg btn-block btn-secondary">Register a User</a>
+      <p class="divider-text"><span class="bg-white">OR</span></p>
+      <a href="{{ url_for('companies.company_register') }}" class="btn btn-lg btn-block btn-dark">Register a Company</a>
+      <br>
+      <p class="text-center">Have an account?<a href="{{ url_for('users.login') }}"> Log In</a></p>
+    </fieldset>
   </div>
 {% endblock body %}

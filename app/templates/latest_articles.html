@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h1>Latest Articles</h1>
+  <br>
+	<ul class="list-group">
+	  {% for article in articles.items %}
+    	<article class="media content-section hoverable">
+        <img class="rounded-circle article-img z-depth-1-half" src="{{ url_for('static', filename='profilePics/' + article.author.image_file) }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <p class="text-muted">Posted by
+              <a class="mr-2" href="{{ url_for('users.account', username=article.author.username) }}">{{ article.author.username }}</a>
+              <small class="text-muted">{{ article.date_posted.strftime('%m-%d-%Y') }}</small>
+            </p>
+          </div>
+          <h2><a class="article-title" href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a></h2>
+        </div>
+      </article>
+    {% endfor %}
+	</ul>
+  <br>
+  <a href="{{ url_for('articles.new_article') }}"><button class="btn btn-primary btn-sm"><span class="fa fa-edit"></span> Add Article</button></a>
+{% endblock body %}

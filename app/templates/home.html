@@ -2,20 +2,18 @@
 
 {% block body %}
   <div class="w3-content">
-    <!-- Header -->
     <header class="w3-container w3-center w3-padding-48 w3-white">
       <h1 class="w3-xxxlarge"><b>THE CULTURE</b></h1>
       <h6>The Center For Black Owned Businesses & Products</h6>
     </header>
 
-    <!-- Image header -->
     <header class="w3-display-container">
       <img class="w3-image" src="{{ url_for('static', filename='slideshowPics/test2.jpg') }}">
       <div class="w3-display-left w3-padding-large">
         <h1 class="w3-text-white">THE</h1>
         <h1 class="w3-jumbo w3-text-white"><b>CULTURE</b></h1>
         {% if not current_user.is_authenticated %}
-          <p><a class="btn btn-lg btn-light" href="{{ url_for('users.register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
+          <p><a class="btn btn-lg btn-light" href="{{ url_for('users.user_register') }}" role="button"><span class="fa fa-user-plus"></span> Sign Up Today</a></p>
         {% endif %}
       </div>
     </header>
@@ -24,21 +22,24 @@
     <div class="w3-row w3-padding w3-border">
       <!-- Blog entries -->
       <div class="w3-col l8 s12">
-        {% if top_reviews|length > 0 %}
-          {% for review in top_reviews %}
+        {% if top_articles|length > 0 %}
+          {% for article in top_articles %}
             <!-- Blog entry -->
-            <div class="w3-container w3-white w3-margin w3-padding-large">
+            <div class="w3-container w3-white w3-margin w3-padding-large hoverable">
               <div class="w3-center">
-                <h3><a class="article-title" href="{{ url_for('reviews.review', review_id=review.id) }}">{{ review.title }}</a></h3>
-                <h5 class="w3-opacity">Posted By <a href="{{ url_for('users.account', username=review.author.username) }}">{{ review.author.username }}</a> on {{ review.date_posted.strftime('%m-%d-%Y') }}</h5>
+                <h3><a class="article-title" href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a></h3>
+                <h5 class="w3-opacity">
+                  Posted by <a href="{{ url_for('users.account', username=article.author.username) }}">{{ article.author.username }}</a>
+                  on {{ article.date_posted.strftime('%m-%d-%Y') }}
+                </h5>
               </div>
               <img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" style="width:100%" class="w3-padding-16">
-              <p>{{ review.body }}</p>
-              <i class="review-icon fa fa-heart w3-hover-opacity" onclick="likeFunction(this)"></i>
+              <p class="text-body">{{ article.body }}</p>
+              <i class="article-icon fa fa-heart-o" onclick="likeFunction(this)"></i>
             </div>
           {% endfor %}
         {% else %}
-          <h2>No reviews yet</h2>
+          <h2>No articles yet</h2>
         {% endif %}
       <!-- END BLOG ENTRIES -->
       </div>
@@ -46,11 +47,11 @@
       <!-- About/Information menu -->
       <div class="w3-col l4">
         <!-- BOTW Card -->
-        <div class="w3-white w3-margin">
+        <div class="w3-white w3-margin hoverable">
           <div class="w3-container w3-padding w3-black">
             <h4>Business of the Week</h4>
           </div>
-          <img src="{{ url_for('static', filename='slideshowPics/william-stitt-611609-unsplash.jpg') }}" style="width:100%" class="w3-grayscale">
+          <img src="{{ url_for('static', filename='slideshowPics/william-stitt-611609-unsplash.jpg') }}" style="width:100%">
           <div class="w3-container w3-black">
             <br>
             <h4>My Name</h4>
@@ -59,11 +60,11 @@
         </div><hr>
 
         <!-- POTW Card -->
-        <div class="w3-white w3-margin">
+        <div class="w3-white w3-margin hoverable">
           <div class="w3-container w3-padding w3-black">
             <h4>Product of the Week</h4>
           </div>
-          <img src="{{ url_for('static', filename='homepagePics/vegan-21.jpg') }}" style="width:100%" class="w3-grayscale">
+          <img src="{{ url_for('static', filename='homepagePics/vegan-21.jpg') }}" style="width:100%">
           <div class="w3-container w3-black">
             <br>
             <h4>My Name</h4>
@@ -72,7 +73,7 @@
         </div><hr>
 
         <!-- Social Media -->
-        <div class="w3-white w3-margin">
+        <div class="w3-white w3-margin hoverable">
           <div class="w3-container w3-padding w3-black">
             <h4>Social Media</h4>
           </div>
@@ -80,12 +81,12 @@
             <i class="fa fa-facebook-official w3-hover-opacity"></i>
             <i class="fa fa-instagram w3-hover-opacity"></i>
             <i class="fa fa-twitter w3-hover-opacity"></i>
-            <i>@theculture</i>
+            <i>@the_culture</i>
           </div>
         </div>
         <hr>
         <!-- Subscribe -->
-        <div class="w3-white w3-margin">
+        <div class="w3-white w3-margin hoverable">
           <div class="w3-container w3-padding w3-black">
             <h4>Subscribe</h4>
           </div>
@@ -93,7 +94,7 @@
           <div class="w3-container w3-white">
             <p>Enter your e-mail below and get notified on the latest cultural products!</p>
             <p><input class="form-control" type="text" placeholder="Enter e-mail"></p>
-            <p><button type="button" class="btn-block btn btn-danger">Subscribe</button></p>
+            <p><button type="button" class="btn-block btn btn-primary">Subscribe</button></p>
           </div>
         </div>
       <!-- END About/Intro Menu -->

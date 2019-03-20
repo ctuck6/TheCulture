@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <div class="articles">
+    <div class="row">
+      {% if articles.items|length > 0 %}
+        {% for article in articles.items %}
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-preview">
+              <a href="{{ url_for('articles.article', article_id=article.id) }}"><h2 class="post-title">{{ article.title }}</h2></a>
+              <p class="post-meta">Posted by
+                <strong><a href="{{ url_for('users.account', username=article.author.username) }}">{{ article.author.username }}</a></strong>
+                 on {{ article.date_posted.strftime('%m-%d-%Y') }}
+              </p>
+            </div>
+            <hr>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">No articles have been posted yet</p>
+      {% endif %}
+    </div>
+    <br>
+    {% if current_user.is_authenticated %}
+      <a type="button" class="btn btn-sm btn-dark" href="{{ url_for('articles.new_article') }}">Add Article</a>
+    {% endif %}
+  </div>
+{% endblock body %}

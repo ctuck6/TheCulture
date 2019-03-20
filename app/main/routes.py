@@ -1,10 +1,14 @@
+##############################################################################################################
+# main/routes.py
+##############################################################################################################
+
 from flask import Blueprint, render_template, url_for, redirect, request
-from app.models import User, Review
+from app.models import Company, Product, User, Article
 import os
 from app.main.forms import SearchForm
 
 main = Blueprint("main", __name__)
-tables = [User, Review]
+tables = [User, Article, Company, Product]
 
 
 @main.route("/about")
@@ -14,13 +18,18 @@ def about():
 
 @main.route('/', methods=["GET", "POST"])
 def home():
-	top_reviews = Review.query.order_by(Review.views.desc()).limit(2).all()
-	return render_template("home.html", top_reviews=top_reviews)
+	top_articles = Article.query.order_by(Article.views.desc()).limit(2).all()
+	return render_template("home.html", top_articles=top_articles)
 
 
 @main.route("/privacy")
 def privacy():
 	return render_template("privacy.html")
+
+
+@main.route("/register")
+def register():
+	return render_template("register.html")
 
 
 @main.route("/search", methods=["GET", "POST"])

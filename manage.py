@@ -4,6 +4,8 @@ from flask_migrate import Migrate, MigrateCommand
 import unittest, coverage, os, sys
 from app.models import *
 
+# heroku run python manage.py deploy
+# heroku restart
 
 app = create_app()
 app.app_context().push()
@@ -18,7 +20,13 @@ manager = Manager(app)
 
 
 def make_shell_context():
-    return dict(app=app, database=database, User=User, Review=Review, Comment=Comment)
+    return dict(app=app,
+                database=database,
+                User=User, Review=Review,
+                Comment=Comment,
+                Role=Role,
+                Company=Company,
+                Product=Product)
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command("database", MigrateCommand)

@@ -4,17 +4,17 @@
   <div class="content-section">
     <form class="form-group" method="POST">
       {{ form.hidden_tag() }}
-      <legend class="border-bottom mb-4">{{ form.search.label(class="form-control-label") }}</legend>
+      <h1 class="card-title mb-4">{{ form.search.label(class="form-control-label") }}</h1>
       <div class="form-group">
         {% if form.search.errors %}
-          {{ form.search(class="form-control form-control-lg is-invalid") }}
+          {{ form.search(class="form-control is-invalid") }}
           <div class="invalid-feedback">
             {% for error in form.search.errors %}
               <span>{{ error }}</span>
             {% endfor %}
           </div>
         {% else %}
-          {{ form.search(class="form-control form-control-lg") }}
+          {{ form.search(class="form-control") }}
         {% endif %}
       </div>
       <br>
@@ -35,7 +35,7 @@
                   <small class="text-muted">{{ result.date_posted.strftime('%m-%d-%Y') }}</small>
                 </p>
               </div>
-              <h2><a class="article-title" href="{{ url_for('reviews.review', review_id=result.id) }}">{{ result.title }}</a></h2>
+              <h2><a class="article-title" href="{{ url_for('articles.article', article_id=result.id) }}">{{ result.title }}</a></h2>
             </div>
           </article>
         {% else %}
