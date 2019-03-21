@@ -22,7 +22,8 @@ manager = Manager(app)
 def make_shell_context():
     return dict(app=app,
                 database=database,
-                User=User, Review=Review,
+                User=User,
+                Review=Review,
                 Comment=Comment,
                 Role=Role,
                 Company=Company,
@@ -50,6 +51,16 @@ def test(coverage=False):
         COV.html_report(directory=covdir)
         print("HTML version: file://%s/index.html" % covdir)
         COV.erase()
+
+@manager.command
+def deploy():
+    from flask_migrate import upgrade
+
+    # migrate database to latest revision
+    upgrade()
+
+    # create or update user roles
+    Role.insert_roles()
 
 
 if __name__ == "__main__":
