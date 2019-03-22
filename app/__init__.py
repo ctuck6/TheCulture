@@ -21,8 +21,7 @@ loginManager.login_message_category = "danger"
 
 def create_app():
 	app = Flask(__name__)
-	# app.config.from_object(config[os.environ.get("APP_SETTINGS")])
-	app.config.from_object(config['production'])
+	app.config.from_object(config[os.environ.get("APP_SETTINGS")])
 
 
 	with app.app_context():
