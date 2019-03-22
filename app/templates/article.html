@@ -73,7 +73,7 @@
                           </div>
                         </div>
                         <div class="w3-right">
-                          <small class="text-muted">{{ comment.date_posted.strftime('%m-%d-%Y') }}</small>
+                          <small class="text-muted">{{ moment(comment.date_posted).fromNow(refresh = True) }}</small>
                         </div>
                       </div>
                     </div>

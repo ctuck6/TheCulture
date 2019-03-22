@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-# from flask_moment import Moment
+from flask_moment import Moment
 from flask_login import LoginManager
 from flask_mail import Mail
 from app.config import config
@@ -10,7 +10,7 @@ import os
 
 mail = Mail()
 database = SQLAlchemy()
-# moment = Moment()
+moment = Moment()
 bcrypt = Bcrypt()
 csrf = CSRFProtect()
 loginManager = LoginManager()
@@ -22,6 +22,7 @@ loginManager.login_message_category = "danger"
 def create_app():
 	app = Flask(__name__)
 	app.config.from_object(config[os.environ.get("APP_SETTINGS")])
+	# app.config.from_object(config['production'])
 
 
 	with app.app_context():
@@ -30,7 +31,7 @@ def create_app():
 		loginManager.init_app(app)
 		mail.init_app(app)
 		csrf.init_app(app)
-		# moment.init_app(app)
+		moment.init_app(app)
 
 	from app.users.routes import users
 	from app.articles.routes import articles
