@@ -123,9 +123,10 @@ def loadUser(user_id):
 
 class Permission:
     WRITE_ARTICLES = 2
-    MODERATE_COMMENTS = 4
-    MANAGE_PRODUCTS = 8
-    ADMINISTER = 16
+    COMMENT = 4
+    MODERATE_COMMENTS = 8
+    MANAGE_PRODUCTS = 16
+    ADMINISTER = 32
 
 
 class Product(database.Model):
