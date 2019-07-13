@@ -1,57 +1,84 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <div class="content-section">
-    <form class="form-group" method="POST">
-      {{ form.hidden_tag() }}
-      <h1 class="card-title mb-4">{{ form.search.label(class="form-control-label") }}</h1>
-      <div class="form-group">
-        {% if form.search.errors %}
-          {{ form.search(class="form-control is-invalid") }}
-          <div class="invalid-feedback">
-            {% for error in form.search.errors %}
-              <span>{{ error }}</span>
-            {% endfor %}
+  <section class="hero mt-5">
+    <div class="container">
+      <div class="hero-content pb-5 text-center">
+        <h1 class="hero-heading">Search Results</h1>
+        <div class="row">
+          <div class="col-xl-8 offset-xl-2">
+            <p class="lead text-muted">{{ results|length }} result{% if results|length != 1 %}s{% endif %} for "{{ g.search_form.search.data }}"</p>
           </div>
-        {% else %}
-          {{ form.search(class="form-control") }}
-        {% endif %}
+        </div>
       </div>
-      <br>
-      <div class="form-group">{{ form.submit(class="btn btn-dark btn-sm") }}</div>
-    </form>
-  </div>
-  <br>
-  <ul class="list-group">
-    {% if results|length > 0 %}
-      {% for result in results %}
-        {% if result|attr("author") %}
-          <article class="media content-section mb-4">
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + result.author.image_file) }}">
-            <div class="media-body">
-              <div class="article-metadata">
-                <p class="text-muted">Posted by
-                  <a class="mr-2" href="{{ url_for('users.account', username=result.author.username) }}">{{ result.author.username }}</a>
-                  <small class="text-muted">{{ result.date_posted.strftime('%m-%d-%Y') }}</small>
+    </div>
+  </section>
+  <div class="container">
+    <div class="row px-xl-5">
+      <div class="col-12">
+        {% for result in results %}
+          <div class="docs-item">
+            <div class="block">
+              <div class="block-header">
+                {% if result|attr("image_file") and result.image_file %}
+                  <img src="{{ current_user.image_file }}" class="w-2rem rounded-circle mr-2">
+                {% endif %}
+                {% if result|attr("firstname") %}
+                  <a href="{{ url_for('users.account', username=result.username) }}" class="font-weight-bold accordion-link">{{ result.firstname }} {{ result.lastname }}</a>
+                {% elif result|attr("author") %}
+                  <a href="{{ url_for('articles.article', article_id=result.id) }}" class="font-weight-bold accordion-link">{{ result.title }}</a>
+                {% elif result|attr("price") %}
+                  <a href="{{ url_for('products.product', product_id=result.id) }}" class="font-weight-bold accordion-link">{{ result.name }}</a>
+                {% elif result|attr("address") %}
+                  <a href="{{ url_for('companies.company', company_id=result.id) }}" class="font-weight-bold accordion-link">{{ result.name }}</a>
+                {% endif %}
+              </div>
+              <div class="block-body">
+                <p class="text-muted">
+                  {% if result|attr("author") %}
+                    {{ result.body[:250] }}{% if result.body|length > 250 %}..{% if result.body[249] != '.' %}.{%endif%}{%endif%}
+                  {% elif result|attr("price") %}
+                    {{ result.description[:250] }}{% if result.description|length > 250 %}..{% if result.description[249] != '.' %}.{%endif%}{%endif%}
+                  {% endif %}
                 </p>
               </div>
-              <h2><a class="article-title" href="{{ url_for('articles.article', article_id=result.id) }}">{{ result.title }}</a></h2>
             </div>
-          </article>
-        {% else %}
-          <article class="media content-section mb-4">
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profilePics/' + result.image_file) }}">
-            <div class="media-body">
-              <div class="article-metadata">
-                <h2><a class="article-title" href="{{ url_for('users.account', username=result.username) }}">{{ result.firstname }} {{ result.lastname }}</a></h2>
-              </div>
-            </div>
-          </article>
-        {% endif %}
-        <br>
-      {% endfor %}
-    {% elif keyword and results|length == 0 %}
-      <h3>No results found</h3>
-    {% endif %}
-  </ul>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="bg-gray-100 text-dark-700 py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#delivery-time-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Free shipping & return</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">Free Shipping over $300</p>
+          </div>
+        </div>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#money-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Money back guarantee</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">30 Days Money Back Guarantee</p>
+          </div>
+        </div>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#customer-support-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">020-800-456-747</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">24/7 Available Support</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock body %}

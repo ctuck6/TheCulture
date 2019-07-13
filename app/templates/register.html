@@ -1,15 +1,63 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <div class="content-section">
-    <fieldset class="mx-auto" style="max-width: 400px;">
-      <h1 class="card-title text-center">Register</h1>
-      <p class="text-center">Get started with your free account</p>
-      <a href="{{ url_for('users.user_register') }}" class="btn btn-lg btn-block btn-secondary">Register a User</a>
-      <p class="divider-text"><span class="bg-white">OR</span></p>
-      <a href="{{ url_for('companies.company_register') }}" class="btn btn-lg btn-block btn-dark">Register a Company</a>
-      <br>
-      <p class="text-center">Have an account?<a href="{{ url_for('users.login') }}"> Log In</a></p>
-    </fieldset>
+  <section class="mt-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-5">
+          <div class="block">
+            <div class="block-header">
+              <h6 class="text-uppercase mb-0">New account</h6>
+            </div>
+            <div class="block-body">
+              <p class="lead">How would you like to register?</p>
+              <p class="text-muted">With registration with us new world of fashion, fantastic discounts and much more opens to you! The whole process will not take you more than a minute!</p>
+              <p class="text-muted">If you have any questions, please feel free to <a href="contact.html">contact us</a>, our customer service center is working for you 24/7.</p>
+              <hr>
+              <a href="{{ url_for('users.user_register') }}" class="btn btn-lg btn-block btn-outline-dark">Register a User</a>
+              <div class="my-3">
+                <h6 class="text-center text-muted">&mdash; or &mdash;</h6>
+              </div>
+              <a href="{{ url_for('companies.company_register') }}" class="btn btn-lg btn-block btn-outline-primary">Register a Company</a>
+              <br>
+              <p class="text-center text-muted">Have an account?<a href="{{ url_for('users.login') }}"> Log In</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="bg-gray-100 text-dark-700 py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#delivery-time-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Free shipping & return</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">Free Shipping over $300</p>
+          </div>
+        </div>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#money-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Money back guarantee</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">30 Days Money Back Guarantee</p>
+          </div>
+        </div>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#customer-support-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">020-800-456-747</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">24/7 Available Support</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock body %}

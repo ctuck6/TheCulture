@@ -1,10 +1,52 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <center><div class="content section">
-    <h1>Oops! You are either not logged in, or do not have access to the requested feature! (403)</h1>
-    <h4>Please check your account and try again.</h4>
-    <br>
-    <img class="rounded-circle" src="{{ url_for('static', filename='homepagePics/fist.jpg') }}" width="140" height="140">
-  </div></center>
+  <section class="mh-full-screen dark-overlay py-7 d-flex align-items-center justify-content-center">
+  	<img src="{{ url_for('static', filename='headerPics/' + picture) }}" class="bg-image">
+    <div class="overlay-content w-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-white">
+            <h6 class="text-uppercase text-white letter-spacing-5 mb-3">(403 error)</h6>
+            <h1 class="display-3 font-weight-bold text-shadow mb-5">Whoops!</h1>
+            <p class="text-lg">You are either not logged in, or do not have access to the requested page!</p>
+            <p class="text-lg">Please check your account and try again.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="bg-gray-100 text-dark-700 py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#delivery-time-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Free shipping & return</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">Free Shipping over $300</p>
+          </div>
+        </div>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#money-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Money back guarantee</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">30 Days Money Back Guarantee</p>
+          </div>
+        </div>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#customer-support-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">020-800-456-747</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">24/7 Available Support</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock body %}

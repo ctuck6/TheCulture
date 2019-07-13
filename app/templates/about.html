@@ -1,7 +1,110 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<h1>About Me</h1>
-	<p>Junior computer science major at Morehouse College. Man of Morehouse striving for greatness.
-	Future software engineer as well as entrepreneur with a passion for technology and diversity.</p>
+  <section class="mh-full-screen dark-overlay py-7 d-flex align-items-center justify-content-center">
+    <img src="{{ url_for('static', filename='headerPics/' + picture) }}" class="bg-image">
+    <div class="overlay-content w-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-white">
+            <h6 class="text-uppercase text-white letter-spacing-5 mb-3">About us</h6>
+            <h1 class="display-3 font-weight-bold text-shadow mb-5">We are The Culture</h1>
+            <p class="text-lg">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6 about-text-column bg-gray-100">
+          <div class="about-text">
+            <h6 class="text-uppercase text-muted letter-spacing-5 mb-1">Humble beginnings</h6>
+            <h2 class="mb-4">We started as little</h2>
+            <p class="text-lg text-muted">The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 p-lg-0 about-image-column"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/ian-dooley-347942-unsplash.jpg" alt="" class="bg-image"></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 about-text-column order-lg-2">
+          <div class="about-text">
+            <h6 class="text-uppercase text-muted letter-spacing-5 mb-1">Sell today</h6>
+            <h2 class="mb-4">And then we grew a bit</h2>
+            <p class="text-lg text-muted">The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 p-lg-0 about-image-column order-lg-1"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/ian-dooley-347962-unsplash.jpg" alt="" class="bg-image"></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 about-text-column bg-gray-100">
+          <div class="p-5">
+            <blockquote class="mb-5">
+              <p class="text-xl text-serif mb-4">Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame.</p>
+              <h6 class="text-lg text-uppercase text-primary">— Franz Kafka, Founder</h6>
+            </blockquote>
+            <p class="text-lg text-muted">He must have tried it a hundred times, shut his eyes so that he wouldn't have to look at the floundering legs, and only stopped when he began to feel a mild, dull pain there that he had never felt before.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 p-lg-0 about-image-column"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/marco-xu-496929-unsplash.jpg" alt="" class="bg-image"></div>
+      </div>
+    </div>
+  </section>
+  <section class="py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5">
+          <h6 class="text-uppercase text-muted letter-spacing-5 mb-1">Our history</h6>
+          <h2 class="mb-4">Sell Milestones</h2>
+          <p class="text-lg text-muted">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.</p>
+        </div>
+        <div class="col-lg-6 ml-lg-auto">
+          <div class="row">
+            <div class="col-sm-6 mb-4">
+              <h4>1995</h4>
+              <p class="text-muted">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin.</p>
+            </div>
+            <div class="col-sm-6 mb-4">
+              <h4>2000</h4>
+              <p class="text-muted">The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared.</p>
+            </div>
+            <div class="col-sm-6 mb-4">
+              <h4>2010</h4>
+              <p class="text-muted">His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection.</p>
+            </div>
+            <div class="col-sm-6 mb-4">
+              <h4>2018</h4>
+              <p class="text-muted">Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magaz.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 d-flex align-items-center">
+          <div class="w-100"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/christopher-campbell-28571-unsplash.jpg" alt="" class="img-fluid"></div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/noah-buscher-400915-unsplash.jpg" alt="" class="img-fluid"></div>
+      </div>
+    </div>
+  </section>
+  <section class="py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2 class="mb-6">At Sell, we want the right choice to be as easy as putting on a great T-shirt</h2>
+        </div>
+        <div class="col-lg-6">
+          <p class="text-lg text-muted">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.</p>
+        </div>
+        <div class="col-lg-6">
+          <p class="text-lg text-muted">The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock body %}

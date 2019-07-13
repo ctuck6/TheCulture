@@ -1,53 +1,108 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <div class="content-section">
-    <fieldset>
-      <form class="form-group" method="POST">
-        {{ form.hidden_tag() }}
-        <h1 class="card-title form-title">Login</h1>
-        <div class="form-group">
-          {% if form.email.errors %}
-            {{ form.email(class="col-8 form-control is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.email.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
+  <section class="mt-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-5">
+          <div class="block">
+            <div class="block-header">
+              <h6 class="text-uppercase mb-0">Login</h6>
             </div>
-          {% else %}
-            {{ form.email(class="col-8 form-control", id="email") }}
-            {{ form.email.label(class="form-control-placeholder", for="email") }}
-          {% endif %}
-        </div>
-        <div class="form-group">
-          {% if form.password.errors %}
-            {{ form.password(class="form-control is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.password.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
+            <div class="block-body">
+              <p class="lead">Not a {{ current_login_type }}?</p>
+              <p class="text-muted">Click
+                {% if needed_login_type == "company" %}
+                  <a href="{{ url_for('companies.login') }}">here</a>
+                {% else %}
+                  <a href="{{ url_for('users.login') }}">here</a>
+                {% endif %}
+                to login as a {{ needed_login_type }}
+              </p>
+              <hr>
+              <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                  {% if form.email.errors %}
+                    {{ form.email(class="col-8 form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                      {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", id="email") }}
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  {% if form.password.errors %}
+                    {{ form.password(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                      {% for error in form.password.errors %}
+                        <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control", id="password", type="password") }}
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    {{ form.remember(type="checkbox", class="custom-control-input") }}
+                    {{ form.remember.label(class="custom-control-label") }}
+                  </div>
+                </div>
+                <div class="form-group text-center">
+                  {{ form.submit(class="btn btn-outline-dark") }}
+                </div>
+                <div class="form-group text-center">
+                  <small class="text-muted">
+                    <a href="{{ url_for('users.reset_request') }}">Forgot Password?</a>
+                  </small>
+                </div>
+              </form>
+              <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{{ url_for('main.register') }}">Sign Up Now</a>
+              </small>
             </div>
-          {% else %}
-            {{ form.password(class="col-3 form-control", id="password", type="password") }}
-            {{ form.password.label(class="form-control-placeholder", for="password") }}
-          {% endif %}
+          </div>
         </div>
-        <div class="form-check">
-          {{ form.remember(class="form-check-input") }}
-          {{ form.remember.label(class="form-check-label") }}
+      </div>
+    </div>
+  </section>
+  <div class="bg-gray-100 text-dark-700 py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#delivery-time-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Free shipping & return</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">Free Shipping over $300</p>
+          </div>
         </div>
-        <br>
-        <div class="form-group">
-          {{ form.submit(class="btn btn-dark btn-sm") }}
-          <small class="text-muted ml-2">
-            <a href="{{ url_for('users.reset_request') }}">Forgot Password?</a>
-          </small>
-          <br>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#money-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">Money back guarantee</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">30 Days Money Back Guarantee</p>
+          </div>
         </div>
-      </form>
-      <small class="text-muted">
-        Need An Account? <a class="ml-2" href="{{ url_for('main.register') }}">Sign Up Now</a>
-      </small>
-    </fieldset>
+        <div class="col-lg-4 service-column">
+          <svg class="svg-icon service-icon">
+            <use xlink:href="#customer-support-1"></use>
+          </svg>
+          <div class="service-text">
+            <h6 class="text-uppercase">020-800-456-747</h6>
+            <p class="text-muted font-weight-light text-sm mb-0">24/7 Available Support</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock body %}

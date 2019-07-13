@@ -9,17 +9,17 @@ from app.models import Article, Comment, Company, Permission
 from app.articles.forms import ArticleForm
 from app.comments.forms import CommentForm
 from app.decorators import permission_required
+from app.constants import Constants
 
 articles = Blueprint("articles", __name__)
-
 
 @articles.route("/article/<int:article_id>", methods=["GET", "POST"])
 def article(article_id):
 	article = Article.query.get_or_404(article_id)
+	comments = Comment.query.all().limit(Constants.COMMENTS_PER_ARTICLE)
 	if article:
 		article.views += 1
 		database.session.commit()
-	comments = Comment.query.filter_by(article=article).order_by(Comment.date_posted).all()
 	form = CommentForm()
 	if form.validate_on_submit():
 		comment = Comment(body=form.body.data, article=article, commenter=current_user._get_current_object())
@@ -27,8 +27,7 @@ def article(article_id):
 		database.session.commit()
 		flash("Your comment has been posted!", "success")
 		return redirect(url_for('articles.article', article_id=article_id))
-	return render_template("article.html", article=article, form=form, comments=comments)
-
+	return render_template("article.html", article=article, form=form)
 
 @articles.route("/article/<int:article_id>/delete",  methods=["GET", "POST"])
 @login_required
@@ -36,18 +35,18 @@ def article(article_id):
 def delete_article(article_id):
 	article = Article.query.get_or_404(article_id)
 	if article.author != current_user:
-		abort(403)
+		abort(Constants.FORBIDDEN_PAGE_ERROR_PAGE)
 	database.session.delete(article)
 	database.session.commit()
 	flash("Your post has been deleted!", "success")
 	return redirect(url_for("articles.show_articles"))
-
 
 @articles.route("/article/new", methods=["GET", "POST"])
 @login_required
 @permission_required(Permission.WRITE_ARTICLES)
 def new_article():
 	form = ArticleForm()
+	form.company.choices = [("Other", "Other")] + [(company.name, company.name) for company in Company.query.all()]
 	if form.validate_on_submit():
 		if not form.validate_title(form.title):
 			flash("Article title already being used. Please try again", "danger")
@@ -61,13 +60,13 @@ def new_article():
 			return redirect(url_for("articles.article", article_id=article.id))
 	return render_template("new_article.html", legend="New Article", form=form)
 
-
 @articles.route("/articles", methods=["GET", "POST"])
 def show_articles():
 	page = request.args.get("page", 1, type=int)
-	articles = Article.query.order_by(Article.date_posted.desc()).paginate(page=page, per_page=5)
-	return render_template("show_articles.html", paginate="all", articles=articles)
-
+	articles = Article.query.order_by(Article.date_posted.desc()).paginate(page=page, per_page=Constants.ARTICLES_ON_SHOW_ARTICLES_PAGE)
+	prev_page = url_for('articles.show_articles', page=articles.prev_num)
+	next_page = url_for('articles.show_articles', page=articles.next_num)
+	return render_template("show_articles.html", paginate=True, articles=articles, prev_page=prev_page, next_page=next_page)
 
 @articles.route("/article/<int:article_id>/update",  methods=["GET", "POST"])
 @login_required
@@ -75,7 +74,7 @@ def show_articles():
 def update_article(article_id):
 	article = Article.query.get_or_404(article_id)
 	if article.author != current_user:
-		abort(403)
+		abort(Constants.FORBIDDEN_PAGE_ERROR_PAGE)
 	form = ArticleForm()
 	if form.validate_on_submit():
 		article.title = form.title.data

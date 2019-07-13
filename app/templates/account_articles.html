@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <section class="hero mt-5">
+    <div class="container">
+      <div class="hero-content pb-5 text-center">
+        <h1 class="hero-heading">{{ user.firstname }} {{ user.lastname }}</h1>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 mb-5">
+          <div class="customer-sidebar card border-0">
+            <div class="customer-profile">
+              <img src="{{ user.image_file }}" class="img-fluid rounded-circle">
+              <h5>{{ user.firstname }} {{ user.lastname }}</h5>
+              <p class="text-muted text-sm mb-0">St. Louis, Mo</p>
+            </div>
+            <nav class="list-group customer-nav">
+              <a href="{{ url_for('users.account', username=user.username) }}" class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                  <svg class="svg-icon svg-icon-heavy mr-2">
+                    <use xlink:href="#male-user-1"></use>
+                  </svg>Profile
+                </span>
+              </a>
+              <a href="#" class="active list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                  <svg class="svg-icon svg-icon-heavy mr-2">
+                    <use xlink:href="#-1"></use>
+                  </svg>Articles
+                </span>
+                <div class="badge badge-pill badge-dark font-weight-normal px-3">{{ articles.items|length }}</div>
+              </a>
+              <a href="{{ url_for('users.logout') }}" class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                  <svg class="svg-icon svg-icon-heavy mr-2">
+                    <use xlink:href="#exit-1"></use>
+                  </svg>Log out
+                </span>
+              </a>
+            </nav>
+          </div>
+        </div>
+        <div class="col-lg-8 col-xl-9">
+          <div class="w-dyn-list">
+            <div class="w-dyn-items">
+              {% if articles.items|length > 0 %}
+                {% for article in articles.items %}
+                  <div class="w-dyn-item">
+                    <div class="post-wrapper">
+                      <div class="post-content">
+                        <div class="row">
+                          <div class="col-md-4">
+                            <img class="img-fluid" src="https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg">
+                          </div>
+                          <div class="col-md-8">
+                            <a class="blog-title-link w-inline-block"><h1 class="blog-title" foo="bar">{{ article.title }}</h1></a>
+                            <div class="details-wrapper">
+                              <a class="post-info when-link" href="{{ url_for('users.account', username=article.author.username) }}"><span class="fas fa-user-edit"></span> {{ article.author.username }}</a>
+                              <div class="post-info">|</div>
+                              <div class="post-info"><span class="far fa-clock"></span> {{ article.date_posted.strftime('%B %d, %Y') }}</div>
+                              {% if article.company %}
+                                <div class="post-info">|</div>
+                                <a class="post-info when-link" href="/categories/art">{{ article.company.name }}</a>
+                              {% endif %}
+                            </div>
+                            <div class="post-summary-wrapper">
+                              <p class="post-summary">{{ article.body[:250] }}{% if article.body|length > 250 %}..{% if article.body[249] != '.' %}.{%endif%}{%endif%}</p>
+                              <a class="read-more-link" href="{{ url_for('articles.article', article_id=article.id) }}">View article<span class="fas fa-long-arrow-alt-right"></span></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <p class="text-muted font-italic">{{ user.firstname }} has not posted any articles</p>
+              {% endif %}
+            </div>
+          </div>
+          {% if current_user.is_authenticated %}
+            <a href="{{ url_for('articles.new_article') }}" class="btn btn-outline-dark mt-4 mb-4">Add Article</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock body %}

@@ -1,146 +1,333 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<section id="productDetails">
-    <div class="content-section">
-      <div class="row mt-5">
-        <div class="col-lg-6">
-          <div class="text-center text-md-left" role="listbox">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/17.jpg" alt="Product Image" class="img-fluid">
+  <section class="product-details mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 py-3 order-2 order-lg-1">
+          <div data-slider-id="1" class="owl-carousel owl-theme owl-dots-modern detail-full">
+            <div style="background: center center url('https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/kyle-loftus-596319-detail-1.jpg') no-repeat; background-size: cover;" class="detail-full-item"></div>
+            <div style="background: center center url('https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/kyle-loftus-596319-detail-2.jpg') no-repeat; background-size: cover;" class="detail-full-item"></div>
+            <div style="background: center center url('https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/kyle-loftus-596319-detail-3.jpg') no-repeat; background-size: cover;" class="detail-full-item"></div>
+            <div style="background: center center url('https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/kyle-loftus-594535-unsplash-detail-3.jpg') no-repeat; background-size: cover;" class="detail-full-item"></div>
+            <div style="background: center center url('https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/kyle-loftus-594535-unsplash-detail-4.jpg') no-repeat; background-size: cover;" class="detail-full-item"></div>
           </div>
         </div>
-        <div class="col-lg-5 mr-3 text-center text-md-left">
-          <h2 class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
-            <strong>{{ product.name }}</strong>
-          </h2>
-          <span class="badge badge-danger product mb-4 ml-xl-0 ml-4">{{ product.company.name }}</span>
-          <h5 class="h5-responsive text-center text-md-left mb-5 ml-xl-0 ml-4">
-            <span class="red-text font-weight-bold"><strong>${{ product.price }}</strong></span>
-          </h5>
-          <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-            <div class="card">
-              <div class="card-header" role="tab" id="headingOne1">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false" aria-controls="collapseOne1">
-                  <h4 class="mb-0">Description<i class="fa fa-angle-down rotate-icon"></i></h4>
-                </a>
-              </div>
-              <div id="collapseOne1" class="collapse" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
-                <div class="card-body">{{ product.description }}</div>
+        <div class="d-flex align-items-center col-lg-6 col-xl-5 pl-lg-5 mb-5 order-1 order-lg-2">
+          <div>
+            <h2 class="mb-4">{{ product.name }}</h2>
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between mb-4">
+              <ul class="list-inline mb-2 mb-sm-0">
+                <li class="list-inline-item h4 font-weight-light mb-0">${{ product.price }}</li>
+                <li class="list-inline-item text-muted font-weight-light">
+                  <del>${{ product.price }}</del>
+                </li>
+              </ul>
+              <div class="d-flex align-items-center">
+                <ul class="list-inline mr-2 mb-0">
+                  {% for star in range(rating) %}
+                    <li class="list-inline-item mr-0"><i class="fa fa-star text-primary"></i></li>
+                  {% endfor %}
+                  {% for star in range(5 - rating) %}
+                    <li class="list-inline-item mr-0"><i class="fa fa-star text-gray-300"></i></li>
+                  {% endfor %}
+                </ul><span class="text-muted text-uppercase text-sm">{{ reviews|length }} review{% if reviews|length != 1 %}s{% endif %}</span>
               </div>
             </div>
-            <div class="card">
-              <div class="card-header" role="tab" id="headingTwo2">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
-                  <h4 class="mb-0">Details<i class="fa fa-angle-down rotate-icon"></i></h4>
-                </a>
-              </div>
-              <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2" data-parent="#accordionEx">
-                <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                  non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                  tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+            <p class="mb-4 text-muted">{{ product.description }}</p>
+            <form action="#">
+              <div class="row">
+                <div class="col-12 detail-option mb-3">
+                  <h6 class="detail-option-heading">Color</h6>
+                  <ul class="list-inline mb-0 colours-wrapper">
+                    <li class="list-inline-item">
+                      <label for="colour_Blue" style="background-color: #668cb9" class="btn-colour"></label>
+                      <input type="radio" name="colour" value="value_Blue" id="colour_Blue" class="input-invisible">
+                    </li>
+                    <li class="list-inline-item">
+                      <label for="colour_White" style="background-color: #fff" class="btn-colour"></label>
+                      <input type="radio" name="colour" value="value_White" id="colour_White" class="input-invisible">
+                    </li>
+                    <li class="list-inline-item">
+                      <label for="colour_Violet" style="background-color: #8b6ea4" class="btn-colour"></label>
+                      <input type="radio" name="colour" value="value_Violet" id="colour_Violet" class="input-invisible">
+                    </li>
+                    <li class="list-inline-item">
+                      <label for="colour_Red" style="background-color: #dd6265" class="btn-colour"></label>
+                      <input type="radio" name="colour" value="value_Red" id="colour_Red" class="input-invisible">
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
-            <div class="card">
-              <div class="card-header" role="tab" id="headingThree3">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3" aria-expanded="false" aria-controls="collapseThree3">
-                  <h4 class="mb-0">Shipping<i class="fa fa-angle-down rotate-icon"></i></h4>
-                </a>
-              </div>
-              <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3" data-parent="#accordionEx">
-                <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                  non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                  tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                </div>
-              </div>
-            </div>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="#" class="btn btn-dark mt-2"><i class="fa fa-shopping-cart mr-2"></i>Purchase</a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="{{ url_for('users.add_to_wishlist', user_id=current_user.id, product_id=product.id) }}" class="btn btn-outline-secondary mt-2">
+                    <i class="far fa-heart mr-2"></i> Add to wishlist
+                  </a>
+                </li>
+              </ul>
+            </form>
           </div>
-          {% if current_user.is_authenticated %}
-            <section class="color">
-              <div class="mt-5">
-              	<div class="row mt-3 mb-4">
-                  <div class="col-md-12 text-center text-md-left text-md-right">
-                    <button class="btn btn-primary btn-sm"><i class="fa fa-star" aria-hidden="true"></i> Add to favorites</button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          {% endif %}
         </div>
       </div>
     </div>
   </section>
-  <section>
-  	{% if current_user.is_authenticated %}
-      <div class="card my-4">
-        <h5 class="card-header">Leave a Review</h5>
-        <div class="card-body">
-          <form method="POST">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-		          {{ form.title.label(class="form-control-label") }}
-		          {% if form.title.errors %}
-		            {{ form.title(class="form-control is-invalid") }}
-		            <div class="invalid-feedback">
-		              {% for error in form.title.errors %}
-		                <span>{{ error }}</span>
-		              {% endfor %}
-		            </div>
-		          {% else %}
-		            {{ form.title(class="form-control") }}
-		          {% endif %}
-		        </div>
-            <div class="form-group">
-            	{{ form.body.label(class="form-control-label") }}
-              {% if form.body.errors %}
-                {{ form.body(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                  {% for error in form.body.errors %}
-                    <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}
-                {{ form.body(class="form-control form-control-lg") }}
-              {% endif %}
+  <section class="mt-5">
+    <div class="container">
+      <ul role="tablist" class="nav nav-tabs flex-column flex-sm-row">
+        <li class="nav-item"><a data-toggle="tab" href="#description" role="tab" class="nav-link detail-nav-link">Description</a></li>
+        <li class="nav-item"><a data-toggle="tab" href="#additional-information" role="tab" class="nav-link detail-nav-link">Additional Information</a></li>
+        <li class="nav-item"><a data-toggle="tab" href="#reviews" role="tab" class="nav-link detail-nav-link active">Reviews</a></li>
+      </ul>
+      <div class="tab-content py-4">
+        <div id="description" role="tabpanel" class="tab-pane px-3">
+          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. LOLUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. LOLDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. LOLUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. LOLDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div id="additional-information" role="tabpanel" class="tab-pane">
+          <div class="row">
+            <div class="col-lg-6">
+              <table class="table text-sm">
+                <tbody>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal border-0">Product #</th>
+                    <td class="text-muted border-0">Lorem ipsum dolor sit amet</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal ">Available packaging</th>
+                    <td class="text-muted ">LOLDuis aute irure dolor in reprehenderit</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal ">Weight</th>
+                    <td class="text-muted ">dolor sit amet</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal ">Sunt in culpa qui</th>
+                    <td class="text-muted ">Lorem ipsum dolor sit amet</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            {{ form.submit(class="btn btn-dark btn-sm w3-right") }}
-          </form>
+            <div class="col-lg-6">
+              <table class="table text-sm">
+                <tbody>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal border-0">Weight</th>
+                    <td class="text-muted border-0">dolor sit amet</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal ">Sunt in culpa qui</th>
+                    <td class="text-muted ">Lorem ipsum dolor sit amet</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal ">Product #</th>
+                    <td class="text-muted ">Lorem ipsum dolor sit amet</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase font-weight-normal ">Available packaging</th>
+                    <td class="text-muted ">LOLDuis aute irure dolor in reprehenderit</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="reviews" role="tabpanel" class="tab-pane active">
+          <div class="row mb-5">
+            <div class="col-12">
+              {% if reviews|length > 0 %}
+                {% for review in reviews %}
+                  <div class="media review">
+                    <div class="text-center mr-4 mr-xl-5">
+                      <img src="{{ current_user.image_file }}" class="review-image">
+                      <small class="text-muted"><i class="far fa-clock text-muted"></i> {{ moment(review.date_posted).fromNow() }}</small>
+                    </div>
+                    <div class="media-body">
+                      <a href="{{ url_for('users.account', username=review.reviewer.username) }}" class="mt-2 mb-1">{{ review.reviewer.username }}</a>
+                      <div class="mb-2 mr-4">
+                        <h6>
+                          {% for star in range(review.rating) %}
+                            <i class="fa fa-xs fa-star text-warning"></i>
+                          {% endfor %}
+                          {% for star in range(5 - review.rating) %}
+                            <i class="fa fa-xs fa-star text-warning text-gray-200"></i>
+                          {% endfor %}
+                          <span class="ml-2">{{ review.title }}</span>
+                        </h6>
+                      </div>
+                      <div id="review-section{{ review.id }}">
+                        <p class="text-muted">{{ review.body }}</p>
+                        <p>
+                          <a class="btn btn-link text-dark updateReviewButton" review_id="{{ review.id }}" product_id="{{ product.id }}">
+                            <i class="fa fa-comment-edit"></i> Edit
+                          </a>
+                          <a href="{{ url_for('reviews.delete_review', product_id=product.id, review_id=review.id) }}" class="btn btn-link text-dark">
+                            <i class="fa fa-trash"></i> Delete
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <p class="text-muted text-center">No reviews have been posted yet</p>
+              {% endif %}
+              <div class="py-5 px-3">
+                <h5 class="text-uppercase mb-4">Leave a review</h5>
+                <form class="form" method="POST">
+                  {{ form.hidden_tag() }}
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        {% if form.title.errors %}
+                          {{ form.title(class="form-control is-invalid") }}
+                          <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                              <span>{{ error }}</span>
+                            {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.title.label(class="form-label") }}
+                          {{ form.title(class="form-control", placeholder="Title this review") }}
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        {% if form.rating.errors %}
+                          {{ form.rating(class="custom-select focus-shadow-0 is-invalid") }}
+                          <div class="invalid-feedback">
+                            {% for error in form.rating.errors %}
+                              <span>{{ error }}</span>
+                            {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.rating.label(class="form-label") }}
+                          {{ form.rating(class="custom-select focus-shadow-0") }}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    {% if form.body.errors %}
+                      {{ form.body(class="form-control is-invalid") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.body.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      {{ form.body.label(class="form-label") }}
+                      {{ form.body(class="form-control", rows="4") }}
+                    {% endif %}
+                  </div>
+                  {{ form.submit(class="btn btn-outline-dark") }}
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    {% endif %}
+    </div>
   </section>
-  <div class="divider-new"><h3 class="h3-responsive font-weight-bold blue-text mx-3">Product Reviews</h3></div>
-  <section id="reviews">
-    <div class="comments-list text-center text-md-left">
-    	{% if reviews|length > 0 %}
-    		{% for review in reviews %}
-		      <div class="row mb-5">
-		        <div class="col-sm-2 col-12 mb-3">
-		          <img src="{{ url_for('static', filename='profilePics/' + review.author.image_file) }}" alt="reviewer image" class="avatar rounded-circle z-depth-1-half">
-		        </div>
-		        <div class="col-sm-10 col-12">
-		          <a href="#"><h5 class="user-name font-weight-bold">{{ review.author.username }}</h5></a>
-		          <ul class="rating">
-		            <i class="fa fa-star blue-text"></i>
-		            <i class="fa fa-star blue-text"></i>
-		            <i class="fa fa-star blue-text"></i>
-		            <i class="fa fa-star blue-text"></i>
-		            <i class="fa fa-star blue-text"></i>
-		          </ul>
-		          <div class="card-data">
-		            <ul class="list-unstyled mb-1">
-		              <li class="comment-date font-small grey-text"><i class="fa fa-clock-o"></i> {{ review.date_posted }}</li>
-		            </ul>
-		          </div>
-		          <p class="dark-grey-text article text-body">{{ review.body }}</p>
-		        </div>
-		      </div>
-		    {% endfor %}
-		  {% else %}
-		  	<h5 class="grey-text text-center">No reviews for this product<h5>
-		  {% endif %}
+  <section class="my-5">
+    <div class="container">
+      <header class="text-center">
+        <h6 class="text-uppercase mb-5">You might also like</h6>
+      </header>
+      <!-- Products-->
+      <div class="row">
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="product">
+            <div class="product-image">
+              <div class="ribbon ribbon-info">Fresh</div><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/serrah-galos-494312-unsplash.jpg" alt="product" class="img-fluid"/>
+              <div class="product-hover-overlay"><a href="detail.html" class="product-hover-overlay-link"></a>
+                <div class="product-hover-overlay-buttons"><a href="detail.html" class="btn btn-dark btn-buy"><i class="fa-search fa"></i><span class="btn-buy-label ml-2">View</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="py-2">
+              <p class="text-muted text-sm mb-1">Jackets</p>
+              <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark">White Tee</a></h3><span class="text-muted">$40.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="product">
+            <div class="product-image"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/kyle-loftus-590881-unsplash.jpg" alt="product" class="img-fluid"/>
+              <div class="product-hover-overlay"><a href="detail.html" class="product-hover-overlay-link"></a>
+                <div class="product-hover-overlay-buttons"><a href="detail.html" class="btn btn-dark btn-buy"><i class="fa-search fa"></i><span class="btn-buy-label ml-2">View</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="py-2">
+              <p class="text-muted text-sm mb-1">Denim</p>
+              <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark">Black blouse</a></h3><span class="text-muted">$40.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="product">
+            <div class="product-image">
+              <div class="ribbon ribbon-primary">Sale</div><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/kyle-loftus-596319-unsplash.jpg" alt="product" class="img-fluid"/>
+              <div class="product-hover-overlay"><a href="detail.html" class="product-hover-overlay-link"></a>
+                <div class="product-hover-overlay-buttons"><a href="detail.html" class="btn btn-dark btn-buy"><i class="fa-search fa"></i><span class="btn-buy-label ml-2">View</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="py-2">
+              <p class="text-muted text-sm mb-1">Accessories</p>
+              <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark">College jacket</a></h3><span class="text-muted">$40.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="product">
+            <div class="product-image"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/ethan-haddox-484912-unsplash.jpg" alt="product" class="img-fluid"/>
+              <div class="product-hover-overlay"><a href="detail.html" class="product-hover-overlay-link"></a>
+                <div class="product-hover-overlay-buttons"><a href="detail.html" class="btn btn-dark btn-buy"><i class="fa-search fa"></i><span class="btn-buy-label ml-2">View</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="py-2">
+              <p class="text-muted text-sm mb-1">Denim</p>
+              <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark">Carrot-fit jeans</a></h3><span class="text-muted">$40.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="product">
+            <div class="product-image"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/serrah-galos-494231-unsplash.jpg" alt="product" class="img-fluid"/>
+              <div class="product-hover-overlay"><a href="detail.html" class="product-hover-overlay-link"></a>
+                <div class="product-hover-overlay-buttons"><a href="detail.html" class="btn btn-dark btn-buy"><i class="fa-search fa"></i><span class="btn-buy-label ml-2">View</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="py-2">
+              <p class="text-muted text-sm mb-1">Jackets</p>
+              <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark">Striped T-Shirt</a></h3><span class="text-muted">$40.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="product">
+            <div class="product-image"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/averie-woodard-319832-unsplash.jpg" alt="product" class="img-fluid"/>
+              <div class="product-hover-overlay"><a href="detail.html" class="product-hover-overlay-link"></a>
+                <div class="product-hover-overlay-buttons"><a href="detail.html" class="btn btn-dark btn-buy"><i class="fa-search fa"></i><span class="btn-buy-label ml-2">View</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="py-2">
+              <p class="text-muted text-sm mb-1">Shirts</p>
+              <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark">Short top</a></h3><span class="text-muted">$40.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Products-->
     </div>
   </section>
 {% endblock body %}

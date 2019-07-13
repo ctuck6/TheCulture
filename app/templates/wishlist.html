@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <section class="hero mt-5">
+    <div class="container">
+      <div class="hero-content pb-5 text-center">
+        <h1 class="hero-heading">Wishlist</h1>
+        <div class="row">
+          <div class="col-xl-8 offset-xl-2">
+            <p class="lead text-muted">You have {{ user.wishlist.all()|length }} items on your wishlist</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-lg-8">
+          <div class="cart">
+            <div class="cart-wrapper">
+              <div class="cart-header text-center">
+                <div class="row">
+                  <div class="col-6">Item</div>
+                  <div class="col-3">Price</div>
+                  <div class="col-2">Action</div>
+                  <div class="col-1"></div>
+                </div>
+              </div>
+              <div class="cart-body">
+                {% if current_user.wishlist.all()|length > 0 %}
+                  {% for product in user.wishlist.all() %}
+                    <div class="cart-item">
+                      <div class="row d-flex align-items-center text-center">
+                        <div class="col-6">
+                          <div class="d-flex align-items-center">
+                            <a href="detail.html">
+                              <img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/product-square-ian-dooley-347968-unsplash.jpg" class="cart-item-img">
+                            </a>
+                            <div class="cart-title text-left">
+                              <a href="detail.html" class="text-uppercase text-dark"><b>{{ product.name }}</b></a>
+                              <br>
+                              <small class="text-muted">Company: {% if product.company %}{{ product.company.name }}{% else %}None{% endif %}</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-3">${{ product.price }}</div>
+                        <div class="col-2 text-center">
+                          <a class="btn btn-outline-dark btn-sm" href="{{ url_for('products.product', product_id=product.id) }}">View</a>
+                        </div>
+                        <div class="col-1 text-center">
+                          <a class="close text-sm" href="{{ url_for('users.remove_from_wishlist', user_id=current_user.id, product_id=product.id) }}"><i class="fa fa-times"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <p class="text-muted text-center font-italic mt-5">No products on your wishlist</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="my-5 d-flex justify-content-between flex-column flex-lg-row">
+            <a href="{{ url_for('products.show_products') }}" class="btn btn-link text-muted"><i class="fa fa-chevron-left"></i> Continue browsing</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="block mb-5">
+            <div class="block-header">
+              <h6 class="text-uppercase text-center mb-0">Wishlist Summary</h6>
+            </div>
+            <div class="block-body bg-light pt-1">
+              <p class="text-sm">Below is the total cost of all the items on your wishlist.</p>
+              <hr>
+              <li class="order-summary-item border-0">
+                <span>Total</span>
+                <strong class="order-summary-total">{{ total }}</strong>
+              </li>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

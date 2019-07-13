@@ -1,0 +1,7 @@
+<p class="text-muted" id="comment{{ comment.id }}">{{ comment.body }}</p>
+<p>
+  <a class="btn btn-link text-primary updateCommentButton" comment_id="{{ comment.id }}" article_id="{{ article.id }}"><i class="fa fa-comment-edit"></i> Edit</a>
+  <a href="{{ url_for('comments.delete_comment', article_id=article.id, comment_id=comment.id) }}" class="btn btn-link text-primary">
+    <i class="fa fa-trash"></i> Delete
+  </a>
+</p>

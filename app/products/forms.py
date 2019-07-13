@@ -10,10 +10,9 @@ from app.models import Product
 
 
 class ProductForm(FlaskForm):
-	# company = SelectField("Company", choices=[(company.name, company.name) for company in Company.query.all()])
-	company = SelectField("Product Company", choices=[("The Company", "The Company"), ("Other", "Other")])
+	company = SelectField("Product Company")
 	name = StringField("Product Name", validators=[DataRequired()])
-	price = IntegerField('Product Price', validators=[DataRequired()])
+	price = StringField('Product Price', validators=[DataRequired()])
 	description = TextAreaField("Product Description", validators=[DataRequired()])
 	image_file = FileField("Product Picture", validators=[FileAllowed(["jpeg", "png", "jpg"])])
 	submit = SubmitField("Submit")
@@ -23,3 +22,7 @@ class ProductForm(FlaskForm):
 		if product:
 			return False
 		return True
+
+
+class FilterForm(FlaskForm):
+	filter_choice = SelectField(choices=[("price", "Price"), ("rating", "Rating"), ("date_posted", "Newest First")])

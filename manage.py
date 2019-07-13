@@ -18,11 +18,11 @@ if os.environ.get("FLASK_COVERAGE"):
 migrate = Migrate(app, database)
 manager = Manager(app)
 
-
 def make_shell_context():
     return dict(app=app,
                 database=database,
                 User=User,
+                Article=Article,
                 Review=Review,
                 Comment=Comment,
                 Role=Role,
@@ -31,7 +31,6 @@ def make_shell_context():
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command("database", MigrateCommand)
-
 
 @manager.command
 def test(coverage=False):

@@ -10,8 +10,7 @@ from app.models import Company, Article
 
 
 class ArticleForm(FlaskForm):
-	# company = SelectField("Company", choices = [(company.name, company.name) for company in Company.query.all()])
-	company = SelectField("Product Company", choices=[("The Company", "The Company"), ("Other", "Other")])
+	company = SelectField("Product or company name")
 	title = StringField("Title", validators=[DataRequired()])
 	body = TextAreaField("Content", validators=[DataRequired()])
 	image_file = FileField("Article Picture", validators=[FileAllowed(["jpeg", "png", "jpg"])])

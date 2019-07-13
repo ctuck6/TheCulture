@@ -1,125 +1,137 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <div class="row">
-    <div class="col-12">
-      <div class="post-wrapper">
-        <div class="blog-page-image" style="background-image: url('{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}');"></div>
-        <div class="content-section">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="d-flex justify-content-between align-items-center">
-              <h1>{{ article.title }}</h1>
-            </div>
-            <div class="dropdown">
-              <i class="fas fa-ellipsis-h" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                <li><a href="{{ url_for('articles.update_article', article_id=article.id) }}">Edit Article</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#deleteModal">Delete Article</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="details-wrapper">
-            <a class="post-info when-link" href="{{ url_for('users.account', username=article.author.username) }}">{{ article.author.username }}</a>
-            <div class="post-info">|</div>
-            {% if article.company %}
-              <a class="post-info when-link" href="#">{{ article.company.name }}</a>
-              <div class="post-info">|</div>
-            {% endif %}
-            <div class="post-info">{{ article.date_posted.strftime('%m-%d-%Y') }}</div>
-          </div>
-          <hr>
-          <p class="text-body">{{ article.body }}</p>
-          <hr>
-          {% if current_user.is_authenticated %}
-            <div class="card my-4">
-              <h5 class="card-header">Leave a Comment</h5>
-              <div class="card-body">
-                <form method="POST">
-                  {{ form.hidden_tag() }}
-                  <div class="form-group">
-                    {% if form.body.errors %}
-                      {{ form.body(class="form-control form-control-lg is-invalid") }}
-                      <div class="invalid-feedback">
-                        {% for error in form.body.errors %}
-                          <span>{{ error }}</span>
-                        {% endfor %}
-                      </div>
-                    {% else %}
-                      {{ form.body(class="form-control form-control-lg") }}
-                    {% endif %}
-                  </div>
-                  {{ form.submit(class="btn btn-dark btn-sm w3-right") }}
-                </form>
-              </div>
-            </div>
-          {% endif %}
-          <div class="divider-new">
-            <h3 class="h3-responsive font-weight-bold blue-text mx-3">Comments</h3>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              {% if comments|length > 0 %}
-                {% for comment in comments %}
-                  <div class="card mb-4">
-                    <div class="comment card-header">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="mr-2">
-                            <img class="comment-img rounded-circle" src="{{ url_for('static', filename='profilePics/' + article.author.image_file) }}">
-                          </div>
-                          <div class="ml-2">
-                            <h6 class="text-primary">{{ comment.commenter.username }}</h6>
-                            <small class="text-muted">{{ comment.commenter.firstname }} {{ comment.commenter.lastname }}</small>
-                          </div>
-                        </div>
-                        <div class="w3-right">
-                          <small class="text-muted">{{ comment.date_posted.strftime('%m-%d-%Y') }}</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text text-body collapse-field{{ comment.id }}" id="comment{{ comment.id }}">{{ comment.body }}</p>
-                      <form class="comment-form collapse{{ comment.id }}">
-                        <div class="form-group">
-                          <textarea class="form-control" id="comment_input{{ comment.id }}" rows="3"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-dark btn-sm w3-right hide-comment-form" comment_id="{{ comment.id }}">Cancel</button>
-                        <button type="button" comment_id="{{ comment.id }}" class="btn btn-primary btn-sm w3-right hide-comment-form updateCommentButton">Save</button>
-                      </form>
-                    </div>
-                    <div class="comment card-footer collapse-field{{ comment.id }}">
-                      <small class="comment-icon mr-2 show-comment-form" comment_id="{{ comment.id }}"><span class="fa fa-comment-edit"></span> Edit</small>
-                      <a class="small" href="{{ url_for('comments.delete_comment', article_id=article.id, comment_id=comment.id) }}"><span class="fa fa-trash"></span> Delete</a>
-                    </div>
-                  </div>
-                {% endfor %}
-              {% else %}
-                <p class="text-center">No comments yet for this article</p>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content pt-5 pb-5 text-center">
+        <h1 class="mb-5">{{ article.title }}</h1>
+        <div class="row">
+          <div class="col-12">
+            <p style="display: inline;" class="text-muted mb-0 mr-4">
+              <img src="{{ current_user.image_file }}" class="w-2rem rounded-circle mr-2">By
+              <a href="{{ url_for('users.account', username=article.author.username) }}" class="text-muted font-weight-bold">{{ article.author.username }}</a>
+              <span class="mx-1">|</span> {{ article.date_posted.strftime('%B %d, %Y') }}
+              {% if article.company %}
+                on <a href="#" class="text-muted">{{ article.company.name }}</a>
               {% endif %}
+              <span class="mx-1">|</span>
+              <a href="#comments" class="text-muted">{{ article.comments.all()|length }} comment{% if article.comments.all()|length != 1 %}s{% endif %}</a>
+            </p>
+            <div class="btn-group">
+              <i class="fas fa-ellipsis-h text-muted" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+              <div class="dropdown-menu mt-2">
+                <a class="dropdown-item" href="{{ url_for('articles.update_article', article_id=article.id) }}">Edit Article</a>
+                <a class="dropdown-item" href="#"  data-toggle="modal" data-target="#deleteModal">Delete Article</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <a type="button" class="btn btn-sm btn-dark mb-4" href="{{ url_for('articles.show_articles') }}">
-    <span class="fa fa-arrow-left"></span>
-    All posts
-  </a>
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Article?</h5>
-          <button class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+  </section>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-10 mx-auto"><img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" class="img-fluid mb-5"></div>
+      </div>
+      <div class="row">
+        <div class="col-xl-8 col-lg-10 mx-auto">
+          <p class="lead mb-5">
+            As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built party world. Of so am
+            he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.
+          </p>
+          <div class="text-content">
+            <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+            <p class="text-center text-muted text-sm"><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/christopher-campbell-28571-unsplash.jpg" alt="Example blog post alt" class="img-fluid mb-2"><br>Photo by Jack Tran, New York</p>
+            <h2>Header Level 2</h2>
+            <ol>
+              <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+              <li>Aliquam tincidunt mauris eu risus.</li>
+            </ol>
+            <blockquote class="blockquote blockquote-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</blockquote>
+            <h3>Header Level 3</h3>
+            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+            <ul>
+              <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+              <li>Aliquam tincidunt mauris eu risus.</li>
+            </ul>
+            <p><img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/marco-xu-496929-unsplash.jpg" alt="Example blog post alt" class="img-fluid"></p>
+            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+          </div>
+          <div id="comments" class="comments mt-5">
+            <div>
+              <h6 style="display: inline;" class="comments-heading text-uppercase text-muted mb-4">Comments</h6>
+              <button class="btn btn-link text-muted">Load more comments</button>
+            </div>
+            {% if comments|length > 0 %}
+              {% for comment in comments %}
+                <div class="row mb-4">
+                  <div class="col-3 col-md-2 text-center-xs">
+                    <a href="{{ url_for('users.account', username=comment.commenter.username) }}">
+                      <img src="{{ current_user.image_file }}" class="img-fluid rounded-circle">
+                    </a>
+                  </div>
+                  <div class="col-9 col-md-10">
+                    <h5>{{ comment.commenter.firstname }} {{ comment.commenter.lastname }}</h5>
+                    <p class="text-uppercase text-sm text-muted"><i class="far fa-clock"></i> {{ moment(comment.date_posted).fromNow() }}</p>
+                    <div id="comment-section{{ comment.id }}">
+                      <p class="text-muted" id="comment{{ comment.id }}">{{ comment.body }}</p>
+                      <p>
+                        <a class="btn btn-link text-primary updateCommentButton" comment_id="{{ comment.id }}" article_id="{{ article.id }}">
+                          <i class="fa fa-comment-edit"></i> Edit
+                        </a>
+                        <a href="{{ url_for('comments.delete_comment', article_id=article.id, comment_id=comment.id) }}" class="btn btn-link text-primary">
+                          <i class="fa fa-trash"></i> Delete
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-center text-muted font-italic">No comments have been posted yet</p>
+            {% endif %}
+          </div>
+          <div class="comment-form my-5">
+            <h6 class="text-uppercase">Leave a comment</h6>
+            <form class="form" method="POST">
+              {{ form.hidden_tag() }}
+              <div class="form-group mb-4">
+                {% if form.body.errors %}
+                  {{ form.body(class="form-control form-control-underlined is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.body.errors %}
+                      <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ form.body(class="form-control form-control-underlined", rows="4") }}
+                {% endif %}
+              </div>
+              {{ form.submit(class="btn btn-outline-dark") }}
+            </form>
+          </div>
         </div>
-        <div class="modal-body">Are you sure you want to delete this article? This cannot be undone.</div>
-        <div class="modal-footer">
-          <form method="POST">
-            <a class="btn btn-danger btn-sm" href="{{ url_for('articles.delete_article', article_id=article.id) }}">Delete</a>
-          </form>
+      </div>
+      <a class="btn btn-dark mb-4" href="{{ url_for('articles.show_articles') }}"><span class="fa fa-arrow-left"></span> All posts</a>
+    </div>
+  </section>
+  <div class="mt-5">
+    <div id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" class="modal fade" style="display: none;" aria-hidden="true">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <button type="button" data-dismiss="modal" aria-label="Close" class="close modal-close">
+            <svg class="svg-icon w-100 h-100 svg-icon-light align-middle">
+              <use xlink:href="#close-1"></use>
+            </svg>
+          </button>
+          <div class="modal-body text-center">
+            <h3 id="deleteModalLabel" class="modal-title mb-4">Delete Article?</h3>
+            <p class="text-muted">Are you sure you want to delete this article?<strong> This cannot be undone.</strong></p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <a class="btn btn-outline-danger" href="{{ url_for('articles.delete_article', article_id=article.id) }}">Delete</a>
+          </div>
         </div>
       </div>
     </div>

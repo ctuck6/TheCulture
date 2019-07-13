@@ -1,29 +1,40 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <div class="content-section">
-    <form class="form-group" method="POST">
-      {{ form.hidden_tag() }}
-      <fieldset class="form-group">
-        <h1 class="card-title mb-4">Reset Password</h1>
-        <div class="form-group">
-          {{ form.email.label(class="form-control-label") }}
-          {% if form.email.errors %}
-            {{ form.email(class="form-control is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.email.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
+  <section class="my-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="block">
+            <div class="block-header">
+              <h6 class="text-uppercase mb-0">Reset Password</h6>
             </div>
-          {% else %}
-            {{ form.email(class="form-control") }}
-          {% endif %}
+            <div class="card mt-5 mb-3">
+              <div class="card-body">
+                <form method="POST">
+                  {{ form.hidden_tag() }}
+                  <div class="form-group">
+                    <label class="form-label" for="search">{{ form.email.label(class="form-control-label") }}</label>
+                    {% if form.email.errors %}
+                      {{ form.email(class="form-control form-control-lg is-invalid", placeholder="Email") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      {{ form.email(class="form-control form-control-lg", placeholder="Email") }}
+                    {% endif %}
+                  </div>
+                  <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-dark") }}
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-        <br>
-        <div class="form-group">
-          {{ form.submit(class="btn btn-dark btn-sm") }}
-        </div>
-      </fieldset>
-    </form>
-  </div>
+      </div>
+    </div>
+  </section>
 {% endblock body %}

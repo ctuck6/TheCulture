@@ -1,8 +1,8 @@
 from flask import Flask, render_template, flash, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-# from flask_moment import Moment
-from flask_login import LoginManager
+from flask_moment import Moment
+from flask_login.login_manager import LoginManager
 from flask_mail import Mail
 from app.config import config
 from flask_wtf.csrf import CSRFProtect
@@ -10,27 +10,27 @@ import os
 
 mail = Mail()
 database = SQLAlchemy()
-# moment = Moment()
+moment = Moment()
 bcrypt = Bcrypt()
 csrf = CSRFProtect()
-loginManager = LoginManager()
-loginManager.login_view = "users.login"
-loginManager.login_message = "You must be signed in to view that page!"
-loginManager.login_message_category = "danger"
-
+login_manager = LoginManager()
+login_manager.login_view = "users.login"
+login_manager.login_message = "You must be signed in to view that page!"
+login_manager.login_message_category = "danger"
+login_manager.needs_refresh_message = "You need to freshly login to view your profile information!"
+login_manager.needs_refresh_message_category = "danger"
 
 def create_app():
 	app = Flask(__name__)
 	app.config.from_object(config[os.environ.get("APP_SETTINGS")])
 
-
 	with app.app_context():
 		database.init_app(app)
 		bcrypt.init_app(app)
-		loginManager.init_app(app)
+		login_manager.init_app(app)
 		mail.init_app(app)
 		csrf.init_app(app)
-		# moment.init_app(app)
+		moment.init_app(app)
 
 	from app.users.routes import users
 	from app.articles.routes import articles

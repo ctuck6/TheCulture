@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <section class="mh-full-screen dark-overlay py-7 d-flex align-items-center justify-content-center">
+    <img src="{{ url_for('static', filename='headerPics/' + picture) }}" class="bg-image">
+    <div class="overlay-content w-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 py-md-5 py-lg-7 ml-lg-auto text-md-right overlay-content">
+            <h5 class="text-uppercase text-warning mb-3 letter-spacing-5">Just arrived</h5>
+            <h2 class="mb-3 text-white">Tigers College Jackets</h2>
+            <p class="lead mb-4 text-white">Lorem ipsum dolor sit amet.<br>Consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-8 mb-5">
+          <p class="text-uppercase text-muted font-weight-bold mb-1">Top choices</p>
+          <h3>Popular this week</h3>
+          <p class="lead text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+      </div>
+      {% if companies.items|length > 0 %}
+        {% for company in companies.items %}
+          {% if loop.index % 2 == 1 %}
+            <div class="row">
+              <div class="col-md-4 mb-4 mb-md-6 pt-lg-3">
+                <img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/artboard-bag.jpg" class="img-fluid">
+                <div class="px-4 position-relative z-index-2 mt-3">
+                	<h3>{{ company.name.replace(" ", "\n") }}</h3>
+                  <p>
+                    <a href="{{ url_for('companies.company', company_id=company.id) }}" class="btn btn-link text-dark px-0">View Company
+                      <i class="fa fa-long-arrow-alt-right ml-2"></i>
+                    </a>
+                  </p>
+                </div>
+              </div>
+            {% if loop.index == (companies.items|length - 1) %}
+            </div>
+            {% endif %}
+              {% else %}
+              <div class="col-md-7 ml-auto mb-4 mb-md-5">
+                <div class="position-absolute z-index-5 py-6">
+                	<h2 class="text-dark">{{ company.name.replace(" ", "\n") }}</h2>
+                  <p>
+                    <a href="{{ url_for('companies.company', company_id=company.id) }}" class="btn btn-link text-dark px-0">View Company
+                      <i class="fa fa-long-arrow-alt-right ml-2"></i>
+                    </a>
+                  </p>
+                </div>
+                <div class="ml-6">
+                	<img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/photo/matthew-kane-365718-unsplash-gray-square.jpg" class="img-fluid">
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </section>
+{% endblock body %}

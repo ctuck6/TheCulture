@@ -1,98 +1,212 @@
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/carousel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='homepagePics/fist.jpg') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
-    <link rel="stylesheet" type="text/css" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/w3schools.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/test.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/material_design.css') }}">
+    <title>The Culture</title>
   </head>
-
-  <title>The Culture</title>
-  <body class="w3-light-grey">
-    <nav id="navbar" class="navbar">
-      <div id="content_overlay">
-        <a class="navbar-brand" href="{{ url_for('main.home') }}">
-          <img src="{{ url_for('static', filename='homepagePics/fist.jpg') }}" class="navbar-img">
-        </a>
-        <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
-        <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
-        <a class="nav-item nav-link" href="{{ url_for('articles.show_articles') }}">Articles</a>
-        <a class="nav-item nav-link" href="#">Companies</a>
-        <a class="nav-item nav-link" href="{{ url_for('products.show_products') }}">Products</a>
-        {% if current_user.is_authenticated %}
-          <a class="nav-item nav-link w3-right" href="{{ url_for('users.logout') }}">Logout</a>
-          <a class="nav-item nav-link w3-right" href="{{ url_for('users.account', username=current_user.username) }}">My Account</a>
+  <body>
+    {% if 'coming_soon' not in self._TemplateReference__context.name  and 'maintenance' not in self._TemplateReference__context.name %}
+      {% if request.path == '/' or request.path == '/about' or request.path == '/companies' or 'error' in self._TemplateReference__context.name %}
+        <header class="header header-absolute">
+      {% else %}
+        <header class="header">
+      {% endif %}
+        {% if request.path == '/' or request.path == '/about' or request.path == '/companies' or 'error' in self._TemplateReference__context.name %}
+          <nav class="navbar navbar-expand-lg navbar-sticky navbar-airy bg-fixed-white bg-transparent navbar-dark bg-hover-white navbar-hover-light navbar-fixed-light">
         {% else %}
-          <a class="nav-item nav-link w3-right" href="{{ url_for('users.login') }}">Login</a>
-          <a class="nav-item nav-link w3-right" href="{{ url_for('main.register') }}">Sign Up</a>
+          <nav class="navbar navbar-expand-lg navbar-sticky navbar-airy bg-fixed-white navbar-light bg-white">
         {% endif %}
-        <a class="nav-item nav-link w3-right" href="{{ url_for('main.search') }}">Search</a>
-        <a href="javascript:void(0);" class="icon" onclick="openOverlay()"><i class="fa fa-bars mr-2"></i></a>
-        <a id="closebtn" href="javascript:void(0);" class="closebtn" onclick="closeNav()">&times;</a>
-      </div>
-    </nav>
-    <div class="container">
-      {% with messages=get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <div class="row">
-              <div class="col-12">
-                <div class="alert-message alert-message-{{ category }}">
-                  {% if category == 'success' %}
-                    <h4>Success!</h4>
-                  {% elif category == 'danger' %}
-                    <h4>Whoops!</h4>
+            <div class="container-fluid">
+              <a href="{{ url_for('main.home') }}" class="text-xl navbar-brand">The Culture</a>
+              <button type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right"><i class="fa fa-bars"></i></button>
+              <div id="navbarCollapse" class="collapse navbar-collapse">
+                <ul class="navbar-nav mx-auto">
+                  <li class="nav-item"><a href="{{ url_for('main.home') }}" class="nav-link">Home</a></li>
+                  <li class="nav-item"><a href="{{ url_for('articles.show_articles') }}" class="nav-link">Articles</a></li>
+                  <li class="nav-item"><a href="{{ url_for('companies.show_companies') }}" class="nav-link">Companies</a></li>
+                  <li class="nav-item"><a href="{{ url_for('products.show_products') }}" class="nav-link">Products</a></li>
+                  {% if not current_user.is_authenticated %}
+                    <li class="nav-item"><a href="{{ url_for('main.register') }}" class="nav-link">Register</a></li>
+                    <li class="nav-item"><a href="{{ url_for('users.login') }}" class="nav-link">Login</a></li>
                   {% endif %}
-                  <p>{{ message }}</p>
+                </ul>
+                <div class="d-flex align-items-center justify-content-between justify-content-lg-end mt-1 mb-2 my-lg-0">
+                  <div data-toggle="search" class="nav-item navbar-icon-link">
+                    <svg class="svg-icon"><use xlink:href="#search-1"></use></svg>
+                  </div>
+                  {% if current_user.is_authenticated and not current_user.is_company %}
+                    <div class="nav-item dropdown">
+                      <a href="{{ url_for('users.wishlist', username=current_user.username) }}" class="navbar-icon-link d-lg-none">
+                        <svg class="svg-icon"><use xlink:href="#heart-1"></use></svg>
+                        <div class="navbar-icon-link-badge">{{ current_user.wishlist.all()|length }}</div>
+                      </a>
+                      <div class="d-none d-lg-block">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="navbar-icon-link dropdown-toggle">
+                          <svg class="svg-icon"><use xlink:href="#heart-1"></use></svg>
+                          <div class="navbar-icon-link-badge">{{ current_user.wishlist.all()|length }}</div>
+                        </a>
+                        <div aria-labelledby="cartdetails" class="dropdown-menu dropdown-menu-right p-4">
+                          {% if current_user.wishlist.all()|length > 0 %}
+                            <div class="navbar-cart-product-wrapper">
+                              {% for product in current_user.wishlist.all() %}
+                                <div class="navbar-cart-product">
+                                  <div class="d-flex align-items-center">
+                                    <a href="detail.html">
+                                      <img src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/img/product/product-square-ian-dooley-347968-unsplash.jpg" class="img-fluid navbar-cart-product-image">
+                                    </a>
+                                    <div class="w-100">
+                                      <a href="{{ url_for('users.remove_from_wishlist', user_id=current_user.id, product_id=product.id) }}" class="close text-sm mr-2">
+                                        <i class="fa fa-times"></i>
+                                      </a>
+                                      <div class="pl-3">
+                                        <a href="detail.html" class="navbar-cart-product-link">{{ product.name }}</a>
+                                        <strong class="d-block text-sm">${{ product.price }}</strong>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          {% else %}
+                            <div class="navbar-cart-product-wrapper">
+                              <p class="text-center text-muted font-italic">No products on your wishlist</p>
+                            </div>
+                          {% endif %}
+                          <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('users.wishlist', username=current_user.username) }}" class="btn btn-link text-dark mr-3">
+                              View Wishlist <i class="fa-arrow-right fa"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nav-item">
+                      <a href="{{ url_for('users.account', username=current_user.username) }}" class="navbar-icon-link">
+                        <svg class="svg-icon"><use xlink:href="#male-user-1"></use></svg>
+                      </a>
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
-      {% block body %}{% endblock body %}
-    </div>
-    {% if paginate is defined and articles.total > 5 %}
-      <center>
-        {% for page_num in articles.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-          {% if page_num %}
-            {% if articles.page == page_num %}
-              {% if paginate == "all" %}
-                <a class="btn btn-dark mb-4" href="{{ url_for('articles.show_articles', page=page_num) }}">{{ page_num }}</a>
-              {% elif paginate == "user" %}
-                <a class="btn btn-dark mb-4" href="{{ url_for('users.account', username=user.username, page=page_num) }}">{{ page_num }}</a>
-              {% endif %}
-            {% else %}
-              {% if paginate == "all" %}
-                <a class="btn btn-outline-dark mb-4" href="{{ url_for('articles.show_articles', page=page_num) }}">{{ page_num }}</a>
-              {% elif paginate == "user" %}
-                <a class="btn btn-outline-dark mb-4" href="{{ url_for('users.account', username=user.username, page=page_num) }}">{{ page_num }}</a>
-              {% endif %}
-            {% endif %}
-          {% else %}
-            ...
+          </nav>
+          <div class="search-area-wrapper">
+            <div class="search-area d-flex align-items-center justify-content-center">
+              <div class="close-btn">
+                <svg class="svg-icon svg-icon-light w-3rem h-3rem"><use xlink:href="#close-1"></use></svg>
+              </div>
+              <form class="search-area-form" action="{{ url_for('main.search') }}" method="GET">
+                <div class="form-group position-relative">
+                  {{ g.search_form.search(class="search-area-input", placeholder=g.search_form.search.label.text) }}
+                  <button type="submit" class="search-area-button">
+                    <svg class="svg-icon"><use xlink:href="#search-1"></use></svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </header>
+      <div class="container">
+        {% with messages=get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="row mt-5">
+                <div class="col-12">
+                  <div role="alert" class="alert alert-{{ category }}">{{ message }}</div>
+                </div>
+              </div>
+            {% endfor %}
           {% endif %}
-        {% endfor %}
-      </center>
+        {% endwith %}
+      </div>
+      {% block body %}{% endblock body %}
+      {% if paginate is defined %}
+        <nav aria-label="page navigation" class="d-flex justify-content-center mb-5 mt-5">
+          <ul class="pagination">
+            <li class="page-item">
+              <a href="{{ prev_page }}" aria-label="Previous" class="page-link"><i class="fas fa-long-arrow-alt-left"></i></a>
+            </li>
+            <li class="page-item">
+              <a href="{{ next_page }}" aria-label="Next" class="page-link"><i class="fas fa-long-arrow-alt-right"></i></a>
+            </li>
+          </ul>
+        </nav>
+      {% endif %}
+    {% else %}
+      {% block content %}{% endblock content %}
     {% endif %}
-    <footer class="w3-black">
-      <span>© 2018 The Culture, Inc. ·
-        <a href="{{ url_for('main.privacy') }}">Privacy</a> ·
-        <a href="{{ url_for('main.terms_of_use') }}">Terms</a>
-        {% if current_user.is_administrator() %}
-           · <a href="{{ url_for('users.admin_settings') }}">Admin Settings</a>
-        {% endif %}
-      </span>
-    </footer>
+    {% if 'coming_soon' not in self._TemplateReference__context.name %}
+      <footer class="main-footer">
+        <div class="py-5 bg-gray-300 text-muted">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-5 mb-5 mb-lg-0">
+                <div class="font-weight-bold text-uppercase text-lg text-dark mb-3">The Culture</div>
+                <p>The <strong>Mecca</strong> for black owned businesses and products.</p>
+                <ul class="list-inline">
+                  <li class="list-inline-item">
+                    <a href="#" target="_blank" title="twitter" class="text-muted text-hover-primary"><i class="fab fa-twitter"></i></a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="#" target="_blank" title="facebook" class="text-muted text-hover-primary"><i class="fab fa-facebook"></i></a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="#" target="_blank" title="instagram" class="text-muted text-hover-primary"><i class="fab fa-instagram"></i></a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
+                <h6 class="text-uppercase text-dark mb-3">Company</h6>
+                <ul class="list-unstyled">
+                  <li><a href="{{ url_for('main.about') }}" class="text-muted">About Us</a></li>
+                  <li><a href="{{ url_for('main.contact') }}" class="text-muted">Contact</a></li>
+                  <li><a href="{{ url_for('main.privacy') }}" class="text-muted">Privacy</a></li>
+                  <li><a href="{{ url_for('main.terms_of_use') }}" class="text-muted">Terms</a></li>
+                  <li><a href="{{ url_for('users.unsubscribe' ) }}" class="text-muted">Unsubscribe</a></li>
+                </ul>
+              </div>
+              <div class="col-lg-5">
+                <h6 class="text-uppercase text-dark mb-3">Daily Offers & Discounts</h6>
+                <p class="mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At itaque temporibus.</p>
+                <form action="{{ url_for('users.subscribe') }}" method="GET">
+                  <div class="input-group mb-3">
+                    {{ g.subscribe_form.email(type="email", class="form-control bg-transparent border-secondary border-right-0", placeholder=g.subscribe_form.email.label.text) }}
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-outline-secondary border-left-0"><i class="fa fa-paper-plane text-lg text-dark"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <span>© 2018 The Culture, Inc.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    {% endif %}
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/vendor/owl.carousel/owl.carousel.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/vendor/smooth-scroll/smooth-scroll.polyfills.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/vendor/ekko-lightbox/ekko-lightbox.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/vendor/object-fit-images/ofi.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/sell/1-2-3/vendor/jquery.cookie/jquery.cookie.js"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  <script src="{{ url_for('static', filename='js/my.js') }}"></script>
 </html>

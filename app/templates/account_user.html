@@ -1,0 +1,305 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <section class="hero mt-5">
+    <div class="container">
+      <div class="hero-content pb-5 text-center">
+        <h1 class="hero-heading">{{ user.firstname }} {{ user.lastname }}</h1>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 mb-5">
+          <div class="customer-sidebar card border-0">
+            <div class="customer-profile">
+              <img src="{{ user.image_file }}" class="img-fluid rounded-circle customer-image">
+              <form class="form-group" method="POST" enctype="multipart/form-data">
+                {{ picture_form.hidden_tag() }}
+                <div class="form-group collapse">
+                  <div class="custom-file">
+                    {{ picture_form.image_file(type="file", class="custom-file-input") }}
+                    {{ picture_form.image_file.label(class="text-left custom-file-label") }}
+                  </div>
+                  {% if picture_form.image_file.errors %}
+                    {% for error in picture_form.image_file.errors %}
+                      <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+                <div class="text-center collapse-field">
+                    <button class="btn btn-link text-muted show-button" type="button">Edit Avatar</button>
+                  </div>
+                <div class="text-center btn-group collapse multi-collapse">
+                  {{ picture_form.submit(class="btn btn-link text-dark hide-button") }}
+                </div>
+              </form>
+            </div>
+            <nav class="list-group customer-nav">
+              <a href="#" class="active list-group-item d-flex justify-content-between align-items-center">
+                <span><svg class="svg-icon svg-icon-heavy mr-2"><use xlink:href="#male-user-1"></use></svg>Profile</span>
+              </a>
+              <a href="{{ url_for('users.user_articles', username=user.username) }}" class="list-group-item d-flex justify-content-between align-items-center">
+                <span><svg class="svg-icon svg-icon-heavy mr-2"><use xlink:href="#mail-1"></use></svg>Articles</span>
+              </a>
+              <a href="{{ url_for('users.logout') }}" class="list-group-item d-flex justify-content-between align-items-center">
+                <span><svg class="svg-icon svg-icon-heavy mr-2"><use xlink:href="#exit-1"></use></svg>Log out</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+        <div class="col-lg-8 col-xl-9">
+          <div class="block mb-5">
+            <div class="block-header"><b class="text-uppercase">Personal details</b></div>
+            <div class="block-body">
+              <form class="form-group" method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group collapse">
+                      {{ form.firstname.label(class="form-label") }}
+                      {% if form.firstname.errors %}
+                        {{ form.firstname(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.firstname.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.firstname(class="form-control") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group collapse">
+                      {{ form.lastname.label(class="form-label") }}
+                      {% if form.lastname.errors %}
+                        {{ form.lastname(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.lastname.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.lastname(class="form-control") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    {{ form.username.label(class="form-label") }}
+                    <div class="collapse-field"><p class="text-sm"><b>{{ user.username }}</b></p></div>
+                    <div class="form-group collapse">
+                      {% if form.username.errors %}
+                        {{ form.username(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.username(class="form-control") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    {{ form.email.label(class="form-label") }}
+                    <div class="collapse-field"><p class="text-sm"><b>{{ user.email }}</b></p></div>
+                    <div class="form-group collapse">
+                      {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.email(class="form-control", type="text") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    {{ form.phone_number.label(class="form-label") }}
+                    <div class="collapse-field"><p class="text-sm"><b>{{ user.phone_number }}</b></p></div>
+                    <div class="form-group collapse">
+                      {% if form.phone_number.errors %}
+                        {{ form.phone_number(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.phone_number.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.phone_number(class="phoneNumber form-control", type="tel", minlength="10", maxlength="20") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    {{ form.occupation.label(class="form-label") }}
+                    <div class="collapse-field"><p class="text-sm"><b>{{ user.occupation }}</b></p></div>
+                    <div class="form-group collapse">
+                      {% if form.occupation.errors %}
+                        {{ form.occupation(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.occupation.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.occupation(class="form-control") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    {{ form.hometown.label(class="form-label") }}
+                    <div class="collapse-field"><p class="text-sm"><b>{{ user.hometown }}</b></p></div>
+                    <div class="form-group collapse">
+                      {% if form.hometown.errors %}
+                        {{ form.hometown(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.hometown.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.hometown(class="form-control") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    {{ form.bio.label(class="form-label") }}
+                    <div class="collapse-field">
+                      <p class="text-sm font-italic">
+                        <b>
+                          {% if user.bio %}
+                            {{ user.bio }}
+                          {% else %}
+                            Tell us about yourself...
+                          {% endif %}
+                        </b>
+                      </p>
+                    </div>
+                    <div class="form-group collapse">
+                      {% if form.bio.errors %}
+                        {{ form.bio(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.bio.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.bio(class="form-control") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% if current_user == user and current_user.is_authenticated %}
+                  <div class="text-center collapse-field mt-4">
+                    <button class="btn btn-outline-dark show-button" type="button">Edit Profile</button>
+                  </div>
+                  <div class="text-center btn-group collapse multi-collapse mt-4">
+                    {{ form.submit(class="btn btn-outline-dark hide-button") }}
+                    <button class="btn btn-dark hide-button" type="button">Cancel</button>
+                  </div>
+                {% endif %}
+              </form>
+            </div>
+          </div>
+          <div class="block mb-5 collapse">
+            <div class="block-header"><b class="text-uppercase">Change your password</b></div>
+            <div class="block-body">
+              <form class="form-group" method="POST" enctype="multipart/form-data">
+                {{ password_form.hidden_tag() }}
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      {{ password_form.old_password.label(class="form-label") }}
+                      {% if password_form.old_password.errors %}
+                        {{ password_form.old_password(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in password_form.old_password.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ password_form.old_password(class="form-control", type="password") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      {{ password_form.new_password.label(class="form-label") }}
+                      {% if password_form.new_password.errors %}
+                        {{ password_form.new_password(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in password_form.new_password.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ password_form.new_password(class="form-control", type="password") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      {{ password_form.confirm_password.label(class="form-label") }}
+                      {% if password_form.confirm_password.errors %}
+                        {{ password_form.confirm_password(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in password_form.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ password_form.confirm_password(class="form-control", type="password") }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center mt-4">
+                  {{ password_form.submit(class="btn btn-outline-dark") }}
+                </div>
+              </form>
+            </div>
+          </div>
+          {% if user == current_user %}
+            <div class="text-center">
+              <a class="text-danger text-sm" href="#"  data-toggle="modal" data-target="#deactivateModal">Deactivate Account</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="mt-5">
+    <div id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="deactivateModalLabel" class="modal fade" style="display: none;" aria-hidden="true">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <button type="button" data-dismiss="modal" aria-label="Close" class="close modal-close">
+            <svg class="svg-icon w-100 h-100 svg-icon-light align-middle">
+              <use xlink:href="#close-1"></use>
+            </svg>
+          </button>
+          <div class="modal-body text-center">
+            <h3 id="deactivateModalLabel" class="modal-title mb-4">Deactivate Account?</h3>
+            <p class="text-muted">Are you sure you want to deactivate your account?<strong> This cannot be undone.</strong></p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <a class="btn btn-outline-danger" href="{{ url_for('users.deactivate', user_id=user.id) }}">Deactivate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}

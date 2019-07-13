@@ -1,0 +1,8 @@
+<p class="text-muted">{{ review.body }}</p>
+  <a class="btn btn-link text-dark updateReviewButton" review_id="{{ review.id }}" product_id="{{ product.id }}">
+    <i class="fa fa-comment-edit"></i> Edit
+  </a>
+  <a href="{{ url_for('reviews.delete_review', product_id=product.id, review_id=review.id) }}" class="btn btn-link text-dark">
+    <i class="fa fa-trash"></i> Delete
+  </a>
+</p>

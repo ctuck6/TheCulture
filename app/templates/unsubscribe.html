@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <section class="my-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="block">
+            <div class="block-header">
+              <h6 class="text-uppercase mb-0">Unsubscribe</h6>
+            </div>
+            <div class="card mt-5 mb-3">
+              <div class="card-body">
+                <form method="POST">
+                  {{ form.hidden_tag() }}
+                  <div class="form-group">
+                    <label class="form-label" for="search">{{ form.email.label(class="form-control-label") }}</label>
+                    {% if form.email.errors %}
+                      {{ form.email(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-outline-dark">Unsubscribe</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock body %}
