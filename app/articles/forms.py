@@ -6,7 +6,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired
-from app.models import Company, Article
+from app.models import Article
 
 
 class ArticleForm(FlaskForm):

@@ -13,6 +13,7 @@ from app.constants import Constants
 
 products = Blueprint("products", __name__)
 
+
 @products.route("/product/<int:product_id>/delete", methods=["GET", "POST"])
 @login_required
 @permission_required(Permission.MANAGE_PRODUCTS)
@@ -24,6 +25,7 @@ def delete_product(product_id):
 	database.session.commit()
 	flash("Your product has been deleted!", "success")
 	return redirect(url_for("products.show_products", product_id=product_id))
+
 
 @products.route("/product/new", methods=["GET", "POST"])
 @login_required
@@ -47,6 +49,7 @@ def new_product():
 			product = Product.query.filter_by(name=form.name.data).first_or_404()
 			return redirect(url_for("products.product", product_id=product.id))
 	return render_template("new_product.html", legend="New Product", form=form)
+
 
 @products.route("/product/<int:product_id>", methods=["GET", "POST"])
 def product(product_id):
@@ -73,6 +76,7 @@ def product(product_id):
 			abort(Constants.FORBIDDEN_PAGE_ERROR_PAGE)
 	return render_template("product.html", product=product, reviews=reviews, form=form, rating=rating)
 
+
 @products.route("/products", methods=["GET", "POST"])
 def show_products():
 	form = FilterForm()
@@ -89,6 +93,7 @@ def show_products():
 	prev_page = url_for('products.show_products', page=products.prev_num)
 	next_page = url_for('products.show_products', page=products.next_num)
 	return render_template("show_products.html", paginate=True, prev_page=prev_page, next_page=next_page, form=form, products=products)
+
 
 @products.route("/product/<int:product_id>/update",  methods=["GET", "POST"])
 @login_required

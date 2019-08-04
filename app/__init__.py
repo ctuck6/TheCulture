@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, url_for, redirect
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_moment import Moment
@@ -17,8 +17,10 @@ login_manager = LoginManager()
 login_manager.login_view = "users.login"
 login_manager.login_message = "You must be signed in to view that page!"
 login_manager.login_message_category = "danger"
-login_manager.needs_refresh_message = "You need to freshly login to view your profile information!"
+login_manager.refresh_view = login_manager.login_view
+login_manager.needs_refresh_message = "To protect your account, please re-authenticate to access this page!"
 login_manager.needs_refresh_message_category = "danger"
+
 
 def create_app():
 	app = Flask(__name__)
@@ -36,6 +38,7 @@ def create_app():
 	from app.articles.routes import articles
 	from app.reviews.routes import reviews
 	from app.comments.routes import comments
+	from app.likes.routes import likes
 	from app.main.routes import main
 	from app.errors.handlers import errors
 	from app.products.routes import products
@@ -44,6 +47,7 @@ def create_app():
 	app.register_blueprint(articles)
 	app.register_blueprint(reviews)
 	app.register_blueprint(comments)
+	app.register_blueprint(likes)
 	app.register_blueprint(main)
 	app.register_blueprint(errors)
 	app.register_blueprint(products)

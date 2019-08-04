@@ -5,7 +5,7 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, abort
 from flask_login import current_user, login_required
 from app import database
-from app.models import Article, Comment, Company, Permission
+from app.models import Article, Comment, Company, Permission, Like
 from app.articles.forms import ArticleForm
 from app.comments.forms import CommentForm
 from app.decorators import permission_required
@@ -13,10 +13,13 @@ from app.constants import Constants
 
 articles = Blueprint("articles", __name__)
 
-@articles.route("/article/<int:article_id>", methods=["GET", "POST"])
+
+@articles.route("/article/<int:article_id>/", methods=["GET", "POST"])
 def article(article_id):
 	article = Article.query.get_or_404(article_id)
-	comments = Comment.query.all().limit(Constants.COMMENTS_PER_ARTICLE)
+	comments = article.comments.all()
+	likes = Like.query.filter_by(article_id=article_id).all()
+	like = Like.query.filter_by(article_id=article_id).filter_by(user_id=current_user.id).first()
 	if article:
 		article.views += 1
 		database.session.commit()
@@ -27,7 +30,8 @@ def article(article_id):
 		database.session.commit()
 		flash("Your comment has been posted!", "success")
 		return redirect(url_for('articles.article', article_id=article_id))
-	return render_template("article.html", article=article, form=form)
+	return render_template("article.html", article=article, comments=comments, likes=likes, like=like, form=form)
+
 
 @articles.route("/article/<int:article_id>/delete",  methods=["GET", "POST"])
 @login_required
@@ -40,6 +44,7 @@ def delete_article(article_id):
 	database.session.commit()
 	flash("Your post has been deleted!", "success")
 	return redirect(url_for("articles.show_articles"))
+
 
 @articles.route("/article/new", methods=["GET", "POST"])
 @login_required
@@ -60,6 +65,7 @@ def new_article():
 			return redirect(url_for("articles.article", article_id=article.id))
 	return render_template("new_article.html", legend="New Article", form=form)
 
+
 @articles.route("/articles", methods=["GET", "POST"])
 def show_articles():
 	page = request.args.get("page", 1, type=int)
@@ -67,6 +73,7 @@ def show_articles():
 	prev_page = url_for('articles.show_articles', page=articles.prev_num)
 	next_page = url_for('articles.show_articles', page=articles.next_num)
 	return render_template("show_articles.html", paginate=True, articles=articles, prev_page=prev_page, next_page=next_page)
+
 
 @articles.route("/article/<int:article_id>/update",  methods=["GET", "POST"])
 @login_required

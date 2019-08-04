@@ -10,13 +10,15 @@
             <p style="display: inline;" class="text-muted mb-0 mr-4">
               <img src="{{ current_user.image_file }}" class="w-2rem rounded-circle mr-2">By
               <a href="{{ url_for('users.account', username=article.author.username) }}" class="text-muted font-weight-bold">{{ article.author.username }}</a>
-              <span class="mx-1">|</span> {{ article.date_posted.strftime('%B %d, %Y') }}
-              {% if article.company %}
-                on <a href="#" class="text-muted">{{ article.company.name }}</a>
-              {% endif %}
-              <span class="mx-1">|</span>
-              <a href="#comments" class="text-muted">{{ article.comments.all()|length }} comment{% if article.comments.all()|length != 1 %}s{% endif %}</a>
+              on {{ article.date_posted.strftime('%B %d, %Y') }}
             </p>
+            <div id="like" style="display: inline;">
+              {% if like %}
+                <i id="unlike-button" class="fas fa-heart mr-4" like_id="{{ like.id }}" article_id="{{ article.id }}"></i>
+              {% else %}
+                <i id="like-button" class="fal fa-heart mr-4" user_id="{{ current_user.id }}" article_id="{{ article.id }}"></i>
+              {% endif %}
+            </div>
             <div class="btn-group">
               <i class="fas fa-ellipsis-h text-muted" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
               <div class="dropdown-menu mt-2">
@@ -32,7 +34,7 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col-xl-10 mx-auto"><img src="{{ url_for('static', filename='homepagePics/blackgirls.jpg') }}" class="img-fluid mb-5"></div>
+        <div class="col-xl-10 mx-auto"><img src="{{ article.image_file }}" class="img-fluid mb-5"></div>
       </div>
       <div class="row">
         <div class="col-xl-8 col-lg-10 mx-auto">
@@ -60,7 +62,23 @@
           </div>
           <div id="comments" class="comments mt-5">
             <div>
-              <h6 style="display: inline;" class="comments-heading text-uppercase text-muted mb-4">Comments</h6>
+              <div class="btn-group">
+                <a href="#" class="text-uppercase text-muted" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ likes|length }} like{% if likes|length != 1 %}s{% endif %}
+                </a>
+                {% if likes|length > 0 %}
+                  <div class="dropdown-menu mt-2">
+                    {% for like in likes %}
+                      <a class="dropdown-item text-sm" href="{{ url_for('users.account', username=like.liker.username) }}">
+                        <img src="{{ like.liker.image_file }}" class="w-1rem rounded-circle mr-2">
+                        {{ like.liker.username }}
+                      </a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+              <span class="mx-1">|</span>
+              <p style="display: inline;" class="comments-heading text-uppercase text-muted mb-4">{{ comments|length }} comment{% if comments|length != 1 %}s{% endif %}</p>
               <button class="btn btn-link text-muted">Load more comments</button>
             </div>
             {% if comments|length > 0 %}
@@ -89,7 +107,7 @@
                 </div>
               {% endfor %}
             {% else %}
-              <p class="text-center text-muted font-italic">No comments have been posted yet</p>
+              <p class="pt-5 text-center text-muted font-italic">No comments have been posted yet</p>
             {% endif %}
           </div>
           <div class="comment-form my-5">

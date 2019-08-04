@@ -1,77 +1,82 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <section class="mt-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-5">
-          <div class="block">
-            <div class="block-header">
-              <h6 class="text-uppercase mb-0">Login</h6>
-            </div>
-            <div class="block-body">
-              <p class="lead">Not a {{ current_login_type }}?</p>
-              <p class="text-muted">Click
-                {% if needed_login_type == "company" %}
-                  <a href="{{ url_for('companies.login') }}">here</a>
-                {% else %}
-                  <a href="{{ url_for('users.login') }}">here</a>
-                {% endif %}
-                to login as a {{ needed_login_type }}
-              </p>
-              <hr>
-              <form method="POST">
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                  {% if form.email.errors %}
-                    {{ form.email(class="col-8 form-control is-invalid") }}
-                    <div class="invalid-feedback">
-                      {% for error in form.email.errors %}
-                        <span>{{ error }}</span>
-                      {% endfor %}
-                    </div>
-                  {% else %}
-                    {{ form.email.label(class="form-label") }}
-                    {{ form.email(class="form-control", id="email") }}
-                  {% endif %}
-                </div>
-                <div class="form-group">
-                  {% if form.password.errors %}
-                    {{ form.password(class="form-control is-invalid") }}
-                    <div class="invalid-feedback">
-                      {% for error in form.password.errors %}
-                        <span>{{ error }}</span>
-                      {% endfor %}
-                    </div>
-                  {% else %}
-                    {{ form.password.label(class="form-label") }}
-                    {{ form.password(class="form-control", id="password", type="password") }}
-                  {% endif %}
-                </div>
-                <div class="form-group">
-                  <div class="custom-control custom-checkbox">
-                    {{ form.remember(type="checkbox", class="custom-control-input") }}
-                    {{ form.remember.label(class="custom-control-label") }}
-                  </div>
-                </div>
-                <div class="form-group text-center">
-                  {{ form.submit(class="btn btn-outline-dark") }}
-                </div>
-                <div class="form-group text-center">
-                  <small class="text-muted">
-                    <a href="{{ url_for('users.reset_request') }}">Forgot Password?</a>
-                  </small>
-                </div>
-              </form>
-              <small class="text-muted">
-                Need An Account? <a class="ml-2" href="{{ url_for('main.register') }}">Sign Up Now</a>
-              </small>
+  <div class="row justify-content-center">
+    <div class="col-xs-12 col-lg-5">
+      <div class="w-100 py-5 px-md-5">
+        <div class="py-3">
+          <h2 class="pb-2">Login</h2>
+          <p class="lead">Not a {{ current_login_type }}?</p>
+          <p class="text-muted">Click
+            {% if needed_login_type == "company" %}
+              <a href="{{ url_for('companies.login') }}">here</a>
+            {% else %}
+              <a href="{{ url_for('users.login') }}">here</a>
+            {% endif %}
+            to login as a {{ needed_login_type }}
+          </p>
+        </div>
+        <form method="POST">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            {% if form.email.errors %}
+              {{ form.email(class="col-8 form-control is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.email.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.email.label(class="form-label") }}
+              {{ form.email(class="form-control", id="email") }}
+            {% endif %}
+          </div>
+          <div class="form-group">
+            {% if form.password.errors %}
+              {{ form.password(class="form-control is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.password.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.password.label(class="form-label") }}
+              {{ form.password(class="form-control", id="password", type="password") }}
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              {{ form.remember.label(class="custom-control-label") }}
+              {{ form.remember(type="checkbox", class="custom-control-input") }}
             </div>
           </div>
-        </div>
+          <div class="form-group text-center">
+            {{ form.submit(class="btn btn-outline-dark") }}
+          </div>
+          <div class="form-group text-center">
+            <small class="text-muted">
+              <a href="{{ url_for('users.reset_request') }}">Forgot Password?</a>
+            </small>
+          </div>
+          <hr>
+          <button class="btn btn btn-outline-primary btn-block btn-social mb-3">
+            <i class="fa-2x fa-facebook-f fab btn-social-icon"></i>
+            Sign In <span class="d-none d-sm-inline">with Facebook</span>
+          </button>
+          <button class="btn btn btn-outline-secondary btn-block btn-social mb-3">
+            <i class="fa-2x fa-google fab btn-social-icon"></i>
+            Sign In <span class="d-none d-sm-inline">with Google</span>
+          </button>
+          <hr class="my-4">
+          <p class="text-center">
+            <small class="text-muted text-center">Don't have an account yet?
+              <a href="{{ url_for('main.register') }}">Sign Up Now</a>
+            </small>
+          </p>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
   <div class="bg-gray-100 text-dark-700 py-6">
     <div class="container">
       <div class="row">

@@ -2,7 +2,7 @@ from datetime import datetime
 from app import database, login_manager
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app, request, g
+from flask import current_app
 import os, random
 
 
@@ -31,8 +31,9 @@ class Article(database.Model):
     body = database.Column(database.Text, nullable=False)
     user_id = database.Column(database.Unicode(36), database.ForeignKey("user.id"), nullable=False)
     company_id = database.Column(database.Unicode(36), database.ForeignKey("company.id"), nullable=True)
-    image_file = database.Column(database.String(150), unique=False, nullable=True, default="app/static/homepagePics/blackgirls.jpg")
+    image_file = database.Column(database.String(150), unique=False, nullable=True, default="/static/homepagePics/blackgirls.jpg")
     comments = database.relationship("Comment", cascade="all,delete", backref="article", lazy="dynamic")
+    likes = database.relationship("Like", cascade="all,delete", backref="article", lazy="dynamic")
     views = database.Column(database.Integer, default=0)
 
     @staticmethod
@@ -121,6 +122,15 @@ class Company(database.Model, UserMixin):
 
     def set_role(self, role):
         self.role = Role.query.filter_by(name=role).first()
+
+
+class Like(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    article_id = database.Column(database.Integer, database.ForeignKey("article.id"), nullable=False)
+    user_id = database.Column(database.Unicode(36), database.ForeignKey("user.id"), nullable=False)
+
+    def __repr__(self):
+        return "Like('{}', '{}', {}')".format(self.id, self.article_id, self.user_id)
 
 
 items = database.Table("items",
@@ -271,6 +281,7 @@ class User(database.Model, UserMixin):
     role_id = database.Column(database.Integer, database.ForeignKey("role.id"))
     articles = database.relationship("Article", cascade="all,delete", backref="author", lazy="dynamic")
     comments = database.relationship("Comment", cascade="all,delete", backref="commenter", lazy="dynamic")
+    likes = database.relationship("Like", cascade="all,delete", backref="liker", lazy="dynamic")
     reviews = database.relationship("Review", cascade="all,delete", backref="reviewer", lazy="dynamic")
 
     def __init__(self, **kwargs):
@@ -296,8 +307,8 @@ class User(database.Model, UserMixin):
         database.session.commit()
 
     def get_reset_token(self, expires_sec=300):
-    	s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
-    	return s.dumps({"user_id" : self.id})
+        secret_key = Serializer(current_app.config["SECRET_KEY"], expires_sec)
+        return secret_key.dumps({"user_id" : self.id})
 
     @property
     def is_company(self):
@@ -308,12 +319,12 @@ class User(database.Model, UserMixin):
 
     @staticmethod
     def verify_reset_token(token):
-    	s = Serializer(current_app.config["SECRET_KEY"])
-    	try:
-    		user_id = s.loads(token)["user_id"]
-    	except:
-    		return None
-    	return User.query.get(user_id)
+        secret_key = Serializer(current_app.config["SECRET_KEY"])
+        try:
+            user_id = secret_key.loads(token)["user_id"]
+        except:
+            return None
+        return User.query.get(user_id)
 
     def __repr__(self):
         return "User('{}', '{}', '{}')".format(self.username, self.email, self.image_file)

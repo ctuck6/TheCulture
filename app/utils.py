@@ -1,13 +1,11 @@
 import os, random
 from os import listdir
-from os.path import join
-from random import randint
 from PIL import Image
 from flask import url_for, current_app
 from flask_mail import Message
 from app import mail
 from app.config import Config
-import boto3, botocore
+import boto3
 
 s3 = boto3.client(
 	"s3",
@@ -23,7 +21,7 @@ def generate_header_picture():
 	pictures = [pic for pic in listdir(path) if "picture" in pic]
 	return pictures[random.randint(0, len(pictures) - 1)]
 
-def remove_from_s3(username, file, folder, bucket_name):
+def remove_from_s3(file, folder, bucket_name):
 	try:
 		s3.delete_object(Bucket=bucket_name, Key="{}/{}".format(folder, file))
 	except Exception as e:
@@ -57,7 +55,6 @@ Do not directly reply to this email, as this mailbox is not monitored.
 
 def upload_to_s3(username, file, folder, bucket_name, size):
 	from werkzeug.datastructures import FileStorage
-	import binascii
 
 	try:
 		_, file_extension = os.path.splitext(file.filename)

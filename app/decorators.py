@@ -3,6 +3,7 @@ from flask import abort
 from flask_login import current_user
 from app.constants import Constants
 
+
 def permission_required(permission):
     def decorator(f):
         @wraps(f)

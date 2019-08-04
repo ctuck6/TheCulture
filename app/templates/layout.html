@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='homepagePics/fist.jpg') }}">
+    <link rel="icon" href="{{ url_for('static', filename='homepagePics/fist.jpg') }}" class="rounded-circle">
     <title>The Culture</title>
   </head>
   <body>
-    {% if 'coming_soon' not in self._TemplateReference__context.name  and 'maintenance' not in self._TemplateReference__context.name %}
+    {% if 'coming_soon' not in self._TemplateReference__context.name and 'maintenance' not in self._TemplateReference__context.name %}
       {% if request.path == '/' or request.path == '/about' or request.path == '/companies' or 'error' in self._TemplateReference__context.name %}
         <header class="header header-absolute">
       {% else %}
@@ -25,7 +25,7 @@
           <nav class="navbar navbar-expand-lg navbar-sticky navbar-airy bg-fixed-white navbar-light bg-white">
         {% endif %}
             <div class="container-fluid">
-              <a href="{{ url_for('main.home') }}" class="text-xl navbar-brand">The Culture</a>
+              <a href="{{ url_for('main.home') }}" class="text-xl navbar-brand">The Culture<span class="text-primary">.</span></a>
               <button type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right"><i class="fa fa-bars"></i></button>
               <div id="navbarCollapse" class="collapse navbar-collapse">
                 <ul class="navbar-nav mx-auto">
@@ -42,7 +42,7 @@
                   <div data-toggle="search" class="nav-item navbar-icon-link">
                     <svg class="svg-icon"><use xlink:href="#search-1"></use></svg>
                   </div>
-                  {% if current_user.is_authenticated and not current_user.is_company %}
+                  {% if current_user.is_authenticated %}
                     <div class="nav-item dropdown">
                       <a href="{{ url_for('users.wishlist', username=current_user.username) }}" class="navbar-icon-link d-lg-none">
                         <svg class="svg-icon"><use xlink:href="#heart-1"></use></svg>
@@ -80,19 +80,21 @@
                               <p class="text-center text-muted font-italic">No products on your wishlist</p>
                             </div>
                           {% endif %}
-                          <div class="d-flex justify-content-between">
+                          <div class="d-flex">
                             <a href="{{ url_for('users.wishlist', username=current_user.username) }}" class="btn btn-link text-dark mr-3">
-                              View Wishlist <i class="fa-arrow-right fa"></i>
+                              View Wishlist <i class="fa fa-arrow-right"></i>
                             </a>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="nav-item">
-                      <a href="{{ url_for('users.account', username=current_user.username) }}" class="navbar-icon-link">
-                        <svg class="svg-icon"><use xlink:href="#male-user-1"></use></svg>
-                      </a>
-                    </div>
+                    {% if not current_user.is_company %}
+                      <div class="nav-item">
+                        <a href="{{ url_for('users.account', username=current_user.username) }}" class="navbar-icon-link">
+                          <svg class="svg-icon"><use xlink:href="#male-user-1"></use></svg>
+                        </a>
+                      </div>
+                    {% endif %}
                   {% endif %}
                 </div>
               </div>
@@ -174,8 +176,8 @@
                 </ul>
               </div>
               <div class="col-lg-5">
-                <h6 class="text-uppercase text-dark mb-3">Daily Offers & Discounts</h6>
-                <p class="mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At itaque temporibus.</p>
+                <h6 class="text-uppercase text-dark mb-3">Stay In Touch!</h6>
+                <p class="mb-3">Stay up to date with the best deals on the hottest brands</p>
                 <form action="{{ url_for('users.subscribe') }}" method="GET">
                   <div class="input-group mb-3">
                     {{ g.subscribe_form.email(type="email", class="form-control bg-transparent border-secondary border-right-0", placeholder=g.subscribe_form.email.label.text) }}

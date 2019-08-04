@@ -2,20 +2,19 @@
 # users/routes.py
 ##############################################################################################################
 
-import os
 from uuid import uuid4
-from flask import Blueprint, render_template, url_for, flash, redirect, request, g, jsonify, abort
-from flask_login import login_user, current_user, login_required, logout_user, fresh_login_required
+from flask import Blueprint, render_template, url_for, flash, redirect, request, g, abort
+from flask_login import login_user, current_user, login_required, logout_user, fresh_login_required, login_fresh
 from app import database, bcrypt, login_manager
-from app.models import User, Review, Role, Article, MailingList, Product, Permission, Company
+from app.models import User, Article, MailingList, Product, Company
 from app.users.forms import LoginForm, RegistrationForm, UpdateAccountForm, UpdatePasswordForm, UpdatePictureForm, \
-	RequestResetForm, ResetPasswordForm, AdminForm, RoleForm
-from app.utils import send_reset_email, upload_to_s3, remove_from_s3
+	RequestResetForm, ResetPasswordForm
+from app.utils import send_reset_email, upload_to_s3, remove_from_s3, generate_header_picture
 from app.config import Config
 from app.constants import Constants
-from app.decorators import permission_required
 
 users = Blueprint("users", __name__)
+
 
 @users.route("/account/information/<string:username>", methods=["GET", "POST"])
 @fresh_login_required
@@ -36,7 +35,7 @@ def account(username):
 									picture_form.image_file.data,
 									"profilePics",
 									Config.AWS_STORAGE_BUCKET_NAME,
-									PROFILE_PICTURE_SIZE)
+									Constants.PROFILE_PICTURE_SIZE)
 			user.image_file = new_picture
 			database.session.commit()
 			flash("Your profile picture has been changed!", "success")
@@ -95,6 +94,7 @@ def account(username):
 		form.bio.data = user.bio
 	return render_template("account_user.html", user=user, form=form, password_form=password_form, picture_form=picture_form)
 
+
 @users.route("/wishlist/add/<user_id>/<int:product_id>",  methods=["GET", "POST"])
 @login_required
 def add_to_wishlist(user_id, product_id):
@@ -104,6 +104,7 @@ def add_to_wishlist(user_id, product_id):
 	database.session.commit()
 	return redirect(url_for("products.product", product_id=product_id))
 
+
 @users.route("/deactivate/<user_id>")
 @login_required
 def deactivate(user_id):
@@ -112,6 +113,7 @@ def deactivate(user_id):
 	database.session.commit()
 	return redirect(url_for("main.home"))
 
+
 @login_manager.user_loader
 def load_user(user_id):
 	company = Company.query.get(user_id)
@@ -119,11 +121,13 @@ def load_user(user_id):
 		return User.query.get(user_id)
 	return company
 
+
 @users.route("/login/user", methods=["GET", "POST"])
 def login():
-	if current_user.is_authenticated:
+	if current_user.is_authenticated and login_fresh():
 		return redirect(url_for("main.home"))
 	form = LoginForm()
+	picture = generate_header_picture()
 	if form.validate_on_submit():
 		user = User.query.filter_by(email=form.email.data.lower()).first()
 		if not form.validate_email(form.email):
@@ -131,19 +135,21 @@ def login():
 		elif not bcrypt.check_password_hash(user.password, form.password.data):
 			flash("Incorrect password. Please try again", "danger")
 		else:
-		 	login_user(user, remember=form.remember.data)
-		 	next_page = request.args.get('next')
+			login_user(user, remember=form.remember.data)
+			next_page = request.args.get('next')
 			if next_page:
 				return redirect(next_page)
 			else:
 				return redirect(url_for("main.home"))
-	return render_template("login.html", form=form, current_login_type="user", needed_login_type="company")
+	return render_template("login.html", form=form, picture=picture, current_login_type="personal account", needed_login_type="company")
+
 
 @users.route("/logout")
 @login_required
 def logout():
 	logout_user()
 	return redirect(url_for("main.home"))
+
 
 @users.route("/wishlist/delete/<user_id>/<int:product_id>",  methods=["GET", "POST"])
 @login_required
@@ -153,6 +159,7 @@ def remove_from_wishlist(user_id, product_id):
 	user.wishlist.remove(product)
 	database.session.commit()
 	return redirect(request.referrer)
+
 
 @users.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
@@ -168,6 +175,7 @@ def reset_request():
 		else:
 			flash("Email does not exist!", "danger")
 	return render_template("reset_request.html", form=form)
+
 
 @users.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_token(token):
@@ -186,6 +194,7 @@ def reset_token(token):
 		return redirect(url_for("users.login"))
 	return render_template("reset_token.html", form=form)
 
+
 @users.route("/subscribe")
 @login_required
 def subscribe():
@@ -196,6 +205,7 @@ def subscribe():
 	database.session.add(subscriber)
 	database.session.commit()
 	return render_template("subscribe.html")
+
 
 @users.route("/unsubscribe", methods=["GET", "POST"])
 @login_required
@@ -211,6 +221,7 @@ def unsubscribe():
 			flash("Email does not exist!", "danger")
 	return render_template("unsubscribe.html", form=form)
 
+
 @users.route("/account/articles/<string:username>", methods=["GET", "POST"])
 @login_required
 def user_articles(username):
@@ -224,6 +235,7 @@ def user_articles(username):
 	next_page = url_for('users.user_articles', username=username, page=articles.next_num)
 	return render_template("account_articles.html", paginate=True, user=user,
 							articles=articles, prev_page=prev_page, next_page=next_page)
+
 
 @users.route("/register/user", methods=["GET", "POST"])
 def user_register():
@@ -249,6 +261,7 @@ def user_register():
 			flash("Your account has been created! Please sign in!", "success")
 			return redirect(url_for("users.login"))
 	return render_template("register_user.html", form=form)
+
 
 @users.route("/wishlist/<string:username>", methods=["GET", "POST"])
 @login_required

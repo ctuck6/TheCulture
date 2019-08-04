@@ -1,7 +1,7 @@
-from app import create_app, database
+from app import create_app
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-import unittest, coverage, os, sys
+import unittest, coverage, sys
 from app.models import *
 
 # heroku run python manage.py deploy
@@ -18,6 +18,7 @@ if os.environ.get("FLASK_COVERAGE"):
 migrate = Migrate(app, database)
 manager = Manager(app)
 
+
 def make_shell_context():
     return dict(app=app,
                 database=database,
@@ -31,6 +32,7 @@ def make_shell_context():
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command("database", MigrateCommand)
+
 
 @manager.command
 def test(coverage=False):
@@ -51,6 +53,7 @@ def test(coverage=False):
         print("HTML version: file://%s/index.html" % covdir)
         COV.erase()
 
+
 @manager.command
 def deploy():
     from flask_migrate import upgrade
@@ -63,4 +66,4 @@ def deploy():
 
 
 if __name__ == "__main__":
-	manager.run()
+    manager.run()

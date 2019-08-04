@@ -114,6 +114,54 @@ $(document).ready(function() {
             $('#review-section' + review_id).html(data);
         });
     });
+
+    $(document).on('click', '#like-button', function() {
+        var article_id = $(this).attr('article_id');
+        var user_id = $(this).attr('user_id');
+        var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        req = $.ajax({
+            url : '/article/like',
+            type : 'POST',
+            data : {article_id : article_id, user_id : user_id}
+        });
+
+        req.done(function(data) {
+            $('#like').html(data);
+        });
+    });
+
+    $(document).on('click', '#unlike-button', function() {
+        var article_id = $(this).attr('article_id');
+        var like_id = $(this).attr('like_id');
+        var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        req = $.ajax({
+            url : '/article/unlike',
+            type : 'POST',
+            data : {article_id : article_id, like_id : like_id}
+        });
+
+        req.done(function(data) {
+            $('#like').html(data);
+        });
+    });
 });
 
 

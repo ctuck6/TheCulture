@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect, flash, request
-from flask_login import login_user, current_user, login_required
+from flask_login import login_user, current_user
 from app import database, bcrypt
 from uuid import uuid4
 from app.models import Company
@@ -9,6 +9,7 @@ from app.users.forms import LoginForm
 from app.constants import Constants
 
 companies = Blueprint("companies", __name__)
+
 
 @companies.route("/register/company", methods=["GET", "POST"])
 def company_register():
@@ -44,10 +45,12 @@ def company_register():
 			return redirect(url_for("companies.login"))
 	return render_template("register_company.html", form=form)
 
+
 @companies.route("/company/<company_id>", methods=["GET", "POST"])
 def company(company_id):
 	company = Company.query.get_or_404(company_id)
 	return render_template("company.html", company=company)
+
 
 @companies.route("/login/company", methods=["GET", "POST"])
 def login():
@@ -61,13 +64,14 @@ def login():
 		elif not bcrypt.check_password_hash(company.password, form.password.data):
 			flash("Incorrect password. Please try again", "danger")
 		else:
-		 	login_user(company, remember=form.remember.data)
-		 	next_page = request.args.get('next')
+			login_user(company, remember=form.remember.data)
+			next_page = request.args.get('next')
 			if next_page:
 				return redirect(next_page)
 			else:
 				return redirect(url_for("main.home"))
-	return render_template("login.html", form=form, current_login_type="company", needed_login_type="user")
+	return render_template("login.html", form=form, current_login_type="company", needed_login_type="personal account")
+
 
 @companies.route("/companies", methods=["GET", "POST"])
 def show_companies():

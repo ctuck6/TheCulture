@@ -1,16 +1,15 @@
 from app import create_app
 import flask_whooshalchemy as whooshalchemy
-from app.models import Company, Product, Article, User, Role
-from flask import request, abort, current_app, g
+from app.models import Company, Product, Article, User
+from flask import request, abort, g
 from app.config import ProductionConfig
 from app.main.forms import SearchForm
 from app.users.forms import SubscribeForm
-from flask_login import current_user
-import os
 from app.constants import Constants
 
 app = create_app()
 app.app_context().push()
+
 
 @app.before_request
 def before_request():
