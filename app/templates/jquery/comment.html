@@ -1,7 +1,19 @@
-<p class="text-muted" id="comment{{ comment.id }}">{{ comment.body }}</p>
-<p>
-  <a class="btn btn-link text-primary updateCommentButton" comment_id="{{ comment.id }}" article_id="{{ article.id }}"><i class="fa fa-comment-edit"></i> Edit</a>
-  <a href="{{ url_for('comments.delete_comment', article_id=article.id, comment_id=comment.id) }}" class="btn btn-link text-primary">
-    <i class="fa fa-trash"></i> Delete
-  </a>
-</p>
+{% if comments|length > 0 %}
+  {% for comment in comments %}
+    <div class="media text-muted pt-3">
+      <img src="{{ comment.commenter.image_file }}" class="mr-2 comment-img rounded-circle">
+      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <a class="font-weight-bold d-block" href="{{ url_for('users.account', username=comment.commenter.username) }}">@{{ comment.commenter.username }}</a>
+        {{ comment.body }}
+      </p>
+      <button id="delete-comment-button" class="btn btn-link text-primary" count="{{ comments|length }}" comment_id="{{ comment.id }}" article_id="{{ article.id }}">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+  {% endfor %}
+  <small class="d-block text-right mt-3">
+    <button id="load-more-button" class="btn btn-link text-small" count="{{ comments|length }}" article_id="{{ article.id }}">Load more comments</button>
+  </small>
+{% else %}
+  <p class="pt-5 text-center text-muted font-italic">No comments have been posted yet</p>
+{% endif %}

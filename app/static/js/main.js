@@ -1,23 +1,57 @@
 function getCountry(value) {
-    if (value == "United States") {
-        $("#state-list").show();
+    if (value === 'United States') {
+        $('#state-list').show();
     } else {
-        $("#state-list").hide();
+        $('#state-list').hide();
+    }
+}
+
+function isEmpty(value) {
+    if(value === '') {
+        document.getElementById('post-comment-button').disabled = true;
+    } else {
+        document.getElementById('post-comment-button').disabled = false;
     }
 }
 
 $(document).ready(function() {
-    $(".show-button").click(function() {
-        $(".collapse-field").hide();
-        $(".collapse").show();
+    $('.show-button').click(function() {
+        $('.collapse-field').hide();
+        $('.collapse').show();
     });
 
-    $(".hide-button").click(function() {
-        $(".collapse").hide();
-        $(".collapse-field").show();
+    $('.hide-button').click(function() {
+        $('.collapse').hide();
+        $('.collapse-field').show();
     });
 
-    $(document).on('click', '.updateCommentButton', function() {
+    $(document).on('click', '#post-comment-button', function() {
+        var comment_id = $(this).attr('comment_id');
+        var article_id = $(this).attr('article_id');
+        var count = $(this).attr('count');
+        var comment_body = $('#comment-body').val();
+        var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            }
+        });
+
+        req = $.ajax({
+            url : '/comment/post',
+            type : 'POST',
+            data : {comment_id : comment_id, article_id : article_id, comment_body : comment_body, count : count}
+        });
+
+        req.done(function(data) {
+            $('#comments-section').html(data);
+        });
+    });
+
+    $(document).on('click', '#delete-comment-button', function() {
         var comment_id = $(this).attr('comment_id');
         var article_id = $(this).attr('article_id');
         var csrftoken = $('meta[name=csrf-token]').attr('content')
@@ -25,48 +59,47 @@ $(document).ready(function() {
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 }
             }
         });
 
         req = $.ajax({
-            url : '/comment/update',
+            url : '/comment/delete',
             type : 'POST',
             data : {comment_id : comment_id, article_id : article_id}
         });
 
         req.done(function(data) {
-            $('#comment-section' + comment_id).html(data);
+            $('#comments-section').html(data);
         });
     });
 
-    $(document).on('click', '.saveCommentButton', function() {
-        var comment_id = $(this).attr('comment_id');
+    $(document).on('click', '#load-more-button', function() {
+        var count = $(this).attr('count');
         var article_id = $(this).attr('article_id');
-        var new_body = $('#comment_input' + comment_id).val();
         var csrftoken = $('meta[name=csrf-token]').attr('content')
 
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 }
             }
         });
 
         req = $.ajax({
-            url : '/comment/save',
+            url : '/comment/load',
             type : 'POST',
-            data : {comment_id : comment_id, article_id : article_id, body : new_body}
+            data : {count : count, article_id : article_id}
         });
 
         req.done(function(data) {
-            $('#comment-section' + comment_id).html(data);
+            $('#comments-section').html(data);
         });
     });
 
-    $(document).on('click', '.updateReviewButton', function() {
+    $(document).on('click', '.update-review-button', function() {
         var review_id = $(this).attr('review_id');
         var product_id = $(this).attr('product_id');
         var csrftoken = $('meta[name=csrf-token]').attr('content')
@@ -74,7 +107,7 @@ $(document).ready(function() {
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 }
             }
         });
@@ -90,7 +123,7 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '.saveReviewButton', function() {
+    $(document).on('click', '.save-review-button', function() {
         var review_id = $(this).attr('review_id');
         var product_id = $(this).attr('product_id');
         var new_body = $('#review_input' + review_id).val();
@@ -99,7 +132,7 @@ $(document).ready(function() {
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 }
             }
         });
@@ -123,7 +156,7 @@ $(document).ready(function() {
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 }
             }
         });
@@ -147,7 +180,7 @@ $(document).ready(function() {
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 }
             }
         });
@@ -165,7 +198,7 @@ $(document).ready(function() {
 });
 
 
-$(".phoneNumber").keypress(function(event) {
+$('.phoneNumber').keypress(function(event) {
     if (event.which < 47 || event.which > 57) {
         event.preventDefault();
     }

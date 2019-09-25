@@ -7,7 +7,6 @@ from flask_login import current_user, login_required
 from app import database
 from app.models import Article, Comment, Company, Permission, Like
 from app.articles.forms import ArticleForm
-from app.comments.forms import CommentForm
 from app.decorators import permission_required
 from app.constants import Constants
 
@@ -17,20 +16,17 @@ articles = Blueprint("articles", __name__)
 @articles.route("/article/<int:article_id>/", methods=["GET", "POST"])
 def article(article_id):
 	article = Article.query.get_or_404(article_id)
-	comments = article.comments.all()
+	comment_count = Comment.query.filter_by(article_id=article_id).count()
+	comments = Comment.query.filter_by(article_id=article_id).limit(Constants.COMMENTS_PER_ARTICLE).all()
 	likes = Like.query.filter_by(article_id=article_id).all()
-	like = Like.query.filter_by(article_id=article_id).filter_by(user_id=current_user.id).first()
+	if current_user.is_authenticated:
+		liked = Like.query.filter_by(article_id=article_id).filter_by(user_id=current_user.id).first()
+	else:
+		liked = None
 	if article:
 		article.views += 1
 		database.session.commit()
-	form = CommentForm()
-	if form.validate_on_submit():
-		comment = Comment(body=form.body.data, article=article, commenter=current_user._get_current_object())
-		database.session.add(comment)
-		database.session.commit()
-		flash("Your comment has been posted!", "success")
-		return redirect(url_for('articles.article', article_id=article_id))
-	return render_template("article.html", article=article, comments=comments, likes=likes, like=like, form=form)
+	return render_template("article.html", article=article, comments=comments, comment_count=comment_count, likes=likes, liked=liked)
 
 
 @articles.route("/article/<int:article_id>/delete",  methods=["GET", "POST"])

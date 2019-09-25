@@ -26,9 +26,11 @@ li {
 .content-column {
   padding-left: 20px;
 }
+
 .w-col-9 {
   width: 75%;
 }
+
 .w-col {
   position: relative;
   float: left;
@@ -161,9 +163,8 @@ li {
   }
 }
 
-.comment-icon:hover {
-  color: #4285f4;
-  cursor: pointer;
+.comment-img {
+  width: 30px;
 }
 
 footer a:hover {
