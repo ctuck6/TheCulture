@@ -2,7 +2,7 @@
 # users/forms.py
 ##############################################################################################################
 
-from flask import request
+from flask import request, flash
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField, TextAreaField
@@ -84,7 +84,7 @@ class RoleForm(FlaskForm):
 
 
 class SubscribeForm(FlaskForm):
-	email = StringField("Your Email Address", validators=[DataRequired()])
+	email = StringField("Your email address", validators=[DataRequired()])
 	submit = SubmitField("Subscribe")
 
 	def __init__(self, *args, **kwargs):
@@ -100,11 +100,11 @@ class UpdateAccountForm(FlaskForm):
 	lastname = StringField("Last name", validators=[DataRequired()])
 	username = StringField("Username", validators=[DataRequired(), Length(min=4, max=20)])
 	email = StringField("Email", validators=[DataRequired(), Email()])
-	phone_number = StringField("Phone number", validators=[DataRequired(), Length(min=10, max=20)])
+	phone_number = StringField("Phone number", validators=[Length(min=10, max=20)])
 	occupation = StringField("Occupation")
 	hometown = StringField("Hometown")
 	bio = TextAreaField("Bio")
-	submit = SubmitField("Save Changes")
+	submit_info = SubmitField("Save Changes")
 
 	def validate_username(self, username):
 		if username.data != current_user.username:
@@ -130,14 +130,14 @@ class UpdateAccountForm(FlaskForm):
 
 class UpdatePictureForm(FlaskForm):
 	image_file = FileField("Choose a file", validators=[FileAllowed(["jpeg", "png", "jpg"])])
-	submit = SubmitField("Save Picture")
+	submit_picture = SubmitField("Save Picture")
 
 
 class UpdatePasswordForm(FlaskForm):
 	old_password = PasswordField("Old Password", validators=[DataRequired(), Length(min=4, max=20)])
 	new_password = PasswordField("New Password", validators=[DataRequired(), Length(min=4, max=20)])
 	confirm_password = PasswordField("Confirm New Password", validators=[DataRequired(), EqualTo("new_password")])
-	submit = SubmitField("Change Password")
+	submit_password = SubmitField("Change Password")
 
 	def validate_password(self, old_password):
 		if bcrypt.check_password_hash(current_user.password, old_password.data):

@@ -33,7 +33,7 @@
                   <h5 class="my-2">{{ article.title }}</h5>
                   <p class="text-muted text-sm my-3">
                     <i class="far fa-clock mr-2"></i>{{ article.date_posted.strftime('%B %d, %Y') }} by
-                    <a href="{{ url_for('users.account', username=article.author.username) }}" class="text-muted">{{ article.author.username }}</a>
+                    <a href="{{ url_for('users.account', username=article.author.username) }}" class="text-muted font-weight-bold">{{ article.author.username }}</a>
                   </p>
                   <p class="my-2 text-muted">{{ article.body[:250] }}{% if article.body|length > 250 %}..{% if article.body[249] != '.' %}.{%endif%}{%endif%}</p>
                   <a href="{{ url_for('articles.article', article_id=article.id) }}" class="btn btn-link text-dark pl-0">

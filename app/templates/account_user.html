@@ -32,7 +32,7 @@
                     <button class="btn btn-link text-muted show-button" type="button">Edit Avatar</button>
                   </div>
                 <div class="text-center btn-group collapse multi-collapse">
-                  {{ picture_form.submit(class="btn btn-link text-dark hide-button") }}
+                  {{ picture_form.submit_picture(class="btn btn-link text-dark hide-button") }}
                 </div>
               </form>
             </div>
@@ -54,128 +54,128 @@
             <div class="block-header"><b class="text-uppercase">Personal details</b></div>
             <div class="block-body">
               <form class="form-group" method="POST" enctype="multipart/form-data">
-                {{ form.hidden_tag() }}
+                {{ account_form.hidden_tag() }}
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group collapse">
-                      {{ form.firstname.label(class="form-label") }}
-                      {% if form.firstname.errors %}
-                        {{ form.firstname(class="form-control is-invalid") }}
+                      {{ account_form.firstname.label(class="form-label") }}
+                      {% if account_form.firstname.errors %}
+                        {{ account_form.firstname(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.firstname.errors %}
+                          {% for error in account_form.firstname.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.firstname(class="form-control") }}
+                        {{ account_form.firstname(class="form-control") }}
                       {% endif %}
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group collapse">
-                      {{ form.lastname.label(class="form-label") }}
-                      {% if form.lastname.errors %}
-                        {{ form.lastname(class="form-control is-invalid") }}
+                      {{ account_form.lastname.label(class="form-label") }}
+                      {% if account_form.lastname.errors %}
+                        {{ account_form.lastname(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.lastname.errors %}
+                          {% for error in account_form.lastname.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.lastname(class="form-control") }}
+                        {{ account_form.lastname(class="form-control") }}
                       {% endif %}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
-                    {{ form.username.label(class="form-label") }}
+                    {{ account_form.username.label(class="form-label") }}
                     <div class="collapse-field"><p class="text-sm"><b>{{ user.username }}</b></p></div>
                     <div class="form-group collapse">
-                      {% if form.username.errors %}
-                        {{ form.username(class="form-control is-invalid") }}
+                      {% if account_form.username.errors %}
+                        {{ account_form.username(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.username.errors %}
+                          {% for error in account_form.username.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.username(class="form-control") }}
+                        {{ account_form.username(class="form-control") }}
                       {% endif %}
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    {{ form.email.label(class="form-label") }}
+                    {{ account_form.email.label(class="form-label") }}
                     <div class="collapse-field"><p class="text-sm"><b>{{ user.email }}</b></p></div>
                     <div class="form-group collapse">
-                      {% if form.email.errors %}
-                        {{ form.email(class="form-control is-invalid") }}
+                      {% if account_form.email.errors %}
+                        {{ account_form.email(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.email.errors %}
+                          {% for error in account_form.email.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.email(class="form-control", type="text") }}
+                        {{ account_form.email(class="form-control") }}
                       {% endif %}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
-                    {{ form.phone_number.label(class="form-label") }}
+                    {{ account_form.phone_number.label(class="form-label") }}
                     <div class="collapse-field"><p class="text-sm"><b>{{ user.phone_number }}</b></p></div>
                     <div class="form-group collapse">
-                      {% if form.phone_number.errors %}
-                        {{ form.phone_number(class="form-control is-invalid") }}
+                      {% if account_form.phone_number.errors %}
+                        {{ account_form.phone_number(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.phone_number.errors %}
+                          {% for error in account_form.phone_number.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.phone_number(class="phoneNumber form-control", type="tel", minlength="10", maxlength="20") }}
+                        {{ account_form.phone_number(class="phoneNumber form-control", minlength="10", maxlength="20") }}
                       {% endif %}
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    {{ form.occupation.label(class="form-label") }}
+                    {{ account_form.occupation.label(class="form-label") }}
                     <div class="collapse-field"><p class="text-sm"><b>{{ user.occupation }}</b></p></div>
                     <div class="form-group collapse">
-                      {% if form.occupation.errors %}
-                        {{ form.occupation(class="form-control is-invalid") }}
+                      {% if account_form.occupation.errors %}
+                        {{ account_form.occupation(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.occupation.errors %}
+                          {% for error in account_form.occupation.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.occupation(class="form-control") }}
+                        {{ account_form.occupation(class="form-control") }}
                       {% endif %}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-12">
-                    {{ form.hometown.label(class="form-label") }}
+                    {{ account_form.hometown.label(class="form-label") }}
                     <div class="collapse-field"><p class="text-sm"><b>{{ user.hometown }}</b></p></div>
                     <div class="form-group collapse">
-                      {% if form.hometown.errors %}
-                        {{ form.hometown(class="form-control is-invalid") }}
+                      {% if account_form.hometown.errors %}
+                        {{ account_form.hometown(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.hometown.errors %}
+                          {% for error in account_form.hometown.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.hometown(class="form-control") }}
+                        {{ account_form.hometown(class="form-control") }}
                       {% endif %}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-12">
-                    {{ form.bio.label(class="form-label") }}
+                    {{ account_form.bio.label(class="form-label") }}
                     <div class="collapse-field">
                       <p class="text-sm font-italic">
                         <b>
@@ -188,15 +188,15 @@
                       </p>
                     </div>
                     <div class="form-group collapse">
-                      {% if form.bio.errors %}
-                        {{ form.bio(class="form-control is-invalid") }}
+                      {% if account_form.bio.errors %}
+                        {{ account_form.bio(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
-                          {% for error in form.bio.errors %}
+                          {% for error in account_form.bio.errors %}
                             <span>{{ error }}</span>
                           {% endfor %}
                         </div>
                       {% else %}
-                        {{ form.bio(class="form-control") }}
+                        {{ account_form.bio(class="form-control") }}
                       {% endif %}
                     </div>
                   </div>
@@ -206,7 +206,7 @@
                     <button class="btn btn-outline-dark show-button" type="button">Edit Profile</button>
                   </div>
                   <div class="text-center btn-group collapse multi-collapse mt-4">
-                    {{ form.submit(class="btn btn-outline-dark hide-button") }}
+                    {{ account_form.submit_info(class="btn btn-outline-dark hide-button") }}
                     <button class="btn btn-dark hide-button" type="button">Cancel</button>
                   </div>
                 {% endif %}
@@ -268,7 +268,7 @@
                   </div>
                 </div>
                 <div class="text-center mt-4">
-                  {{ password_form.submit(class="btn btn-outline-dark") }}
+                  {{ password_form.submit_password(class="btn btn-outline-dark") }}
                 </div>
               </form>
             </div>
