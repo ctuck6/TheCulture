@@ -82,7 +82,7 @@ SQLAlchemy==1.2.12
 SQLAlchemy-Searchable==1.0.3
 SQLAlchemy-Utils==0.33.6
 typing==3.6.6
-urllib3==1.22
+urllib3==1.26.5
 us==1.0.0
 validators==0.12.2
 virtualenv==16.0.0
